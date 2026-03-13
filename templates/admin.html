@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>{% if page=='login' %}Admin Login{% elif page=='2fa' %}Verify 2FA{% else %}Admin Panel — Classic Multiple Services{% endif %}</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bl:#0A3D62;--bl2:#0d5a94;--bl3:#1976d2;
+  --or:#FF6B00;--or2:#ff8c2e;
+  --tl:#00b4d8;--gn:#38a169;--rd:#e53e3e;--pu:#805ad5;--ye:#d69e2e;--pk:#e91e8c;
+  --bg:#f0f4f8;--wh:#fff;--g1:#f7fafc;--g2:#e2e8f0;--g5:#718096;--dk:#1a202c;
+  --fh:'Montserrat',sans-serif;--fb:'Poppins',sans-serif;
+  --sh:0 2px 8px rgba(0,0,0,.07);--sh2:0 8px 28px rgba(0,0,0,.12);--sh3:0 20px 50px rgba(0,0,0,.18);
+  --r:10px;--tr:.2s ease;
+}
+body{font-family:var(--fb);background:var(--bg);color:var(--dk);min-height:100vh;font-size:14px}
+input,select,textarea,button{font-family:var(--fb)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--g2);border-radius:4px}
+
+/* ══ AUTH PAGES ══ */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bl) 0%,#071525 100%);position:relative;overflow:hidden;padding:14px}
+.auth-wrap::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,216,.06),transparent 70%);top:-200px;right:-200px;animation:breathe 6s ease-in-out infinite}
+.auth-wrap::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,0,.05),transparent 70%);bottom:-150px;left:-100px;animation:breathe 6s ease-in-out infinite reverse}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.auth-card{background:#fff;border-radius:20px;padding:44px 38px;width:100%;max-width:420px;box-shadow:var(--sh3);position:relative;z-index:1}
+@media(max-width:460px){.auth-card{padding:28px 20px}}
+.auth-brand{text-align:center;margin-bottom:28px}
+.auth-ic{width:58px;height:58px;border-radius:15px;background:linear-gradient(135deg,var(--or),var(--or2));display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto 12px;box-shadow:0 8px 24px rgba(255,107,0,.4)}
+.auth-brand h2{font-family:var(--fh);font-size:1.4rem;font-weight:800;color:var(--bl)}
+.auth-brand p{color:var(--g5);font-size:.75rem;margin-top:4px}
+.auth-err{background:#fff5f5;border:1px solid #fed7d7;color:var(--rd);border-radius:8px;padding:10px 14px;font-size:.8rem;margin-bottom:14px}
+.auth-locked{background:#fffbf0;border:1px solid #fbd38d;color:#744210;border-radius:8px;padding:10px 14px;font-size:.8rem;margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:13px}
+.fg label{font-size:.65rem;font-weight:700;color:var(--bl);letter-spacing:.07em;text-transform:uppercase}
+.fg input{padding:12px 14px;border:2px solid var(--g2);border-radius:9px;font-size:.88rem;outline:none;transition:var(--tr)}
+.fg input:focus{border-color:var(--or);box-shadow:0 0 0 3px rgba(255,107,0,.07)}
+.auth-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff;border:none;border-radius:9px;font-size:.9rem;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:4px}
+.auth-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(10,61,98,.4)}
+.pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:18px}
+.pin-digit{width:52px;height:60px;border:2px solid var(--g2);border-radius:10px;font-size:1.5rem;text-align:center;outline:none;transition:var(--tr);font-family:var(--fh);font-weight:800;color:var(--bl)}
+.pin-digit:focus{border-color:var(--or);box-shadow:0 0 0 3px rgba(255,107,0,.07)}
+.auth-info{background:var(--g1);border-radius:8px;padding:10px 14px;font-size:.74rem;color:var(--g5);margin-top:12px;text-align:center}
+
+/* ══ LAYOUT ══ */
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+/* ── Sidebar ── */
+.sidebar{background:linear-gradient(180deg,var(--bl) 0%,#071525 100%);color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:200}
+@media(max-width:900px){.sidebar{display:none;position:fixed;inset:0;width:240px;z-index:9999}}
+.sidebar.mob-open{display:flex}
+.sb-brand{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo{display:flex;align-items:center;gap:10px}
+.sb-ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--or),var(--or2));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 4px 12px rgba(255,107,0,.35)}
+.sb-name{font-family:var(--fh);font-size:.82rem;font-weight:800;color:#fff;line-height:1.25}
+.sb-name small{display:block;font-size:.55rem;font-weight:400;color:rgba(255,255,255,.35);letter-spacing:.09em;text-transform:uppercase}
+.sb-nav{padding:12px 0;flex:1}
+.sb-sec{font-size:.56rem;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.22);padding:10px 16px 4px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:.78rem;font-weight:500;color:rgba(255,255,255,.58);cursor:pointer;transition:var(--tr);border-left:3px solid transparent;user-select:none;position:relative}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{background:rgba(255,107,0,.12);color:#fff;border-left-color:var(--or)}
+.nav-item .ni{font-size:.95rem;width:18px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--rd);color:#fff;font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center}
+.nav-badge.or{background:var(--or)}
+.sb-foot{padding:12px 16px;border-top:1px solid rgba(255,255,255,.07)}
+.sb-av{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.sb-av-ic{width:30px;height:30px;border-radius:50%;background:var(--or);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.sb-av-n{font-size:.76rem;font-weight:600;color:#fff;line-height:1.2}
+.sb-av-r{font-size:.6rem;color:rgba(255,255,255,.38)}
+.sb-logout{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.42);font-size:.74rem;cursor:pointer;transition:var(--tr);padding:5px 0;background:none;border:none;font-family:var(--fb);width:100%;text-align:left}
+.sb-logout:hover{color:var(--or)}
+
+/* ── Main ── */
+.main{overflow:hidden;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid var(--g2);padding:0 22px;height:55px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh);position:sticky;top:0;z-index:100;gap:10px}
+.tb-left{display:flex;align-items:center;gap:10px}
+.tb-menu{display:none;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--bl)}
+@media(max-width:900px){.tb-menu{display:block}}
+.tb-title{font-family:var(--fh);font-size:.95rem;font-weight:800;color:var(--bl)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.tb-date{font-size:.7rem;color:var(--g5);white-space:nowrap}
+.tb-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:7px;font-size:.74rem;font-weight:600;cursor:pointer;border:none;transition:var(--tr);font-family:var(--fb);white-space:nowrap}
+.tb-btn.or{background:var(--or);color:#fff}.tb-btn.or:hover{background:var(--or2)}
+.tb-btn.sec{background:var(--g1);color:var(--bl);border:1px solid var(--g2)}.tb-btn.sec:hover{background:var(--g2)}
+.notif-bell{position:relative;background:none;border:none;font-size:1.1rem;cursor:pointer;padding:6px;border-radius:7px;transition:var(--tr)}
+.notif-bell:hover{background:var(--g1)}
+.notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--rd);border:2px solid #fff}
+.content{padding:20px 22px;flex:1}
+@media(max-width:600px){.content{padding:12px 10px}}
+
+/* ══ PAGES ══ */
+.page{display:none}
+.page.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── Stats grid ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.sc{background:#fff;border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);border-top:3px solid transparent;transition:var(--tr);cursor:default;position:relative;overflow:hidden}
+.sc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.sc::after{content:'';position:absolute;right:-10px;bottom:-10px;width:60px;height:60px;border-radius:50%;opacity:.04;background:currentColor}
+.sc.bl{border-color:var(--bl);color:var(--bl)}
+.sc.or{border-color:var(--or);color:var(--or)}
+.sc.gn{border-color:var(--gn);color:var(--gn)}
+.sc.tl{border-color:var(--tl);color:var(--tl)}
+.sc.pu{border-color:var(--pu);color:var(--pu)}
+.sc.rd{border-color:var(--rd);color:var(--rd)}
+.sc.ye{border-color:var(--ye);color:var(--ye)}
+.sc.pk{border-color:var(--pk);color:var(--pk)}
+.sc-ic{font-size:1.2rem;margin-bottom:6px}
+.sc-n{font-family:var(--fh);font-size:1.6rem;font-weight:800;line-height:1}
+.sc-l{color:var(--g5);font-size:.68rem;margin-top:3px;font-weight:500}
+
+/* ── Revenue target bar ── */
+.target-card{background:#fff;border-radius:var(--r);padding:16px 20px;box-shadow:var(--sh);margin-bottom:20px}
+.target-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.target-title{font-family:var(--fh);font-size:.82rem;font-weight:700;color:var(--bl)}
+.target-nums{font-size:.78rem;color:var(--g5)}
+.target-nums strong{color:var(--bl)}
+.target-bar{background:var(--g2);border-radius:10px;height:12px;overflow:hidden;margin-bottom:8px}
+.target-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--or),var(--or2));transition:width .8s ease;position:relative}
+.target-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.2),transparent);border-radius:10px}
+.target-sub{display:flex;justify-content:space-between;font-size:.68rem;color:var(--g5)}
+
+/* ── Charts ── */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:700px){.chart-grid{grid-template-columns:1fr}}
+.chart-card{background:#fff;border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
+.chart-title{font-family:var(--fh);font-size:.78rem;font-weight:700;color:var(--bl);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.chart-wrap{position:relative;height:180px}
+
+/* ── Cards & Tables ── */
+.card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:16px}
+.card-hd{padding:12px 18px;border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;min-height:48px}
+.card-hd h3{font-family:var(--fh);font-size:.82rem;font-weight:700;color:var(--dk)}
+.filter-row{padding:9px 16px;background:var(--g1);border-bottom:1px solid var(--g2);display:flex;gap:7px;flex-wrap:wrap}
+.fi{padding:7px 10px;border:1px solid var(--g2);border-radius:7px;font-size:.76rem;font-family:var(--fb);outline:none;transition:var(--tr);background:#fff;color:var(--dk)}
+.fi:focus{border-color:var(--or)}
+.fi.stretch{flex:1;min-width:150px}
+.ts{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.76rem}
+thead tr{background:var(--g1)}
+th{padding:9px 12px;text-align:left;font-weight:600;color:var(--g5);border-bottom:2px solid var(--g2);white-space:nowrap;font-size:.67rem;text-transform:uppercase;letter-spacing:.05em}
+td{padding:8px 12px;border-bottom:1px solid #f5f8fb;vertical-align:middle;color:var(--dk)}
+tr:hover td{background:#fafcff}
+tr.deleted td{background:#fff5f5;opacity:.6}
+.tname{font-weight:600;color:var(--bl);font-size:.78rem}
+.tph{color:var(--bl);font-weight:600;font-size:.76rem;text-decoration:none}
+.tph:hover{color:var(--or)}
+.tsvc{font-size:.72rem;color:var(--g5);max-width:150px;white-space:normal;line-height:1.4}
+.tbid{font-size:.68rem;background:var(--g1);padding:2px 6px;border-radius:4px;font-family:monospace;color:var(--bl)}
+.remark-cell{font-size:.7rem;color:#744210;background:#fffbf0;border-radius:5px;padding:3px 7px;max-width:140px;white-space:normal;line-height:1.4}
+
+/* ── Badges ── */
+.badge{padding:3px 8px;border-radius:20px;font-size:.65rem;font-weight:700;white-space:nowrap;display:inline-block;letter-spacing:.02em}
+.b-paid{background:#c6f6d5;color:#276749}
+.b-pending{background:#fefcbf;color:#744210}
+.b-failed{background:#fed7d7;color:#c53030}
+.b-cod-pending,.b-cod_pending{background:#bee3f8;color:#2a69ac}
+.b-booked{background:#e2e8f0;color:#4a5568}
+.b-completed{background:#c6f6d5;color:#276749}
+.b-cancelled{background:#fed7d7;color:#c53030}
+.b-scheduled{background:#e9d8fd;color:#553c9a}
+.b-active{background:#c6f6d5;color:#276749}
+.b-inactive{background:#fed7d7;color:#c53030}
+.b-free{background:#c6f6d5;color:#276749}
+.b-busy{background:#fefcbf;color:#744210}
+.b-repeat{background:linear-gradient(135deg,var(--pu),#6b46c1);color:#fff;font-size:.6rem}
+
+/* ── Action buttons ── */
+.abtn{padding:4px 9px;border:none;border-radius:5px;cursor:pointer;font-size:.68rem;font-weight:600;font-family:var(--fb);transition:var(--tr);white-space:nowrap;display:inline-flex;align-items:center;gap:3px}
+.abtn-bl{background:var(--bl);color:#fff}.abtn-bl:hover{background:var(--bl2)}
+.abtn-or{background:var(--or);color:#fff}.abtn-or:hover{background:var(--or2)}
+.abtn-gn{background:var(--gn);color:#fff}.abtn-gn:hover{background:#2f855a}
+.abtn-rd{background:var(--rd);color:#fff}.abtn-rd:hover{background:#c53030}
+.abtn-pu{background:var(--pu);color:#fff}.abtn-pu:hover{background:#6b46c1}
+.abtn-tl{background:var(--tl);color:#fff}
+.abtn-sm{padding:3px 7px;font-size:.65rem}
+.act-row{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+
+/* ── Form ── */
+.form-body{padding:18px}
+.fg2{display:flex;flex-direction:column;gap:3px;margin-bottom:11px}
+.fg2 label{font-size:.65rem;font-weight:700;color:var(--bl);letter-spacing:.06em;text-transform:uppercase}
+.fg2 input,.fg2 select,.fg2 textarea{padding:9px 11px;border:1.5px solid var(--g2);border-radius:7px;font-size:.82rem;color:var(--dk);outline:none;transition:var(--tr);background:#fafafa;font-family:var(--fb);width:100%}
+.fg2 input:focus,.fg2 select:focus,.fg2 textarea:focus{border-color:var(--or);background:#fff}
+.fg2 textarea{min-height:65px;resize:vertical}
+.fgrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:480px){.fgrow{grid-template-columns:1fr}}
+.btn-full{width:100%;padding:11px;border:none;border-radius:8px;font-size:.86rem;font-weight:700;cursor:pointer;transition:var(--tr);font-family:var(--fb);display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-full.or{background:linear-gradient(135deg,var(--or),var(--or2));color:#fff;box-shadow:0 4px 14px rgba(255,107,0,.3)}
+.btn-full.or:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(255,107,0,.45)}
+.btn-full.bl{background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff}
+.btn-full.bl:hover{transform:translateY(-1px)}
+.btn-full.gn{background:linear-gradient(135deg,var(--gn),#2f855a);color:#fff}
+.btn-full.rd{background:var(--rd);color:#fff}
+.price-prev{background:linear-gradient(135deg,var(--bl),var(--bl2));border-radius:8px;padding:10px 14px;margin-bottom:11px;font-size:.8rem;color:#fff;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ── Modal ── */
+.modal-ov{position:fixed;inset:0;background:rgba(7,17,31,.72);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(8px);padding:14px}
+.modal-ov.on{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:16px;max-width:580px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--sh3);animation:mpop .3s cubic-bezier(.16,1,.3,1)}
+.modal-box.wide{max-width:780px}
+@keyframes mpop{from{transform:scale(.88) translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.modal-hd{padding:14px 18px;border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:2}
+.modal-hd h3{font-family:var(--fh);font-size:.88rem;font-weight:700;color:var(--bl)}
+.modal-cls{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--g5);transition:var(--tr);padding:4px 8px;border-radius:5px}
+.modal-cls:hover{background:var(--g1);color:var(--rd);transform:rotate(90deg)}
+.modal-body{padding:18px}
+
+/* ── Vendor card grid ── */
+.vendor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;padding:16px}
+.vcard{background:var(--g1);border-radius:var(--r);padding:14px;border:1.5px solid var(--g2);transition:var(--tr);position:relative}
+.vcard:hover{border-color:var(--bl);box-shadow:var(--sh)}
+.vc-code{position:absolute;top:10px;right:10px;font-size:.6rem;background:var(--bl);color:#fff;padding:2px 7px;border-radius:4px;font-family:monospace;font-weight:700}
+.vc-top{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.vc-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;font-family:var(--fh);flex-shrink:0}
+.vc-name{font-weight:700;font-size:.82rem;color:var(--bl);line-height:1.2}
+.vc-city{font-size:.68rem;color:var(--g5)}
+.vc-info{font-size:.72rem;color:var(--g5);display:flex;flex-direction:column;gap:3px;margin-bottom:9px}
+.vc-info strong{color:var(--dk)}
+.vc-skills{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:8px}
+.vc-sk{font-size:.63rem;background:rgba(10,61,98,.07);color:var(--bl);border-radius:4px;padding:2px 6px;font-weight:600}
+.vc-actions{display:flex;gap:5px;flex-wrap:wrap}
+.vc-earnings{font-family:var(--fh);font-size:.9rem;font-weight:800;color:var(--gn)}
+
+/* ── Price editor ── */
+.pe-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--g1);transition:var(--tr)}
+.pe-row:hover{background:var(--g1)}
+.pe-name{flex:1;font-size:.78rem;font-weight:500;color:var(--dk)}
+.pe-inp{width:88px;padding:6px 8px;border:1.5px solid var(--g2);border-radius:6px;font-size:.8rem;font-weight:700;color:var(--bl);text-align:right;font-family:var(--fb);outline:none}
+.pe-inp:focus{border-color:var(--or)}
+
+/* ── Inventory ── */
+.inv-row{display:flex;align-items:center;gap:12px;padding:9px 16px;border-bottom:1px solid var(--g1);transition:var(--tr)}
+.inv-row:hover{background:var(--g1)}
+.inv-row.low{background:#fff5f5}
+.inv-name{flex:1;font-size:.78rem;font-weight:500}
+.inv-stock{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--bl);min-width:50px;text-align:center}
+.inv-stock.low{color:var(--rd)}
+.inv-unit{font-size:.68rem;color:var(--g5);min-width:30px}
+.inv-actions{display:flex;gap:5px}
+.inv-qty{width:56px;padding:5px 7px;border:1.5px solid var(--g2);border-radius:6px;font-size:.78rem;font-family:var(--fb);outline:none;text-align:center}
+.inv-qty:focus{border-color:var(--or)}
+
+/* ── Calendar ── */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:16px}
+.cal-day{background:var(--g1);border-radius:8px;padding:8px 6px;min-height:80px;border:1px solid var(--g2)}
+.cal-day.has-jobs{border-color:var(--or);background:rgba(255,107,0,.02)}
+.cal-dname{font-size:.62rem;font-weight:700;color:var(--g5);text-align:center;margin-bottom:5px;text-transform:uppercase}
+.cal-dnum{font-family:var(--fh);font-size:.9rem;font-weight:800;color:var(--bl);text-align:center;margin-bottom:5px}
+.cal-job{font-size:.6rem;background:var(--or);color:#fff;border-radius:4px;padding:2px 5px;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-job:hover{background:var(--or2)}
+@media(max-width:600px){.cal-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:400px){.cal-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Notification panel ── */
+.notif-panel{position:fixed;top:55px;right:0;width:320px;background:#fff;box-shadow:var(--sh3);z-index:8000;border-left:1px solid var(--g2);max-height:calc(100vh - 55px);overflow-y:auto;transform:translateX(100%);transition:transform .3s ease}
+.notif-panel.open{transform:none}
+.np-hd{padding:12px 16px;border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff}
+.np-hd h4{font-family:var(--fh);font-size:.82rem;font-weight:700;color:var(--bl)}
+.np-item{padding:10px 16px;border-bottom:1px solid var(--g1);transition:var(--tr);cursor:default}
+.np-item:hover{background:var(--g1)}
+.np-item.unread{border-left:3px solid var(--or)}
+.np-title{font-size:.76rem;font-weight:600;color:var(--bl);margin-bottom:2px}
+.np-msg{font-size:.7rem;color:var(--g5)}
+.np-time{font-size:.62rem;color:var(--g5);margin-top:3px}
+.np-empty{padding:30px;text-align:center;color:var(--g5);font-size:.8rem}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--g2);margin-bottom:16px;overflow-x:auto}
+.tab{padding:8px 14px;font-size:.76rem;font-weight:600;color:var(--g5);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:var(--tr);font-family:var(--fb);background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap}
+.tab.active{color:var(--bl);border-bottom-color:var(--or)}
+.tab:hover:not(.active){color:var(--bl)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* ── Log modal ── */
+.log-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--g1)}
+.log-dot{width:7px;height:7px;border-radius:50%;background:var(--or);flex-shrink:0;margin-top:5px}
+.log-action{font-size:.68rem;font-weight:700;color:var(--bl);background:rgba(10,61,98,.06);border-radius:4px;padding:2px 7px;display:inline-block;margin-bottom:3px}
+.log-note{font-size:.75rem;color:var(--g5)}
+.log-meta{font-size:.63rem;color:var(--g5)}
+
+/* ── WhatsApp blast ── */
+.blast-preview{background:linear-gradient(135deg,#25D366,#1da851);color:#fff;border-radius:12px 12px 12px 0;padding:14px;font-size:.8rem;line-height:1.6;margin-bottom:14px;white-space:pre-wrap;min-height:60px}
+
+/* ── Payment status ── */
+.pay-chip{display:inline-flex;align-items:center;gap:5px;border-radius:6px;padding:5px 10px;font-size:.72rem;font-weight:600}
+.pay-chip.green{background:#c6f6d5;color:#276749}
+.pay-chip.red{background:#fed7d7;color:#c53030}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--dk);color:#fff;padding:10px 18px;border-radius:8px;font-size:.78rem;z-index:99999;opacity:0;transform:translateY(10px);transition:all .25s;max-width:300px;box-shadow:var(--sh2);pointer-events:none}
+.toast.on{opacity:1;transform:none}
+.toast.ok{background:var(--gn)}.toast.err{background:var(--rd)}.toast.info{background:var(--bl)}
+
+/* ── Empty ── */
+.empty{text-align:center;padding:40px 20px;color:var(--g5)}
+.empty-ic{font-size:2.4rem;margin-bottom:8px;opacity:.35}
+.empty p{font-size:.84rem}
+
+/* ── Responsive sidebar overlay ── */
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998}
+.mob-overlay.on{display:block}
+</style>
+</head>
+<body>
+
+{% if page == 'login' %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="auth-ic">❄</div>
+      <h2>Classic Multiple Services</h2>
+      <p>Secure Admin Portal · v4.0</p>
+    </div>
+    {% if locked %}<div class="auth-locked">🔒 {{ lock_msg }}</div>{% endif %}
+    {% if error %}<div class="auth-err">{{ error }}</div>{% endif %}
+    <form method="POST" action="/admin">
+      <div class="fg"><label>Admin Password</label><input type="password" name="password" placeholder="Enter secure password" autofocus required/></div>
+      <button type="submit" class="auth-btn">🔐 Login to Admin</button>
+    </form>
+    <div class="auth-info">⚠ After login, a 2FA PIN is required · Max 5 attempts before lockout</div>
+  </div>
+</div>
+
+{% elif page == '2fa' %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="auth-ic">🔑</div>
+      <h2>Two-Factor Auth</h2>
+      <p>Enter your 4-digit security PIN</p>
+    </div>
+    {% if error %}<div class="auth-err">{{ error }}</div>{% endif %}
+    <form method="POST" action="/admin/2fa" id="pinForm">
+      <input type="hidden" name="pin" id="pinVal"/>
+      <div class="pin-row" id="pinRow">
+        <input type="text" class="pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]"/>
+        <input type="text" class="pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]"/>
+        <input type="text" class="pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]"/>
+        <input type="text" class="pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]"/>
+      </div>
+      <button type="submit" class="auth-btn" id="pinBtn" disabled>✅ Verify PIN</button>
+    </form>
+    <div class="auth-info">Default PIN: <strong>1234</strong> · Set ADMIN_PIN env var to change</div>
+  </div>
+  <script>
+    const digits=document.querySelectorAll('.pin-digit');
+    const pinVal=document.getElementById('pinVal');
+    const pinBtn=document.getElementById('pinBtn');
+    digits.forEach((d,i)=>{
+      d.addEventListener('input',()=>{
+        if(d.value&&i<digits.length-1) digits[i+1].focus();
+        const v=Array.from(digits).map(x=>x.value).join('');
+        pinVal.value=v; pinBtn.disabled=v.length<4;
+      });
+      d.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!d.value&&i>0) digits[i-1].focus();});
+    });
+    digits[0].focus();
+  </script>
+</div>
+
+{% elif page == 'dashboard' %}
+<!-- NOTIFICATION PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="np-hd">
+    <h4>🔔 Notifications</h4>
+    <button class="abtn abtn-sm abtn-bl" onclick="markNotifsRead()">Mark All Read</button>
+  </div>
+  {% for n in notifs %}
+  <div class="np-item {{ 'unread' if not n.is_read else '' }}">
+    <div class="np-title">{{ n.title }}</div>
+    <div class="np-msg">{{ n.message }}</div>
+    <div class="np-time">{{ n.created_at[:16] }}</div>
+  </div>
+  {% else %}
+  <div class="np-empty"><div style="font-size:2rem;margin-bottom:8px">🔔</div>No notifications</div>
+  {% endfor %}
+</div>
+<div class="mob-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo">
+        <div class="sb-ic">❄</div>
+        <div class="sb-name">Classic Multiple<small>Admin v4.0</small></div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-sec">Overview</div>
+      <div class="nav-item active" onclick="showPage('dashboard')" data-page="dashboard"><span class="ni">📊</span>Dashboard</div>
+      <div class="nav-item" onclick="showPage('bookings')" data-page="bookings"><span class="ni">📋</span>All Bookings{% if stats.pending > 0 %}<span class="nav-badge">{{ stats.pending }}</span>{% endif %}</div>
+      <div class="nav-item" onclick="showPage('add-booking')" data-page="add-booking"><span class="ni">➕</span>Add Booking</div>
+      <div class="nav-item" onclick="showPage('calendar')" data-page="calendar"><span class="ni">🗓</span>Calendar View</div>
+      <div class="sb-sec">Management</div>
+      <div class="nav-item" onclick="showPage('vendors')" data-page="vendors"><span class="ni">👷</span>Technicians{% if low_stock %}<span class="nav-badge or">!</span>{% endif %}</div>
+      <div class="nav-item" onclick="showPage('vendor-pay')" data-page="vendor-pay"><span class="ni">💳</span>Vendor Payments</div>
+      <div class="nav-item" onclick="showPage('inventory')" data-page="inventory"><span class="ni">📦</span>Inventory{% if low_stock %}<span class="nav-badge">{{ low_stock|length }}</span>{% endif %}</div>
+      <div class="sb-sec">Configuration</div>
+      <div class="nav-item" onclick="showPage('pricing')" data-page="pricing"><span class="ni">💰</span>Pricing Editor</div>
+      <div class="nav-item" onclick="showPage('services')" data-page="services"><span class="ni">🔧</span>Services</div>
+      <div class="nav-item" onclick="showPage('blast')" data-page="blast"><span class="ni">📣</span>WhatsApp Blast</div>
+      <div class="sb-sec">Reports</div>
+      <div class="nav-item" onclick="showPage('analytics')" data-page="analytics"><span class="ni">📈</span>Analytics</div>
+      <div class="nav-item" onclick="window.open('/admin/export-csv')"><span class="ni">⬇</span>Export CSV</div>
+      <div class="nav-item" onclick="sendDailyReport()"><span class="ni">📧</span>Send Daily Report</div>
+      <div class="nav-item" onclick="window.open('/')"><span class="ni">🌐</span>View Website</div>
+    </nav>
+    <div class="sb-foot">
+      <div class="sb-av"><div class="sb-av-ic">A</div><div><div class="sb-av-n">Administrator</div><div class="sb-av-r">Super Admin</div></div></div>
+      <button class="sb-logout" onclick="window.location='/admin/logout'">⏻ Logout Securely</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="tb-menu" onclick="toggleSidebar()">☰</button>
+        <div class="tb-title" id="topbarTitle">Dashboard</div>
+      </div>
+      <div class="tb-right">
+        <div class="tb-date" id="topDate"></div>
+        {% if low_stock %}<button class="tb-btn sec" onclick="showPage('inventory')" style="color:var(--rd)">⚠ {{ low_stock|length }} Low Stock</button>{% endif %}
+        <button class="notif-bell" onclick="toggleNotifs()" title="Notifications">
+          🔔{% if unread_notifs > 0 %}<span class="notif-dot"></span>{% endif %}
+        </button>
+        <button class="tb-btn or" onclick="showPage('add-booking')">+ Add Booking</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ══ DASHBOARD PAGE ══ -->
+      <div class="page active" id="page-dashboard">
+        <!-- Revenue Target -->
+        <div class="target-card">
+          <div class="target-header">
+            <div class="target-title">🎯 Monthly Revenue Target — {{ stats.month_rev|int|string }} / ₹{{ month_target }}</div>
+            <div class="target-nums">
+              <strong>{{ ((stats.month_rev / month_target) * 100)|int if month_target > 0 else 0 }}%</strong> achieved &nbsp;·&nbsp;
+              ₹{{ (month_target - stats.month_rev)|int }} remaining
+              &nbsp;<button class="abtn abtn-bl abtn-sm" onclick="openSetTarget()">⚙ Set Target</button>
+            </div>
+          </div>
+          <div class="target-bar"><div class="target-fill" id="targetFill" style="width:{{ [((stats.month_rev / month_target) * 100)|int, 100]|min if month_target > 0 else 0 }}%"></div></div>
+          <div class="target-sub"><span>₹0</span><span>₹{{ month_target }}</span></div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="sc bl"><div class="sc-ic">📋</div><div class="sc-n">{{ stats.total }}</div><div class="sc-l">Total Bookings</div></div>
+          <div class="sc or"><div class="sc-ic">📅</div><div class="sc-n">{{ stats.today }}</div><div class="sc-l">Today</div></div>
+          <div class="sc gn"><div class="sc-ic">💳</div><div class="sc-n">{{ stats.paid }}</div><div class="sc-l">Paid Online</div></div>
+          <div class="sc tl"><div class="sc-ic">💵</div><div class="sc-n">{{ stats.cod }}</div><div class="sc-l">Cash on Service</div></div>
+          <div class="sc ye"><div class="sc-ic">⏳</div><div class="sc-n">{{ stats.pending }}</div><div class="sc-l">Pending</div></div>
+          <div class="sc pu"><div class="sc-ic">🗓</div><div class="sc-n">{{ stats.scheduled }}</div><div class="sc-l">Scheduled</div></div>
+          <div class="sc gn"><div class="sc-ic">✅</div><div class="sc-n">{{ stats.completed }}</div><div class="sc-l">Completed</div></div>
+          <div class="sc rd"><div class="sc-ic">❌</div><div class="sc-n">{{ stats.cancelled }}</div><div class="sc-l">Cancelled</div></div>
+          <div class="sc pk"><div class="sc-ic">🔁</div><div class="sc-n">{{ stats.repeat }}</div><div class="sc-l">Repeat Customers</div></div>
+          <div class="sc gn"><div class="sc-ic">₹</div><div class="sc-n" style="font-size:1.1rem">₹{{ stats.revenue|int }}</div><div class="sc-l">Total Revenue</div></div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-title">📈 Revenue — Last 7 Days</div><div class="chart-wrap"><canvas id="cRev"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title">🔧 Top Services</div><div class="chart-wrap"><canvas id="cSvc"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title">📍 Bookings by City</div><div class="chart-wrap"><canvas id="cCity"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title">📊 Status Breakdown</div><div class="chart-wrap"><canvas id="cStatus"></canvas></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-hd"><h3>🕐 Recent Bookings</h3><button class="abtn abtn-bl" onclick="showPage('bookings')">View All →</button></div>
+          <div class="ts"><table>
+            <thead><tr><th>Booking ID</th><th>Customer</th><th>Service</th><th>City</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead>
+            <tbody>
+              {% for b in bookings[:8] %}
+              <tr>
+                <td><span class="tbid">{{ b.booking_id }}</span>{% if b.is_repeat %}<span class="badge b-repeat" style="margin-left:4px">🔁 #{{ b.visit_count }}</span>{% endif %}</td>
+                <td><div class="tname">{{ b.name }}</div><a href="tel:{{ b.mobile }}" class="tph">{{ b.mobile }}</a></td>
+                <td><div class="tsvc">{{ b.service_type }}</div></td>
+                <td>{{ b.city }}</td>
+                <td><strong>₹{{ b.final_amount }}</strong></td>
+                <td><span class="badge b-{{ b.payment_status|lower|replace('_','-') }}">{{ b.payment_status }}</span></td>
+                <td><span class="badge b-{{ b.status|lower }}">{{ b.status }}</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ BOOKINGS PAGE ══ -->
+      <div class="page" id="page-bookings">
+        <div class="card">
+          <div class="card-hd"><h3>📋 All Bookings ({{ stats.total }})</h3><button class="abtn abtn-or" onclick="window.open('/admin/export-csv')">⬇ Export CSV</button></div>
+          <div class="filter-row">
+            <input class="fi stretch" id="srch" placeholder="Search name, mobile, booking ID, city..." oninput="flt()"/>
+            <select class="fi" id="sFlt" onchange="flt()"><option value="">All Payment</option><option>PAID</option><option>PENDING</option><option>FAILED</option><option>COD_PENDING</option></select>
+            <select class="fi" id="stFlt" onchange="flt()"><option value="">All Status</option><option>BOOKED</option><option>COMPLETED</option><option>CANCELLED</option><option>SCHEDULED</option></select>
+            <select class="fi" id="cFlt" onchange="flt()"><option value="">All Cities</option>{% for c in cities %}<option>{{ c }}</option>{% endfor %}</select>
+          </div>
+          <div class="ts"><table id="bt">
+            <thead><tr><th>#</th><th>Booking ID</th><th>Customer</th><th>City</th><th>Service</th><th>Amount</th><th>Payment</th><th>Status</th><th>Vendor</th><th>Schedule</th><th>Remark</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody>
+              {% for b in bookings %}
+              <tr id="row-{{ b.booking_id }}"
+                data-bid="{{ b.booking_id }}"
+                data-name="{{ b.name | e }}"
+                data-mobile="{{ b.mobile }}"
+                data-city="{{ b.city | e }}"
+                data-area="{{ b.area | e }}"
+                data-pincode="{{ b.pincode or '' }}"
+                data-service="{{ b.service_type | e }}"
+                data-amount="{{ b.amount }}"
+                data-discount="{{ b.discount }}"
+                data-paymode="{{ b.payment_mode or 'cash' }}"
+                data-paystatus="{{ b.payment_status }}"
+                data-status="{{ b.status }}"
+                data-sched="{{ b.scheduled_at or '' }}"
+                data-remark="{{ b.remark | e }}"
+                data-vendorid="{{ b.vendor_id or '' }}">
+                <td>{{ loop.index }}</td>
+                <td>
+                  <span class="tbid">{{ b.booking_id }}</span>
+                  {% if b.is_repeat %}<br><span class="badge b-repeat">&#x1F501; Visit #{{ b.visit_count }}</span>{% endif %}
+                </td>
+                <td>
+                  <div class="tname">{{ b.name }}</div>
+                  <a href="tel:{{ b.mobile }}" class="tph">&#128222; {{ b.mobile }}</a>
+                  {% if b.area %}<div style="font-size:.65rem;color:var(--g5)">{{ b.area }}</div>{% endif %}
+                </td>
+                <td>{{ b.city }}</td>
+                <td><div class="tsvc">{{ b.service_type }}</div></td>
+                <td>
+                  <strong>&#8377;{{ b.final_amount }}</strong>
+                  {% if b.discount > 0 %}<div style="font-size:.65rem;color:var(--gn)">-&#8377;{{ b.discount }}</div>{% endif %}
+                </td>
+                <td><span class="badge b-{{ b.payment_status|lower|replace('_','-') }}" id="pay-{{ b.booking_id }}">{{ b.payment_status }}</span></td>
+                <td><span class="badge b-{{ b.status|lower }}" id="st-{{ b.booking_id }}">{{ b.status }}</span>{% if b.scheduled_at %}<div style="font-size:.64rem;color:var(--pu);margin-top:2px">&#128197; {{ b.scheduled_at[:16] }}</div>{% endif %}</td>
+                <td id="vnd-{{ b.booking_id }}" style="font-size:.72rem">{{ b.vendor_name or '&mdash;' }}</td>
+                <td style="font-size:.68rem;color:var(--pu)">{{ b.scheduled_at[:16] if b.scheduled_at else '&mdash;' }}</td>
+                <td>{% if b.remark %}<div class="remark-cell">{{ b.remark[:55] }}</div>{% else %}<span style="color:var(--g5)">&mdash;</span>{% endif %}</td>
+                <td style="font-size:.68rem;color:var(--g5);white-space:nowrap">{{ b.created_at[:16] }}</td>
+                <td>
+                  <div class="act-row">
+                    <button class="abtn abtn-gn abtn-sm" onclick="openEditBookingRow(this)">&#9998; Edit</button>
+                    <button class="abtn abtn-bl abtn-sm" onclick="openStatusFromRow(this)">&#128196; Status</button>
+                    <button class="abtn abtn-or abtn-sm" onclick="openAssignFromRow(this)">&#128119;</button>
+                    <button class="abtn abtn-pu abtn-sm" onclick="openLogsModal('{{ b.booking_id }}')">&#128220;</button>
+                    {% if b.payment_status == 'COD_PENDING' %}<button class="abtn abtn-tl abtn-sm" onclick="markPaid('{{ b.booking_id }}')">&#8377; Paid</button>{% endif %}
+                    <button class="abtn abtn-rd abtn-sm" onclick="deleteBooking('{{ b.booking_id }}')">&#128465;</button>
+                  </div>
+                </td>
+              </tr>
+              {% else %}
+              <tr><td colspan="13"><div class="empty"><div class="empty-ic">📋</div><p>No bookings yet</p></div></td></tr>
+              {% endfor %}
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ ADD BOOKING PAGE ══ -->
+      <div class="page" id="page-add-booking">
+        <div class="card" style="max-width:680px">
+          <div class="card-hd"><h3>➕ Add New Booking (Manual)</h3></div>
+          <div class="form-body">
+            <div class="fgrow">
+              <div class="fg2"><label>Customer Name *</label><input type="text" id="ab-name" placeholder="Full name"/></div>
+              <div class="fg2"><label>Mobile Number *</label><input type="tel" id="ab-mobile" placeholder="10-digit" maxlength="10"/></div>
+            </div>
+            <div class="fgrow">
+              <div class="fg2"><label>City *</label><select id="ab-city"><option value="">Select city</option>{% for c in cities %}<option>{{ c }}</option>{% endfor %}</select></div>
+              <div class="fg2"><label>Area</label><input type="text" id="ab-area" placeholder="Colony / sector"/></div>
+            </div>
+            <div class="fgrow">
+              <div class="fg2"><label>Pincode</label><input type="text" id="ab-pin" maxlength="6" placeholder="6-digit"/></div>
+              <div class="fg2"><label>Service *</label>
+                <select id="ab-service" onchange="abUpdatePrice()">
+                  <option value="">Select service</option>
+                  {% for sp in service_prices %}<option value="{{ sp.service_name }}">{{ sp.service_name }} — ₹{{ sp.price }}</option>{% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="fgrow">
+              <div class="fg2"><label>Payment Mode</label><select id="ab-paymode"><option value="cash">Cash on Service</option><option value="paid">Paid (Already)</option><option value="online">Online Pending</option></select></div>
+              <div class="fg2"><label>Discount (₹)</label><input type="number" id="ab-disc" placeholder="0" min="0" oninput="abUpdatePrice()"/></div>
+            </div>
+            <div id="ab-price-box" class="price-prev" style="display:none">
+              Base: <strong id="ab-base"></strong> &nbsp;|&nbsp; Disc: <span id="ab-discshow" style="color:#fbd38d"></span> &nbsp;|&nbsp; Final: <strong id="ab-final" style="color:#7ff4c0;font-size:.9rem"></strong>
+            </div>
+            <div class="fgrow">
+              <div class="fg2"><label>Assign Technician</label><select id="ab-vendor"><option value="">Auto-assign by city</option>{% for v in vendors %}{% if v.status=='ACTIVE' %}<option value="{{ v.id }}">{{ v.name }} ({{ v.city }}) — {{ v.availability }}</option>{% endif %}{% endfor %}</select></div>
+              <div class="fg2"><label>Schedule Date &amp; Time</label><input type="datetime-local" id="ab-sched"/></div>
+            </div>
+            <div class="fg2"><label>Remark / Note</label><textarea id="ab-remark" placeholder="Special note, address detail, customer request..."></textarea></div>
+            <button class="btn-full or" onclick="submitAddBooking()">➕ Create Booking</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ CALENDAR PAGE ══ -->
+      <div class="page" id="page-calendar">
+        <div class="card">
+          <div class="card-hd">
+            <h3>🗓 Booking Calendar — Scheduled Jobs</h3>
+            <div id="cal-month" style="font-family:var(--fh);font-size:.82rem;font-weight:700;color:var(--bl)"></div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><h3>📋 Upcoming Scheduled Jobs</h3></div>
+          <div class="ts"><table>
+            <thead><tr><th>Booking ID</th><th>Customer</th><th>Service</th><th>City</th><th>Technician</th><th>Scheduled</th><th>Status</th></tr></thead>
+            <tbody>
+              {% for b in scheduled_bk %}
+              <tr>
+                <td><span class="tbid">{{ b.booking_id }}</span></td>
+                <td><div class="tname">{{ b.name }}</div><a class="tph" href="tel:{{ b.mobile }}">{{ b.mobile }}</a></td>
+                <td><div class="tsvc">{{ b.service_type }}</div></td>
+                <td>{{ b.city }}</td>
+                <td>{{ b.vendor_name or '—' }}</td>
+                <td style="color:var(--pu);font-weight:600;font-size:.76rem">{{ b.scheduled_at[:16] }}</td>
+                <td><span class="badge b-{{ b.status|lower }}">{{ b.status }}</span></td>
+              </tr>
+              {% else %}
+              <tr><td colspan="7"><div class="empty"><div class="empty-ic">🗓</div><p>No scheduled jobs</p></div></td></tr>
+              {% endfor %}
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ VENDORS PAGE ══ -->
+      <div class="page" id="page-vendors">
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('vt','list')">&#128119; All Technicians</button>
+          <button class="tab" onclick="showTab('vt','add')">&#43; Add Technician</button>
+          <button class="tab" onclick="showTab('vt','excel');openModal('vendorExcelModal')">&#128202; Upload Excel</button>
+        </div>
+        <div class="tab-panel active" id="vt-list">
+          <div class="card">
+            <div class="card-hd">
+              <h3>Technicians — City Wise Vendors</h3>
+              <select class="fi" id="v-city-flt" onchange="filterVCity()"><option value="">All Cities</option>{% for c in cities %}<option>{{ c }}</option>{% endfor %}</select>
+            </div>
+            <div class="vendor-grid" id="vendorGrid">
+              {% for v in vendors %}
+              <div class="vcard" id="vc-{{ v.id }}">
+                <span class="vc-code">{{ v.vendor_code or 'CMS-VND' }}</span>
+                <div class="vc-top">
+                  <div class="vc-av">{{ v.name[0]|upper }}</div>
+                  <div>
+                    <div class="vc-name">{{ v.name }}</div>
+                    <div class="vc-city">📍 {{ v.city }}</div>
+                  </div>
+                </div>
+                {% if v.skills %}
+                <div class="vc-skills">{% for sk in v.skills.split(',') %}{% if sk.strip() %}<span class="vc-sk">{{ sk.strip() }}</span>{% endif %}{% endfor %}</div>
+                {% endif %}
+                <div class="vc-info">
+                  <span>📞 <a href="tel:{{ v.mobile }}" class="tph">{{ v.mobile }}</a></span>
+                  <span>⭐ <strong>{{ v.rating }}</strong> · 🔧 <strong>{{ v.total_jobs }}</strong> jobs</span>
+                  <span>💰 Earned: <span class="vc-earnings">₹{{ v.total_earnings|int }}</span></span>
+                  {% if v.aadhar_number %}<span>🪪 Aadhaar: {{ v.aadhar_number[:4] }}****{{ v.aadhar_number[-4:] if v.aadhar_number|length >= 8 else '' }} {% if v.aadhar_verified %}✅{% else %}⏳{% endif %}</span>{% endif %}
+                  {% if v.upi_id %}<span>💸 UPI: {{ v.upi_id }}</span>{% endif %}
+                </div>
+                <div class="vc-actions">
+                  <span class="badge b-{{ v.status|lower }}">{{ v.status }}</span>
+                  <span class="badge b-{{ v.availability|lower }}">{{ v.availability }}</span>
+                  <button class="abtn abtn-bl abtn-sm" onclick="openEditVendor({{ v.id }})">✏ Edit</button>
+                  <button class="abtn abtn-gn abtn-sm" onclick="openVendorPay({{ v.id }},'{{ v.name }}')">₹ Pay</button>
+                  <button class="abtn abtn-rd abtn-sm" onclick="deactivateVendor({{ v.id }})">🗑</button>
+                </div>
+              </div>
+              {% else %}
+              <div class="empty" style="grid-column:1/-1"><div class="empty-ic">👷</div><p>No technicians added yet</p></div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="vt-add">
+          <div class="card" style="max-width:620px">
+            <div class="card-hd"><h3>➕ Add New Technician</h3></div>
+            <div class="form-body">
+              <div class="fgrow">
+                <div class="fg2"><label>Full Name *</label><input type="text" id="v-name" placeholder="Technician name"/></div>
+                <div class="fg2"><label>Mobile *</label><input type="tel" id="v-mobile" placeholder="10-digit" maxlength="10"/></div>
+              </div>
+              <div class="fgrow">
+                <div class="fg2"><label>City *</label><select id="v-city"><option value="">Select city</option>{% for c in cities %}<option>{{ c }}</option>{% endfor %}</select></div>
+                <div class="fg2"><label>Commission %</label><input type="number" id="v-comm" value="70" min="0" max="100" placeholder="70"/></div>
+              </div>
+              <div class="fg2"><label>Skills (comma separated)</label><input type="text" id="v-skills" placeholder="AC Cleaning, Repair, Gas Filling, Installation"/></div>
+              <div class="fgrow">
+                <div class="fg2"><label>Aadhaar Number</label><input type="text" id="v-aadhar" placeholder="12-digit Aadhaar" maxlength="12"/></div>
+                <div class="fg2"><label>Address</label><input type="text" id="v-address" placeholder="Full address"/></div>
+              </div>
+              <div class="fgrow">
+                <div class="fg2"><label>UPI ID</label><input type="text" id="v-upi" placeholder="name@upi"/></div>
+                <div class="fg2"><label>Bank Account</label><input type="text" id="v-bank" placeholder="Account number"/></div>
+              </div>
+              <div class="fg2"><label>Bank IFSC</label><input type="text" id="v-ifsc" placeholder="IFSC code" style="max-width:200px"/></div>
+              <div style="background:var(--g1);border-radius:8px;padding:12px;margin-bottom:14px;font-size:.75rem;color:var(--g5)">
+                ℹ A unique <strong>CMS Vendor ID</strong> will be auto-generated and sent via WhatsApp to the technician's mobile after adding.
+              </div>
+              <button class="btn-full or" onclick="addVendor()">👷 Add Technician & Send ID</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ VENDOR PAYMENTS PAGE ══ -->
+      <div class="page" id="page-vendor-pay">
+        <div class="card">
+          <div class="card-hd"><h3>💳 Vendor Payment History</h3><button class="abtn abtn-gn" onclick="openVendorPayModal()">+ Record Payment</button></div>
+          <div class="ts"><table>
+            <thead><tr><th>#</th><th>Vendor</th><th>Booking</th><th>Amount</th><th>Type</th><th>Mode</th><th>Status</th><th>Note</th><th>Date</th></tr></thead>
+            <tbody>
+              {% for p in vnd_payments %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td><strong>{{ p.vendor_name or '—' }}</strong></td>
+                <td><span class="tbid">{{ p.booking_id or '—' }}</span></td>
+                <td><strong style="color:var(--gn)">₹{{ p.amount|int }}</strong></td>
+                <td><span class="badge b-booked">{{ p.payment_type }}</span></td>
+                <td>{{ p.payment_mode }}</td>
+                <td><span class="badge {{ 'b-paid' if p.status=='PAID' else 'b-pending' }}">{{ p.status }}</span></td>
+                <td style="font-size:.72rem;color:var(--g5)">{{ p.note or '—' }}</td>
+                <td style="font-size:.68rem;color:var(--g5)">{{ p.created_at[:16] }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="9"><div class="empty"><div class="empty-ic">💳</div><p>No payments recorded</p></div></td></tr>
+              {% endfor %}
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ INVENTORY PAGE ══ -->
+      <div class="page" id="page-inventory">
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('it','stock')">📦 Stock Levels</button>
+          <button class="tab" onclick="showTab('it','add')">➕ Add Item</button>
+        </div>
+        <div class="tab-panel active" id="it-stock">
+          {% if low_stock %}
+          <div style="background:#fff5f5;border:1px solid #fed7d7;border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-size:.78rem;color:var(--rd);font-weight:600">
+            ⚠ Low Stock Alert: {{ low_stock|map(attribute='item_name')|join(', ') }}
+          </div>
+          {% endif %}
+          <div class="card">
+            <div class="card-hd"><h3>Inventory — Gas, Chemicals, Spares</h3></div>
+            {% for item in inventory %}
+            <div class="inv-row {{ 'low' if item.current_stock <= item.min_stock else '' }}" id="inv-{{ item.id }}">
+              <div style="flex:1">
+                <div class="inv-name">{{ item.item_name }}</div>
+                <div style="font-size:.65rem;color:var(--g5)">{{ item.category }} · Min: {{ item.min_stock }} {{ item.unit }} · ₹{{ item.cost_per_unit|int }}/{{ item.unit }}</div>
+              </div>
+              <div>
+                <div class="inv-stock {{ 'low' if item.current_stock <= item.min_stock else '' }}" id="inv-stock-{{ item.id }}">{{ item.current_stock }}</div>
+                <div class="inv-unit">{{ item.unit }}</div>
+              </div>
+              {% if item.current_stock <= item.min_stock %}<span class="badge b-cancelled">LOW</span>{% endif %}
+              <div class="inv-actions">
+                <input type="number" class="inv-qty" id="inv-qty-{{ item.id }}" placeholder="Qty" min="0.1" step="0.5"/>
+                <button class="abtn abtn-gn abtn-sm" onclick="updateInv({{ item.id }},'ADD')">+ Add</button>
+                <button class="abtn abtn-or abtn-sm" onclick="updateInv({{ item.id }},'USE')">- Use</button>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tab-panel" id="it-add">
+          <div class="card" style="max-width:500px">
+            <div class="card-hd"><h3>➕ Add Inventory Item</h3></div>
+            <div class="form-body">
+              <div class="fg2"><label>Item Name *</label><input type="text" id="ni-name" placeholder="e.g. R22 Gas Cylinder"/></div>
+              <div class="fgrow">
+                <div class="fg2"><label>Category</label><select id="ni-cat"><option>Gas</option><option>Chemicals</option><option>Spares</option><option>Electrical</option><option>Pipe</option><option>Hardware</option><option>General</option></select></div>
+                <div class="fg2"><label>Unit</label><select id="ni-unit"><option>pcs</option><option>cylinder</option><option>litre</option><option>bottle</option><option>metre</option><option>kg</option></select></div>
+              </div>
+              <div class="fgrow">
+                <div class="fg2"><label>Initial Stock</label><input type="number" id="ni-stock" placeholder="0" min="0" step="0.5"/></div>
+                <div class="fg2"><label>Minimum Alert Level</label><input type="number" id="ni-min" placeholder="5" min="0"/></div>
+              </div>
+              <div class="fg2"><label>Cost per Unit (₹)</label><input type="number" id="ni-cost" placeholder="0" min="0"/></div>
+              <button class="btn-full or" onclick="addInventoryItem()">➕ Add Item</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PRICING PAGE ══ -->
+      <div class="page" id="page-pricing">
+        <div class="card" style="max-width:680px">
+          <div class="card-hd"><h3>💰 Service Pricing Editor</h3><button class="abtn abtn-gn" onclick="saveAllPrices()">💾 Save All</button></div>
+          {% for sp in service_prices %}
+          <div class="pe-row">
+            <div class="pe-name">{{ sp.service_name }}</div>
+            <span style="font-size:.72rem;color:var(--g5)">₹</span>
+            <input type="number" class="pe-inp price-inp" data-svc="{{ sp.service_name }}" value="{{ sp.price }}" min="1"/>
+          </div>
+          {% endfor %}
+          <div style="padding:14px 16px;border-top:1px solid var(--g2)">
+            <button class="btn-full or" onclick="saveAllPrices()">💾 Save All Price Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SERVICES PAGE ══ -->
+      <div class="page" id="page-services">
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('st','list')">📋 Services</button>
+          <button class="tab" onclick="showTab('st','add')">➕ Add Service</button>
+        </div>
+        <div class="tab-panel active" id="st-list">
+          <div class="card">
+            <div class="card-hd"><h3>Services Catalog</h3></div>
+            <div class="ts"><table>
+              <thead><tr><th>#</th><th>Service Name</th><th>Category</th><th>Price</th><th>Description</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                {% for s in services_catalog %}
+                <tr id="svc-{{ s.id }}">
+                  <td>{{ loop.index }}</td>
+                  <td><strong>{{ s.name }}</strong></td>
+                  <td><span class="badge b-booked">{{ s.category }}</span></td>
+                  <td><strong>₹{{ s.base_price }}</strong></td>
+                  <td style="font-size:.72rem;color:var(--g5);max-width:180px;white-space:normal">{{ s.description or '—' }}</td>
+                  <td><span class="badge {{ 'b-active' if s.is_active else 'b-inactive' }}" id="sst-{{ s.id }}">{{ 'Active' if s.is_active else 'Inactive' }}</span></td>
+                  <td><button class="abtn {{ 'abtn-rd' if s.is_active else 'abtn-gn' }} abtn-sm" onclick="toggleSvc({{ s.id }},this)">{{ '🚫 Disable' if s.is_active else '✅ Enable' }}</button></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table></div>
+          </div>
+        </div>
+        <div class="tab-panel" id="st-add">
+          <div class="card" style="max-width:520px">
+            <div class="card-hd"><h3>➕ Add New Service</h3></div>
+            <div class="form-body">
+              <div class="fg2"><label>Service Name *</label><input type="text" id="ns-name" placeholder="e.g. Cassette AC Cleaning"/></div>
+              <div class="fgrow">
+                <div class="fg2"><label>Category *</label><select id="ns-cat"><option value="">Select</option><option>AC Cleaning</option><option>AC Repair</option><option>Installation</option><option>Uninstallation</option><option>Gas Filling</option><option>Other</option></select></div>
+                <div class="fg2"><label>Price (₹) *</label><input type="number" id="ns-price" placeholder="999" min="1"/></div>
+              </div>
+              <div class="fg2"><label>Description</label><textarea id="ns-desc" placeholder="Short service description..."></textarea></div>
+              <button class="btn-full or" onclick="addService()">➕ Add Service</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ WHATSAPP BLAST PAGE ══ -->
+      <div class="page" id="page-blast">
+        <div class="card" style="max-width:620px">
+          <div class="card-hd"><h3>📣 WhatsApp Blast Message</h3></div>
+          <div class="form-body">
+            <div class="fg2"><label>Send To</label>
+              <select id="bl-target">
+                <option value="BOOKED">All Pending Bookings (BOOKED)</option>
+                <option value="COD_PENDING">All Cash on Service (COD_PENDING)</option>
+                <option value="COMPLETED">All Completed Customers</option>
+                <option value="ALL">All Customers (All time)</option>
+              </select>
+            </div>
+            <div class="fg2"><label>Message (use {name} for customer name)</label>
+              <textarea id="bl-msg" rows="5" placeholder="Hi {name}, your AC service is scheduled today. Technician will arrive in 60-90 minutes. - Classic Multiple Services" oninput="updateBlastPreview()"></textarea>
+            </div>
+            <div style="margin-bottom:14px">
+              <div style="font-size:.66rem;font-weight:700;color:var(--bl);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Preview</div>
+              <div class="blast-preview" id="blastPreview">Your message will appear here...</div>
+            </div>
+            <div style="background:var(--g1);border-radius:8px;padding:10px 14px;font-size:.74rem;color:var(--g5);margin-bottom:14px">
+              ⚠ Max 50 messages per blast · Requires Twilio WhatsApp setup · 0.5s delay between messages
+            </div>
+            <button class="btn-full or" onclick="sendBlast()" id="blastBtn">📣 Send WhatsApp Blast</button>
+          </div>
+        </div>
+        <div class="card" style="max-width:620px;margin-top:14px">
+          <div class="card-hd"><h3>📧 Daily Report</h3></div>
+          <div class="form-body">
+            <p style="font-size:.8rem;color:var(--g5);margin-bottom:14px">Send today's summary report via WhatsApp + Email to owner.</p>
+            <button class="btn-full bl" onclick="sendDailyReport()">📧 Send Daily Report Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ ANALYTICS PAGE ══ -->
+      <div class="page" id="page-analytics">
+        <div class="stat-grid">
+          <div class="sc gn"><div class="sc-ic">₹</div><div class="sc-n" style="font-size:1.1rem">₹{{ stats.revenue|int }}</div><div class="sc-l">Total Online Revenue</div></div>
+          <div class="sc tl"><div class="sc-ic">₹</div><div class="sc-n" style="font-size:1.1rem">₹{{ stats.cod_rev|int }}</div><div class="sc-l">COD Pending</div></div>
+          <div class="sc bl"><div class="sc-ic">📊</div><div class="sc-n">{{ stats.total }}</div><div class="sc-l">Total Bookings</div></div>
+          <div class="sc or"><div class="sc-ic">📅</div><div class="sc-n">{{ stats.today }}</div><div class="sc-l">Today</div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-title">📈 Revenue — Last 7 Days</div><div class="chart-wrap"><canvas id="cRev2"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title">🔧 Services by Revenue</div><div class="chart-wrap"><canvas id="cSvc2"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title">📍 Bookings by City</div><div class="chart-wrap"><canvas id="cCity2"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title">📊 Monthly Trend</div><div class="chart-wrap"><canvas id="cMonthly"></canvas></div></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- MODALS -->
+<!-- Status Modal -->
+<div class="modal-ov" id="statusModal"><div class="modal-box">
+  <div class="modal-hd"><h3>✏ Update Booking Status</h3><button class="modal-cls" onclick="closeModal('statusModal')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="sm-bid"/>
+    <div class="fg2"><label>Status *</label><select id="sm-status"><option value="BOOKED">BOOKED</option><option value="SCHEDULED">SCHEDULED</option><option value="COMPLETED">COMPLETED</option><option value="CANCELLED">CANCELLED</option><option value="PENDING">PENDING</option></select></div>
+    <div class="fg2"><label>Schedule Date &amp; Time</label><input type="datetime-local" id="sm-sched"/></div>
+    <div class="fg2"><label>Remark / Reason</label><textarea id="sm-remark" placeholder="Add remark, cancellation reason, follow-up note..."></textarea></div>
+    <button class="btn-full or" onclick="submitStatusUpdate()">💾 Update Status</button>
+  </div>
+</div></div>
+
+<!-- Assign Vendor Modal -->
+<div class="modal-ov" id="assignModal"><div class="modal-box">
+  <div class="modal-hd"><h3>👷 Assign Technician</h3><button class="modal-cls" onclick="closeModal('assignModal')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="am-bid"/>
+    <div class="fg2"><label>Select Technician</label>
+      <select id="am-vendor">
+        <option value="">— Unassign —</option>
+        {% for v in vendors %}{% if v.status=='ACTIVE' %}<option value="{{ v.id }}">{{ v.name }} · {{ v.city }} · {{ v.availability }} · {{ v.mobile }}</option>{% endif %}{% endfor %}
+      </select>
+    </div>
+    <button class="btn-full or" onclick="submitAssign()">👷 Assign Technician</button>
+  </div>
+</div></div>
+
+<!-- Logs Modal -->
+<div class="modal-ov" id="logsModal"><div class="modal-box wide">
+  <div class="modal-hd"><h3>📜 Booking History &amp; Logs</h3><button class="modal-cls" onclick="closeModal('logsModal')">✕</button></div>
+  <div class="modal-body" id="logsContent"><div class="empty"><div class="empty-ic">⏳</div><p>Loading...</p></div></div>
+</div></div>
+
+<!-- Edit Vendor Modal -->
+<div class="modal-ov" id="editVendorModal"><div class="modal-box wide">
+  <div class="modal-hd"><h3>✏ Edit Technician</h3><button class="modal-cls" onclick="closeModal('editVendorModal')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="ev-id"/>
+    <div class="fgrow">
+      <div class="fg2"><label>Full Name *</label><input type="text" id="ev-name"/></div>
+      <div class="fg2"><label>Mobile *</label><input type="tel" id="ev-mobile" maxlength="10"/></div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>City *</label><select id="ev-city">{% for c in cities %}<option>{{ c }}</option>{% endfor %}</select></div>
+      <div class="fg2"><label>Commission %</label><input type="number" id="ev-comm" min="0" max="100"/></div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Status</label><select id="ev-status"><option value="ACTIVE">Active</option><option value="INACTIVE">Inactive</option></select></div>
+      <div class="fg2"><label>Availability</label><select id="ev-avail"><option value="FREE">Free</option><option value="BUSY">Busy</option></select></div>
+    </div>
+    <div class="fg2"><label>Skills</label><input type="text" id="ev-skills"/></div>
+    <div class="fgrow">
+      <div class="fg2"><label>Aadhaar Number</label><input type="text" id="ev-aadhar" maxlength="12"/></div>
+      <div class="fg2"><label>UPI ID</label><input type="text" id="ev-upi"/></div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Bank Account</label><input type="text" id="ev-bank"/></div>
+      <div class="fg2"><label>IFSC</label><input type="text" id="ev-ifsc"/></div>
+    </div>
+    <div class="fg2"><label>Address</label><input type="text" id="ev-address"/></div>
+    <button class="btn-full or" onclick="submitEditVendor()">💾 Save Changes</button>
+  </div>
+</div></div>
+
+<!-- Vendor Payment Modal -->
+<div class="modal-ov" id="vendorPayModal"><div class="modal-box">
+  <div class="modal-hd"><h3>💰 Record Vendor Payment</h3><button class="modal-cls" onclick="closeModal('vendorPayModal')">✕</button></div>
+  <div class="modal-body">
+    <div class="fg2"><label>Technician *</label>
+      <select id="vp-vendor">
+        <option value="">Select technician</option>
+        {% for v in vendors %}{% if v.status=='ACTIVE' %}<option value="{{ v.id }}">{{ v.name }} ({{ v.city }}) — Earned: ₹{{ v.total_earnings|int }}</option>{% endif %}{% endfor %}
+      </select>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Amount (₹) *</label><input type="number" id="vp-amount" placeholder="0" min="0"/></div>
+      <div class="fg2"><label>Payment Mode</label><select id="vp-mode"><option value="UPI">UPI</option><option value="Bank Transfer">Bank Transfer</option><option value="Cash">Cash</option><option value="Cheque">Cheque</option></select></div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Type</label><select id="vp-type"><option value="COMMISSION">Commission</option><option value="SALARY">Salary</option><option value="BONUS">Bonus</option><option value="ADVANCE">Advance</option></select></div>
+      <div class="fg2"><label>Related Booking ID</label><input type="text" id="vp-bid" placeholder="Optional"/></div>
+    </div>
+    <div class="fg2"><label>Note</label><input type="text" id="vp-note" placeholder="Payment note..."/></div>
+    <button class="btn-full gn" onclick="submitVendorPay()">💰 Record Payment & Notify</button>
+  </div>
+</div></div>
+
+<!-- Set Target Modal -->
+<div class="modal-ov" id="targetModal"><div class="modal-box" style="max-width:380px">
+  <div class="modal-hd"><h3>🎯 Set Revenue Target</h3><button class="modal-cls" onclick="closeModal('targetModal')">✕</button></div>
+  <div class="modal-body">
+    <div class="fg2"><label>Month</label><input type="month" id="tm-month"/></div>
+    <div class="fg2"><label>Target Amount (₹) *</label><input type="number" id="tm-target" placeholder="50000" min="0"/></div>
+    <button class="btn-full or" onclick="submitTarget()">🎯 Set Target</button>
+  </div>
+</div></div>
+
+<!-- Edit Booking Modal -->
+<div class="modal-ov" id="editBookingModal"><div class="modal-box wide">
+  <div class="modal-hd"><h3>&#9999;&#65039; Edit Booking</h3><button class="modal-cls" onclick="closeModal('editBookingModal')">&#10005;</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="eb-bid"/>
+    <div class="fgrow">
+      <div class="fg2"><label>Customer Name *</label><input type="text" id="eb-name" placeholder="Full name"/></div>
+      <div class="fg2"><label>Mobile *</label><input type="tel" id="eb-mobile" maxlength="10" placeholder="10-digit"/></div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>City *</label><select id="eb-city">{% for c in cities %}<option>{{ c }}</option>{% endfor %}</select></div>
+      <div class="fg2"><label>Area</label><input type="text" id="eb-area" placeholder="Colony / Sector"/></div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Pincode</label><input type="text" id="eb-pincode" maxlength="6" placeholder="6-digit"/></div>
+      <div class="fg2"><label>Service *</label>
+        <select id="eb-service" onchange="ebUpdatePrice()">
+          {% for sp in service_prices %}<option value="{{ sp.service_name }}">{{ sp.service_name }} -- Rs.{{ sp.price }}</option>{% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Original Amount (Rs.)</label><input type="number" id="eb-amount" placeholder="0" min="0" oninput="ebUpdatePrice()"/></div>
+      <div class="fg2"><label>Discount (Rs.)</label><input type="number" id="eb-discount" placeholder="0" min="0" oninput="ebUpdatePrice()"/></div>
+    </div>
+    <div id="eb-price-box" style="background:linear-gradient(135deg,var(--bl),var(--bl2));border-radius:8px;padding:10px 14px;margin-bottom:11px;font-size:.8rem;color:#fff;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      Final Amount: <strong id="eb-final">Rs.0</strong>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Payment Mode</label>
+        <select id="eb-paymode">
+          <option value="cash">Cash on Service</option>
+          <option value="online">Online</option>
+          <option value="paid">Paid (Already)</option>
+        </select>
+      </div>
+      <div class="fg2"><label>Payment Status</label>
+        <select id="eb-paystatus">
+          <option value="PENDING">PENDING</option>
+          <option value="PAID">PAID</option>
+          <option value="COD_PENDING">COD_PENDING</option>
+          <option value="FAILED">FAILED</option>
+        </select>
+      </div>
+    </div>
+    <div class="fgrow">
+      <div class="fg2"><label>Booking Status</label>
+        <select id="eb-status">
+          <option value="BOOKED">BOOKED</option>
+          <option value="SCHEDULED">SCHEDULED</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="CANCELLED">CANCELLED</option>
+        </select>
+      </div>
+      <div class="fg2"><label>Schedule Date &amp; Time</label><input type="datetime-local" id="eb-sched"/></div>
+    </div>
+    <div class="fg2"><label>Add-on Services (comma separated)</label><input type="text" id="eb-addons" placeholder="e.g. Filter Replacement, PCB Check, Drain Cleaning"/></div>
+    <div class="fg2"><label>Remark / Payment Note</label><textarea id="eb-remark" placeholder="Customer note, follow-up, payment remark, add-on services done..."></textarea></div>
+    <button class="btn-full or" onclick="submitEditBooking()">Save Booking Changes</button>
+  </div>
+</div></div>
+
+<!-- Excel Vendor Upload Modal -->
+<div class="modal-ov" id="vendorExcelModal"><div class="modal-box" style="max-width:480px">
+  <div class="modal-hd"><h3>Upload Vendor Excel File</h3><button class="modal-cls" onclick="closeModal('vendorExcelModal')">&#10005;</button></div>
+  <div class="modal-body">
+    <div style="background:var(--g1);border-radius:8px;padding:12px 14px;font-size:.76rem;color:var(--g5);margin-bottom:14px;line-height:1.8">
+      <strong style="color:var(--bl);display:block;margin-bottom:4px">Required Columns:</strong>
+      Name, Mobile, City, Skills, Commission%, Aadhaar, Address, UPI ID, Bank Account, IFSC
+    </div>
+    <div class="fg2">
+      <label>Select Excel / CSV File</label>
+      <input type="file" id="vendorExcelFile" accept=".xlsx,.xls,.csv" style="padding:9px;border:2px dashed var(--g2);border-radius:7px;font-size:.8rem;background:#fafafa;cursor:pointer" onchange="previewVendorExcel(this)"/>
+    </div>
+    <div id="excelPreview" style="display:none;margin-bottom:12px">
+      <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--bl);margin-bottom:6px">Preview (first 5 rows)</div>
+      <div style="overflow-x:auto;font-size:.7rem" id="excelPreviewTable"></div>
+    </div>
+    <div id="excelStatus" style="display:none;font-size:.76rem;padding:8px 12px;border-radius:6px;margin-bottom:10px"></div>
+    <button class="btn-full or" onclick="uploadVendorExcel()" id="excelUploadBtn">Upload &amp; Import Vendors</button>
+    <div style="margin-top:10px;text-align:center">
+      <button class="abtn abtn-bl abtn-sm" onclick="downloadVendorTemplate()">Download Sample CSV Template</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA FROM FLASK
+// ═══════════════════════════════════════════
+const DAILY_REV  = {{ daily_rev|safe }};
+const SVC_REV    = {{ svc_rev|safe }};
+const CITY_DATA  = {{ city_data|safe }};
+const MONTHLY_REV= {{ monthly_rev|safe }};
+const STATUS_DATA= {BOOKED:{{ stats.pending }},COMPLETED:{{ stats.completed }},CANCELLED:{{ stats.cancelled }},SCHEDULED:{{ stats.scheduled }}};
+const MONTH_REV  = {{ stats.month_rev|int }};
+const MONTH_TARGET = {{ month_target }};
+const SP_MAP = { {% for sp in service_prices %}"{{ sp.service_name }}":{{ sp.price }},{% endfor %} };
+const SCHEDULED_BK = {{ scheduled_bk|map(attribute='scheduled_at')|list|tojson }};
+const VENDORS_DATA = [{% for v in vendors %}{"id":{{ v.id }},"name":"{{ v.name }}","mobile":"{{ v.mobile }}","city":"{{ v.city }}","skills":"{{ v.skills }}","status":"{{ v.status }}","availability":"{{ v.availability }}","aadhar":"{{ v.aadhar_number }}","upi":"{{ v.upi_id }}","bank":"{{ v.bank_account }}","ifsc":"{{ v.bank_ifsc }}","address":"{{ v.address }}","commission":{{ v.commission_pct }}},{% endfor %}];
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function showPage(pg){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const el=document.getElementById('page-'+pg);
+  if(el) el.classList.add('active');
+  document.querySelectorAll(`[data-page="${pg}"]`).forEach(n=>n.classList.add('active'));
+  const titles={'dashboard':'Dashboard','bookings':'All Bookings','add-booking':'Add Booking',
+    'calendar':'Calendar View','vendors':'Technicians','vendor-pay':'Vendor Payments',
+    'inventory':'Inventory','pricing':'Pricing','services':'Services','blast':'WhatsApp Blast','analytics':'Analytics'};
+  document.getElementById('topbarTitle').textContent=titles[pg]||pg;
+  if(pg==='calendar') buildCalendar();
+  closeSidebar();
+}
+function showTab(prefix,tab){
+  const all=document.querySelectorAll(`[id^="${prefix}-"]`);
+  all.forEach(p=>p.classList.remove('active'));
+  document.getElementById(`${prefix}-${tab}`)?.classList.add('active');
+  // Tab buttons
+  const panelId='page-'+(prefix==='vt'?'vendors':prefix==='it'?'inventory':'services');
+  document.getElementById(panelId)?.querySelectorAll('.tab').forEach((b,i)=>{
+    b.classList.toggle('active',(tab==='list'&&i===0)||(tab==='stock'&&i===0)||(tab==='add'&&i===1));
+  });
+}
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('mob-open');
+  document.getElementById('sbOverlay').classList.toggle('on');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('mob-open');
+  document.getElementById('sbOverlay').classList.remove('on');
+}
+document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+
+// ═══════════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('on')}
+function closeModal(id){document.getElementById(id).classList.remove('on')}
+document.querySelectorAll('.modal-ov').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on')}));
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast on '+(type||'');
+  setTimeout(()=>t.classList.remove('on'),3500);
+}
+
+// ═══════════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════════
+function toggleNotifs(){document.getElementById('notifPanel').classList.toggle('open')}
+async function markNotifsRead(){
+  await fetch('/admin/notifications/read',{method:'POST'});
+  document.querySelectorAll('.np-item.unread').forEach(el=>el.classList.remove('unread'));
+  document.querySelector('.notif-dot')?.remove();
+  toast('All notifications marked read','ok');
+}
+
+// ═══════════════════════════════════════════
+// EDIT BOOKING MODAL
+// ═══════════════════════════════════════════
+function openEditBookingRow(btn){
+  const row=btn.closest('tr');
+  const d=row.dataset;
+  openEditBooking(d.bid,d.name,d.mobile,d.city,d.area,d.pincode,d.service,d.amount,d.discount,d.paymode,d.paystatus,d.status,d.sched,d.remark);
+}
+function openStatusFromRow(btn){
+  const row=btn.closest('tr');
+  const d=row.dataset;
+  openStatusModal(d.bid,d.status,d.remark,d.sched);
+}
+function openAssignFromRow(btn){
+  const row=btn.closest('tr');
+  const d=row.dataset;
+  openAssignModal(d.bid,d.vendorid||'');
+}
+function openEditBooking(bid,name,mobile,city,area,pincode,service,amount,discount,paymode,paystatus,status,sched,remark){
+  document.getElementById('eb-bid').value=bid;
+  document.getElementById('eb-name').value=name||'';
+  document.getElementById('eb-mobile').value=mobile||'';
+  const cityEl=document.getElementById('eb-city');
+  for(let o of cityEl.options)if(o.value===city){o.selected=true;break;}
+  document.getElementById('eb-area').value=area||'';
+  document.getElementById('eb-pincode').value=pincode||'';
+  const svcEl=document.getElementById('eb-service');
+  for(let o of svcEl.options)if(o.value===service){o.selected=true;break;}
+  document.getElementById('eb-amount').value=amount||0;
+  document.getElementById('eb-discount').value=discount||0;
+  const pmEl=document.getElementById('eb-paymode');
+  for(let o of pmEl.options)if(o.value===paymode){o.selected=true;break;}
+  const psEl=document.getElementById('eb-paystatus');
+  for(let o of psEl.options)if(o.value===paystatus){o.selected=true;break;}
+  const stEl=document.getElementById('eb-status');
+  for(let o of stEl.options)if(o.value===status){o.selected=true;break;}
+  document.getElementById('eb-sched').value=sched?sched.replace(' ','T').substring(0,16):'';
+  document.getElementById('eb-remark').value=remark||'';
+  ebUpdatePrice();
+  openModal('editBookingModal');
+}
+function ebUpdatePrice(){
+  const amt=parseFloat(document.getElementById('eb-amount').value)||0;
+  const disc=parseFloat(document.getElementById('eb-discount').value)||0;
+  const final=Math.max(amt-disc,0);
+  document.getElementById('eb-final').textContent='Rs.'+final;
+}
+async function submitEditBooking(){
+  const bid=document.getElementById('eb-bid').value;
+  const data={
+    booking_id:bid,
+    name:document.getElementById('eb-name').value.trim(),
+    mobile:document.getElementById('eb-mobile').value.trim(),
+    city:document.getElementById('eb-city').value,
+    area:document.getElementById('eb-area').value.trim(),
+    pincode:document.getElementById('eb-pincode').value.trim(),
+    service_type:document.getElementById('eb-service').value,
+    amount:parseInt(document.getElementById('eb-amount').value)||0,
+    discount:parseInt(document.getElementById('eb-discount').value)||0,
+    final_amount:Math.max((parseInt(document.getElementById('eb-amount').value)||0)-(parseInt(document.getElementById('eb-discount').value)||0),0),
+    payment_mode:document.getElementById('eb-paymode').value,
+    payment_status:document.getElementById('eb-paystatus').value,
+    status:document.getElementById('eb-status').value,
+    scheduled_at:document.getElementById('eb-sched').value,
+    addons:document.getElementById('eb-addons').value.trim(),
+    remark:document.getElementById('eb-remark').value.trim()
+  };
+  if(!data.name||!data.mobile||!data.city||!data.service_type){toast('Fill required fields','err');return;}
+  try{
+    const r=await fetch('/admin/booking/edit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const d=await r.json();
+    if(d.success){toast('Booking updated successfully!','ok');closeModal('editBookingModal');setTimeout(()=>location.reload(),900);}
+    else toast(d.error||'Update failed','err');
+  }catch(e){toast('Error: '+e.message,'err');}
+}
+
+// ═══════════════════════════════════════════
+// VENDOR EXCEL UPLOAD
+// ═══════════════════════════════════════════
+function previewVendorExcel(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const text=e.target.result;
+    const lines=text.split('\n').filter(l=>l.trim());
+    const preview=lines.slice(0,6);
+    const tbl='<table style="border-collapse:collapse;width:100%">'+
+      preview.map((row,i)=>{
+        const cols=row.split(',').map(c=>c.trim().replace(/^"|"$/g,''));
+        const tag=i===0?'th':'td';
+        return '<tr>'+cols.map(c=>`<${tag} style="border:1px solid var(--g2);padding:4px 7px;white-space:nowrap">${c}</${tag}>`).join('')+'</tr>';
+      }).join('')+'</table>';
+    document.getElementById('excelPreviewTable').innerHTML=tbl;
+    document.getElementById('excelPreview').style.display='block';
+  };
+  reader.readAsText(file);
+}
+async function uploadVendorExcel(){
+  const file=document.getElementById('vendorExcelFile').files[0];
+  if(!file){toast('Please select a file first','err');return;}
+  const btn=document.getElementById('excelUploadBtn');
+  btn.disabled=true; btn.textContent='Uploading...';
+  const statusEl=document.getElementById('excelStatus');
+  try{
+    const text=await file.text();
+    const lines=text.split('\n').filter(l=>l.trim());
+    if(lines.length<2){toast('File has no data rows','err');btn.disabled=false;btn.textContent='Upload & Import Vendors';return;}
+    const headers=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/^"|"$/g,''));
+    const vendors=[];
+    for(let i=1;i<lines.length;i++){
+      const cols=lines[i].split(',').map(c=>c.trim().replace(/^"|"$/g,''));
+      if(cols.length<2||!cols[0]) continue;
+      const row={};
+      headers.forEach((h,idx)=>row[h]=cols[idx]||'');
+      vendors.push({
+        name:row['name']||row['full name']||'',
+        mobile:row['mobile']||row['phone']||row['contact']||'',
+        city:row['city']||'Lucknow',
+        skills:row['skills']||'AC Service',
+        commission_pct:parseFloat(row['commission%']||row['commission']||'70'),
+        aadhar_number:row['aadhaar']||row['aadhar']||'',
+        address:row['address']||'',
+        upi_id:row['upi id']||row['upi']||'',
+        bank_account:row['bank account']||row['bank']||'',
+        bank_ifsc:row['ifsc']||''
+      });
+    }
+    if(!vendors.length){toast('No valid vendor rows found','err');btn.disabled=false;btn.textContent='Upload & Import Vendors';return;}
+    const r=await fetch('/admin/vendors/bulk-import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({vendors})});
+    const d=await r.json();
+    if(d.success){
+      statusEl.style.display='block';statusEl.style.background='#c6f6d5';statusEl.style.color='#276749';
+      statusEl.textContent='Imported '+d.imported+' vendors successfully! '+(d.skipped?' Skipped '+d.skipped+' (duplicates).':'');
+      toast('Imported '+d.imported+' vendors!','ok');
+      setTimeout(()=>location.reload(),1800);
+    } else {
+      statusEl.style.display='block';statusEl.style.background='#fed7d7';statusEl.style.color='#c53030';
+      statusEl.textContent='Error: '+(d.error||'Import failed');
+      toast(d.error||'Import failed','err');
+    }
+  }catch(err){
+    toast('Error reading file: '+err.message,'err');
+  }
+  btn.disabled=false; btn.textContent='Upload & Import Vendors';
+}
+function downloadVendorTemplate(){
+  const csv='Name,Mobile,City,Skills,Commission%,Aadhaar,Address,UPI ID,Bank Account,IFSC\nRajesh Kumar,9876543210,Lucknow,"AC Cleaning,Repair",70,123456789012,Alambagh Lucknow,rajesh@upi,1234567890,SBIN0001234\n';
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='vendor_import_template.csv';
+  a.click();
+  toast('Template downloaded!','ok');
+}
+
+// ═══════════════════════════════════════════
+// TABLE FILTER
+// ═══════════════════════════════════════════
+function flt(){
+  const s=document.getElementById('srch').value.toLowerCase();
+  const sp=document.getElementById('sFlt').value.toLowerCase();
+  const ss=document.getElementById('stFlt').value.toLowerCase();
+  const sc=document.getElementById('cFlt').value.toLowerCase();
+  document.querySelectorAll('#bt tbody tr').forEach(row=>{
+    const t=row.textContent.toLowerCase();
+    row.style.display=(!s||t.includes(s))&&(!sp||t.includes(sp))&&(!ss||t.includes(ss))&&(!sc||t.includes(sc))?'':'none';
+  });
+}
+
+// ═══════════════════════════════════════════
+// STATUS MODAL
+// ═══════════════════════════════════════════
+function openStatusModal(bid,status,remark,sched){
+  document.getElementById('sm-bid').value=bid;
+  document.getElementById('sm-status').value=status;
+  document.getElementById('sm-remark').value=remark||'';
+  document.getElementById('sm-sched').value=sched?sched.replace(' ','T').substring(0,16):'';
+  openModal('statusModal');
+}
+async function submitStatusUpdate(){
+  const bid=document.getElementById('sm-bid').value;
+  const status=document.getElementById('sm-status').value;
+  const remark=document.getElementById('sm-remark').value.trim();
+  const sched=document.getElementById('sm-sched').value;
+  const r=await fetch('/admin/booking/update-status',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({booking_id:bid,status,remark,scheduled_at:sched})});
+  const d=await r.json();
+  if(d.success){
+    const stEl=document.getElementById('st-'+bid);
+    if(stEl){stEl.textContent=status;stEl.className='badge b-'+status.toLowerCase();}
+    closeModal('statusModal'); toast('✅ Status updated to '+status,'ok');
+  } else toast(d.error||'Error','err');
+}
+
+// ═══════════════════════════════════════════
+// ASSIGN VENDOR
+// ═══════════════════════════════════════════
+function openAssignModal(bid,vid){
+  document.getElementById('am-bid').value=bid;
+  document.getElementById('am-vendor').value=vid||'';
+  openModal('assignModal');
+}
+async function submitAssign(){
+  const bid=document.getElementById('am-bid').value;
+  const vid=document.getElementById('am-vendor').value;
+  const r=await fetch('/admin/booking/assign-vendor',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({booking_id:bid,vendor_id:vid||null})});
+  const d=await r.json();
+  if(d.success){
+    const el=document.getElementById('vnd-'+bid);
+    if(el) el.textContent=d.vendor_name||'—';
+    closeModal('assignModal'); toast('👷 Assigned: '+d.vendor_name,'ok');
+  } else toast(d.error||'Error','err');
+}
+
+// ═══════════════════════════════════════════
+// LOGS MODAL
+// ═══════════════════════════════════════════
+async function openLogsModal(bid){
+  openModal('logsModal');
+  document.getElementById('logsContent').innerHTML='<div class="empty"><div class="empty-ic">⏳</div><p>Loading...</p></div>';
+  const r=await fetch('/admin/booking/logs/'+bid);
+  const d=await r.json();
+  const b=d.booking||{};
+  let html=`<div style="background:var(--g1);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:.78rem">
+    <strong style="color:var(--bl)">${b.name||''}</strong> · ${b.mobile||''} · ${b.city||''}<br>
+    <span style="color:var(--g5)">${b.service_type||''}</span> · <strong>₹${b.final_amount||''}</strong>
+    <span class="badge b-${(b.status||'').toLowerCase()}" style="margin-left:6px">${b.status||''}</span>
+    ${b.is_repeat?'<span class="badge b-repeat" style="margin-left:4px">🔁 Visit #'+b.visit_count+'</span>':''}
+    ${b.vendor_name?'<br>👷 '+b.vendor_name:''}
+    ${b.remark?'<br>📝 '+b.remark:''}
+    ${b.scheduled_at?'<br>🗓 '+b.scheduled_at:''}
+  </div>`;
+  if(!d.logs||d.logs.length===0){html+='<div class="empty"><div class="empty-ic">📜</div><p>No logs yet</p></div>';}
+  else d.logs.forEach(l=>{html+=`<div class="log-item"><div class="log-dot"></div><div><span class="log-action">${l.action}</span><div class="log-note">${l.note||'—'}</div><div class="log-meta">By: ${l.by} · ${l.at}</div></div></div>`;});
+  document.getElementById('logsContent').innerHTML=html;
+}
+
+// ═══════════════════════════════════════════
+// DELETE BOOKING
+// ═══════════════════════════════════════════
+async function deleteBooking(bid){
+  if(!confirm(`Delete booking ${bid}? This cannot be undone.`)) return;
+  const r=await fetch('/admin/booking/delete/'+bid,{method:'POST'});
+  const d=await r.json();
+  if(d.success){
+    const row=document.getElementById('row-'+bid);
+    if(row){row.style.opacity='0';setTimeout(()=>row.remove(),400);}
+    toast('🗑 Booking deleted','ok');
+  } else toast(d.error||'Error','err');
+}
+
+// ═══════════════════════════════════════════
+// MARK PAID
+// ═══════════════════════════════════════════
+async function markPaid(bid){
+  if(!confirm('Mark as PAID?')) return;
+  const r=await fetch('/admin/update-payment/'+bid,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'PAID'})});
+  const d=await r.json();
+  if(d.success){
+    const el=document.getElementById('pay-'+bid);
+    if(el){el.textContent='PAID';el.className='badge b-paid';}
+    document.querySelector(`#row-${bid} .abtn-gn`)?.remove();
+    toast('💵 Marked as PAID','ok');
+  }
+}
+
+// ═══════════════════════════════════════════
+// ADD BOOKING
+// ═══════════════════════════════════════════
+function abUpdatePrice(){
+  const svc=document.getElementById('ab-service').value;
+  const disc=parseInt(document.getElementById('ab-disc').value)||0;
+  const box=document.getElementById('ab-price-box');
+  if(!svc||!SP_MAP[svc]){box.style.display='none';return;}
+  const base=SP_MAP[svc];
+  const final=Math.max(base-Math.min(disc,base-1),1);
+  document.getElementById('ab-base').textContent='₹'+base;
+  document.getElementById('ab-discshow').textContent='₹'+disc;
+  document.getElementById('ab-final').textContent='₹'+final;
+  box.style.display='flex';
+}
+document.getElementById('ab-disc')?.addEventListener('input',abUpdatePrice);
+
+async function submitAddBooking(){
+  const name=document.getElementById('ab-name').value.trim();
+  const mobile=document.getElementById('ab-mobile').value.trim();
+  const city=document.getElementById('ab-city').value;
+  const area=document.getElementById('ab-area').value.trim();
+  const pin=document.getElementById('ab-pin').value.trim();
+  const svc=document.getElementById('ab-service').value;
+  const mode=document.getElementById('ab-paymode').value;
+  const disc=parseInt(document.getElementById('ab-disc').value)||0;
+  const vendor=document.getElementById('ab-vendor').value;
+  const sched=document.getElementById('ab-sched').value;
+  const remark=document.getElementById('ab-remark').value.trim();
+  if(!name){toast('Enter customer name','err');return;}
+  if(!/^\d{10}$/.test(mobile)){toast('Valid 10-digit mobile required','err');return;}
+  if(!city){toast('Select city','err');return;}
+  if(!svc){toast('Select service','err');return;}
+  const btn=document.querySelector('#page-add-booking .btn-full');
+  btn.disabled=true; btn.textContent='Creating...';
+  try{
+    const r=await fetch('/admin/booking/add',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,mobile,city,area,pincode:pin,service_type:svc,payment_mode:mode,
+        discount:disc,vendor_id:vendor||null,scheduled_at:sched,remark})});
+    const d=await r.json();
+    if(d.success){
+      toast('✅ Booking created: '+d.booking_id+(d.is_repeat?' 🔁 Repeat #'+d.visit_count:''),'ok');
+      ['ab-name','ab-mobile','ab-area','ab-pin','ab-disc','ab-remark'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+      ['ab-city','ab-service','ab-paymode','ab-vendor'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+      document.getElementById('ab-sched').value='';
+      document.getElementById('ab-price-box').style.display='none';
+      setTimeout(()=>showPage('bookings'),1200);
+    } else toast(d.error||'Error','err');
+  } catch(e){toast('Network error','err');}
+  btn.disabled=false; btn.textContent='➕ Create Booking';
+}
+
+// ═══════════════════════════════════════════
+// VENDOR MANAGEMENT
+// ═══════════════════════════════════════════
+async function addVendor(){
+  const name=document.getElementById('v-name').value.trim();
+  const mobile=document.getElementById('v-mobile').value.trim();
+  const city=document.getElementById('v-city').value;
+  const skills=document.getElementById('v-skills').value.trim();
+  const aadhar=document.getElementById('v-aadhar').value.trim();
+  const address=document.getElementById('v-address').value.trim();
+  const upi=document.getElementById('v-upi').value.trim();
+  const bank=document.getElementById('v-bank').value.trim();
+  const ifsc=document.getElementById('v-ifsc').value.trim();
+  const comm=parseFloat(document.getElementById('v-comm').value)||70;
+  if(!name||!mobile||!city){toast('Name, mobile, city required','err');return;}
+  if(!/^\d{10}$/.test(mobile)){toast('Valid 10-digit mobile','err');return;}
+  const r=await fetch('/admin/vendor/add',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,mobile,city,skills,aadhar,address,upi_id:upi,bank_account:bank,bank_ifsc:ifsc,commission_pct:comm})});
+  const d=await r.json();
+  if(d.success){toast('👷 Added: '+name+' — ID: '+d.vendor_code,'ok');setTimeout(()=>location.reload(),1200);}
+  else toast(d.error||'Error','err');
+}
+
+function openEditVendor(id){
+  const v=VENDORS_DATA.find(x=>x.id===id);
+  if(!v) return;
+  document.getElementById('ev-id').value=id;
+  document.getElementById('ev-name').value=v.name;
+  document.getElementById('ev-mobile').value=v.mobile;
+  document.getElementById('ev-city').value=v.city;
+  document.getElementById('ev-skills').value=v.skills;
+  document.getElementById('ev-status').value=v.status;
+  document.getElementById('ev-avail').value=v.availability;
+  document.getElementById('ev-aadhar').value=v.aadhar||'';
+  document.getElementById('ev-upi').value=v.upi||'';
+  document.getElementById('ev-bank').value=v.bank||'';
+  document.getElementById('ev-ifsc').value=v.ifsc||'';
+  document.getElementById('ev-address').value=v.address||'';
+  document.getElementById('ev-comm').value=v.commission||70;
+  openModal('editVendorModal');
+}
+async function submitEditVendor(){
+  const id=document.getElementById('ev-id').value;
+  const r=await fetch('/admin/vendor/update',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({id,name:document.getElementById('ev-name').value,
+      mobile:document.getElementById('ev-mobile').value,city:document.getElementById('ev-city').value,
+      skills:document.getElementById('ev-skills').value,status:document.getElementById('ev-status').value,
+      availability:document.getElementById('ev-avail').value,aadhar:document.getElementById('ev-aadhar').value,
+      upi_id:document.getElementById('ev-upi').value,bank_account:document.getElementById('ev-bank').value,
+      bank_ifsc:document.getElementById('ev-ifsc').value,address:document.getElementById('ev-address').value,
+      commission_pct:parseFloat(document.getElementById('ev-comm').value)||70})});
+  const d=await r.json();
+  if(d.success){toast('✅ Updated','ok');closeModal('editVendorModal');setTimeout(()=>location.reload(),900);}
+  else toast(d.error||'Error','err');
+}
+async function deactivateVendor(id){
+  if(!confirm('Deactivate this technician?')) return;
+  const r=await fetch('/admin/vendor/delete/'+id,{method:'POST'});
+  const d=await r.json();
+  if(d.success){document.getElementById('vc-'+id)?.remove();toast('Technician deactivated','ok');}
+}
+function filterVCity(){
+  const city=document.getElementById('v-city-flt').value.toLowerCase();
+  document.querySelectorAll('.vcard').forEach(c=>{c.style.display=(!city||c.textContent.toLowerCase().includes(city))?'':'none';});
+}
+function openVendorPay(id,name){
+  document.getElementById('vp-vendor').value=id;
+  openModal('vendorPayModal');
+}
+function openVendorPayModal(){openModal('vendorPayModal');}
+async function submitVendorPay(){
+  const vid=document.getElementById('vp-vendor').value;
+  const amount=parseFloat(document.getElementById('vp-amount').value);
+  const mode=document.getElementById('vp-mode').value;
+  const ptype=document.getElementById('vp-type').value;
+  const bid=document.getElementById('vp-bid').value.trim();
+  const note=document.getElementById('vp-note').value.trim();
+  if(!vid||!amount){toast('Vendor and amount required','err');return;}
+  const r=await fetch('/admin/vendor/payment',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({vendor_id:parseInt(vid),amount,payment_mode:mode,payment_type:ptype,booking_id:bid,note})});
+  const d=await r.json();
+  if(d.success){toast('💰 Payment recorded & notified','ok');closeModal('vendorPayModal');setTimeout(()=>location.reload(),1200);}
+  else toast(d.error||'Error','err');
+}
+
+// ═══════════════════════════════════════════
+// PRICING
+// ═══════════════════════════════════════════
+async function saveAllPrices(){
+  const prices=[];
+  document.querySelectorAll('.price-inp').forEach(inp=>{
+    const svc=inp.dataset.svc; const price=parseInt(inp.value);
+    if(svc&&price>0) prices.push({service:svc,price});
+  });
+  const r=await fetch('/admin/prices/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prices})});
+  const d=await r.json();
+  if(d.success) toast('💾 All prices saved! Live on website now.','ok');
+  else toast(d.error||'Error','err');
+}
+
+// ═══════════════════════════════════════════
+// SERVICES
+// ═══════════════════════════════════════════
+async function addService(){
+  const name=document.getElementById('ns-name').value.trim();
+  const cat=document.getElementById('ns-cat').value;
+  const price=parseInt(document.getElementById('ns-price').value);
+  const desc=document.getElementById('ns-desc').value.trim();
+  if(!name||!cat||!price){toast('Name, category, price required','err');return;}
+  const r=await fetch('/admin/service/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,category:cat,price,description:desc})});
+  const d=await r.json();
+  if(d.success){toast('✅ Service added','ok');setTimeout(()=>location.reload(),1000);}
+  else toast(d.error||'Error','err');
+}
+async function toggleSvc(id,btn){
+  const r=await fetch('/admin/service/toggle/'+id,{method:'POST'});
+  const d=await r.json();
+  if(d.success) location.reload();
+}
+
+// ═══════════════════════════════════════════
+// INVENTORY
+// ═══════════════════════════════════════════
+async function updateInv(id,type){
+  const qty=parseFloat(document.getElementById('inv-qty-'+id).value);
+  if(!qty||qty<=0){toast('Enter valid quantity','err');return;}
+  const r=await fetch('/admin/inventory/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,change:qty,type,note:''})});
+  const d=await r.json();
+  if(d.success){location.reload();}
+  else toast(d.error||'Error','err');
+}
+async function addInventoryItem(){
+  const name=document.getElementById('ni-name').value.trim();
+  const cat=document.getElementById('ni-cat').value;
+  const unit=document.getElementById('ni-unit').value;
+  const stock=parseFloat(document.getElementById('ni-stock').value)||0;
+  const min=parseFloat(document.getElementById('ni-min').value)||5;
+  const cost=parseFloat(document.getElementById('ni-cost').value)||0;
+  if(!name){toast('Item name required','err');return;}
+  const r=await fetch('/admin/inventory/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({item_name:name,category:cat,unit,stock,min_stock:min,cost})});
+  const d=await r.json();
+  if(d.success){toast('✅ Item added','ok');setTimeout(()=>location.reload(),900);}
+  else toast(d.error||'Error','err');
+}
+
+// ═══════════════════════════════════════════
+// WHATSAPP BLAST
+// ═══════════════════════════════════════════
+function updateBlastPreview(){
+  const msg=document.getElementById('bl-msg').value;
+  document.getElementById('blastPreview').textContent=msg.replace('{name}','Rahul Singh')||'Your message preview here...';
+}
+async function sendBlast(){
+  const msg=document.getElementById('bl-msg').value.trim();
+  const target=document.getElementById('bl-target').value;
+  if(!msg){toast('Enter a message','err');return;}
+  if(!confirm(`Send WhatsApp to all ${target} customers? This will send real messages.`)) return;
+  const btn=document.getElementById('blastBtn');
+  btn.disabled=true; btn.textContent='Sending...';
+  const r=await fetch('/admin/whatsapp-blast',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,target})});
+  const d=await r.json();
+  if(d.success) toast(`📣 Sent: ${d.sent} · Failed: ${d.failed}`,'ok');
+  else toast(d.error||'Error','err');
+  btn.disabled=false; btn.textContent='📣 Send WhatsApp Blast';
+}
+async function sendDailyReport(){
+  const r=await fetch('/admin/send-daily-report',{method:'POST'});
+  const d=await r.json();
+  if(d.success) toast('📧 Daily report sent via WhatsApp & Email!','ok');
+  else toast('Error sending report','err');
+}
+
+// ═══════════════════════════════════════════
+// REVENUE TARGET
+// ═══════════════════════════════════════════
+function openSetTarget(){
+  document.getElementById('tm-month').value=new Date().toISOString().substring(0,7);
+  document.getElementById('tm-target').value=MONTH_TARGET;
+  openModal('targetModal');
+}
+async function submitTarget(){
+  const month=document.getElementById('tm-month').value;
+  const target=parseInt(document.getElementById('tm-target').value);
+  if(!month||!target){toast('Fill all fields','err');return;}
+  const r=await fetch('/admin/target/set',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({month,target})});
+  const d=await r.json();
+  if(d.success){toast('🎯 Target set!','ok');closeModal('targetModal');setTimeout(()=>location.reload(),900);}
+  else toast(d.error,'err');
+}
+
+// ═══════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════
+function buildCalendar(){
+  const now=new Date();
+  const year=now.getFullYear(); const month=now.getMonth();
+  document.getElementById('cal-month').textContent=now.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+  const firstDay=new Date(year,month,1).getDay();
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  dayNames.forEach(d=>{
+    const h=document.createElement('div');
+    h.style.cssText='font-size:.62rem;font-weight:700;color:var(--g5);text-align:center;padding:6px;text-transform:uppercase;letter-spacing:.06em';
+    h.textContent=d; grid.appendChild(h);
+  });
+  for(let i=0;i<firstDay;i++){const e=document.createElement('div');grid.appendChild(e);}
+  // Collect scheduled jobs
+  const jobsByDay={};
+  document.querySelectorAll('#page-calendar table tbody tr').forEach(row=>{
+    const schedCell=row.cells?.[5];
+    const bidCell=row.cells?.[0];
+    if(schedCell&&bidCell){
+      const dt=schedCell.textContent.trim();
+      const day=parseInt(dt.split('-')[2]||dt.split('/')[0]);
+      const dtMonth=parseInt(dt.split('-')[1]);
+      if(dtMonth===month+1&&day){
+        if(!jobsByDay[day]) jobsByDay[day]=[];
+        jobsByDay[day].push({bid:bidCell.textContent.trim(),name:row.cells?.[1]?.textContent?.trim()||''});
+      }
+    }
+  });
+  for(let d=1;d<=daysInMonth;d++){
+    const el=document.createElement('div');
+    el.className='cal-day'+(jobsByDay[d]?' has-jobs':'');
+    const isToday=d===now.getDate();
+    el.innerHTML=`<div class="cal-dnum" style="${isToday?'background:var(--or);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;font-size:.76rem':''}">${d}</div>`;
+    if(jobsByDay[d]){
+      jobsByDay[d].forEach(j=>{
+        const jb=document.createElement('div');
+        jb.className='cal-job'; jb.textContent=j.name.split('\n')[0];
+        jb.title=j.bid; el.appendChild(jb);
+      });
+    }
+    grid.appendChild(el);
+  }
+}
+
+// ═══════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════
+const BL='#0A3D62',OR='#FF6B00',GN='#38a169',TL='#00b4d8',PU='#805ad5',RD='#e53e3e',YE='#d69e2e';
+function mkLine(id,labels,vals,label){
+  const ctx=document.getElementById(id); if(!ctx) return;
+  new Chart(ctx,{type:'line',data:{labels,datasets:[{label,data:vals,borderColor:OR,backgroundColor:'rgba(255,107,0,.07)',tension:.4,fill:true,pointBackgroundColor:OR,pointRadius:4,pointHoverRadius:6}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'₹'+v,font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},x:{ticks:{font:{size:9}}}}}});
+}
+function mkBar(id,labels,vals,colors){
+  const ctx=document.getElementById(id); if(!ctx) return;
+  new Chart(ctx,{type:'bar',data:{labels,datasets:[{data:vals,backgroundColor:colors||Array(labels.length).fill(OR),borderRadius:5}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'₹'+v,font:{size:10}}},x:{ticks:{font:{size:9},maxRotation:30}}}}});
+}
+function mkDoughnut(id,labels,vals,colors){
+  const ctx=document.getElementById(id); if(!ctx) return;
+  new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data:vals,backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:9},boxWidth:10}}}}});
+}
+function mkPie(id,labels,vals,colors){
+  const ctx=document.getElementById(id); if(!ctx) return;
+  new Chart(ctx,{type:'pie',data:{labels,datasets:[{data:vals,backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:9},boxWidth:10}}}}});
+}
+
+// Dashboard charts
+mkLine('cRev',DAILY_REV.map(d=>d.day),DAILY_REV.map(d=>d.total),'Revenue');
+mkBar('cSvc',SVC_REV.map(s=>s.name.substring(0,14)),SVC_REV.map(s=>s.total),[OR,BL,GN,TL,PU,RD,YE,OR]);
+mkDoughnut('cCity',CITY_DATA.map(c=>c.city),CITY_DATA.map(c=>c.cnt),[OR,BL,GN,TL,PU,RD,YE,'#ed8936','#48bb78','#4299e1']);
+mkPie('cStatus',Object.keys(STATUS_DATA),Object.values(STATUS_DATA),[TL,GN,RD,PU]);
+// Analytics charts
+mkLine('cRev2',DAILY_REV.map(d=>d.day),DAILY_REV.map(d=>d.total),'Revenue');
+mkBar('cSvc2',SVC_REV.map(s=>s.name.substring(0,14)),SVC_REV.map(s=>s.total),[OR,BL,GN,TL,PU,RD,YE,OR]);
+mkDoughnut('cCity2',CITY_DATA.map(c=>c.city),CITY_DATA.map(c=>c.cnt),[OR,BL,GN,TL,PU,RD,YE,'#ed8936','#48bb78','#4299e1']);
+mkLine('cMonthly',MONTHLY_REV.map(m=>m.month).reverse(),MONTHLY_REV.map(m=>m.total).reverse(),'Monthly Revenue');
+</script>
+{% endif %}
+</body>
+</html>

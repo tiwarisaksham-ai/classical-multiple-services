@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Classic Multiple Services — AC Service, Repair &amp; Installation in UP</title>
+<meta name="description" content="Professional AC repair, cleaning, installation &amp; gas filling in 18+ cities of UP. Certified technicians. Doorstep in 60-90 min. Starting ₹299."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+:root{
+  --n0:#03080f;--n1:#071525;--n2:#0a1e30;--n3:#0d2a42;--n4:#0A3D62;
+  --b1:#1565c0;--b2:#1976d2;
+  --o3:#FF6B00;--o4:#ff8533;--o5:#ffa366;
+  --t1:#006e8a;--t2:#00b4d8;--t3:#48cae4;
+  --g1:#00b894;--g2:#00d9a3;
+  --w0:#fff;--gr1:#f8fbff;--gr2:#eef5fe;--gr3:#dce8f8;
+  --tx1:#0d1b2a;--tx2:#1e3a50;--tx3:#4a6b85;--tx4:#8aacbf;
+  --err:#ef4444;--warn:#f59e0b;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+  --sh1:0 2px 8px rgba(10,61,98,.07);
+  --sh2:0 8px 24px rgba(10,61,98,.13);
+  --sh3:0 20px 54px rgba(10,61,98,.2);
+  --sho:0 8px 28px rgba(255,107,0,.32);
+  --r:12px;--rl:20px;--rxl:28px;
+  --tr:.25s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);color:var(--tx1);background:var(--w0);overflow-x:hidden;line-height:1.6}
+img{max-width:100%;display:block;object-fit:cover}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--gr2)}::-webkit-scrollbar-thumb{background:var(--o3);border-radius:4px}
+
+/* ── Utils ── */
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.63rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--o3);margin-bottom:10px}
+.eyebrow span{width:20px;height:2px;background:var(--o3);border-radius:2px;display:block}
+.s-title{font-family:var(--fh);font-size:clamp(1.7rem,3.2vw,2.5rem);font-weight:800;color:var(--n4);line-height:1.15;margin-bottom:12px}
+.s-title em,.s-title b{font-style:normal;color:var(--o3)}
+.s-sub{color:var(--tx3);font-size:.9rem;line-height:1.8;max-width:520px}
+
+/* ── Progress bar ── */
+#pb{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--o3),var(--t2));z-index:99999;width:0;transition:width .1s;pointer-events:none}
+
+/* ── Reveal ── */
+.rv,.rvl,.rvr{opacity:0;transition:opacity .6s var(--tr),transform .6s var(--tr)}
+.rv{transform:translateY(28px)}.rvl{transform:translateX(-32px)}.rvr{transform:translateX(32px)}
+.rv.on,.rvl.on,.rvr.on{opacity:1;transform:none}
+.d1{transition-delay:.08s!important}.d2{transition-delay:.16s!important}.d3{transition-delay:.24s!important}
+.d4{transition-delay:.32s!important}.d5{transition-delay:.4s!important}.d6{transition-delay:.48s!important}
+
+/* ═══ NAVBAR ═══ */
+#nav{position:fixed;top:0;left:0;width:100%;z-index:9000;padding:16px 0;transition:all .35s ease}
+#nav.scrolled{background:rgba(5,16,30,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:10px 0;box-shadow:0 2px 32px rgba(0,0,0,.35),0 1px 0 rgba(255,255,255,.04)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.nav-ic{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--o3) 0%,#ff4500 100%);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 4px 16px rgba(255,107,0,.45);position:relative;overflow:hidden}
+.nav-ic::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);border-radius:inherit}
+.nav-name{font-family:var(--fh);font-size:.88rem;font-weight:800;color:var(--w0);line-height:1.25;letter-spacing:-.01em}
+.nav-name small{display:block;font-size:.5rem;font-weight:500;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;margin-top:1px}
+.nav-links{display:flex;align-items:center;gap:1px}
+@media(max-width:880px){.nav-links{display:none}}
+.nl{padding:8px 13px;font-size:.78rem;font-weight:500;color:rgba(255,255,255,.6);border-radius:8px;cursor:pointer;transition:var(--tr);white-space:nowrap;position:relative}
+.nl:hover{background:rgba(255,255,255,.08);color:var(--w0)}
+.nl.active-nl{color:var(--w0);background:rgba(255,107,0,.12)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-phone{display:flex;align-items:center;gap:7px;background:rgba(255,107,0,.1);border:1.5px solid rgba(255,107,0,.3);border-radius:40px;padding:7px 14px;font-size:.76rem;font-weight:600;color:var(--w0);transition:var(--tr);letter-spacing:.01em}
+.nav-phone:hover{background:var(--o3);border-color:var(--o3);box-shadow:var(--sho)}
+.nav-book{background:linear-gradient(135deg,var(--o3),#e55a00);color:var(--w0);border:none;padding:9px 18px;border-radius:9px;font-size:.79rem;font-weight:700;cursor:pointer;transition:var(--tr);box-shadow:0 4px 14px rgba(255,107,0,.35);letter-spacing:.01em}
+.nav-book:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,0,.5)}
+@media(max-width:420px){.nav-book{display:none}}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:5px}
+@media(max-width:880px){.ham{display:flex}}
+.ham span{width:22px;height:2px;background:rgba(255,255,255,.8);border-radius:2px;transition:var(--tr)}
+.ham.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.ham.open span:nth-child(2){opacity:0}
+.ham.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* mob menu */
+.mob-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8998;opacity:0;pointer-events:none;transition:.3s}
+.mob-ov.on{opacity:1;pointer-events:all}
+.mob-m{position:fixed;top:0;right:-100%;width:min(280px,84vw);height:100vh;background:var(--n1);z-index:8999;transition:right .3s cubic-bezier(.77,0,.175,1);padding:64px 20px 20px;display:flex;flex-direction:column;gap:3px;box-shadow:-4px 0 24px rgba(0,0,0,.4)}
+.mob-m.open{right:0}
+.mob-m .ml{display:block;padding:11px 13px;font-size:.86rem;font-weight:500;color:rgba(255,255,255,.65);border-radius:7px;cursor:pointer;transition:var(--tr)}
+.mob-m .ml:hover{background:rgba(255,255,255,.06);color:var(--w0)}
+.mob-m .ml-call{color:rgba(255,165,0,.85);font-weight:700;margin-top:8px}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100dvh;display:flex;align-items:center;overflow:hidden;background:var(--n0)}
+.hbg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1400&q=65') center/cover no-repeat;opacity:.12;transform:scale(1.04)}
+.hmesh{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 5% 50%,rgba(5,15,30,.99) 0%,rgba(10,61,98,.8) 45%,transparent 78%),radial-gradient(ellipse 50% 60% at 90% 20%,rgba(0,180,216,.07) 0%,transparent 65%)}
+.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-in{position:relative;z-index:2;width:100%;padding:124px 0 84px;display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+@media(max-width:880px){.hero-in{grid-template-columns:1fr;gap:36px;padding:104px 0 60px}}
+
+/* hero left anims */
+@keyframes hfade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hlive{display:inline-flex;align-items:center;gap:8px;background:rgba(255,107,0,.1);border:1px solid rgba(255,107,0,.28);border-radius:40px;padding:7px 16px;margin-bottom:18px;opacity:0;animation:hfade .6s .3s forwards}
+.hdot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;flex-shrink:0}
+@keyframes dp{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
+.hdot{animation:dp 1.8s infinite}
+.hlive span{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.82)}
+.htitle{font-family:var(--fh);font-size:clamp(2.1rem,5vw,3.7rem);font-weight:800;color:var(--w0);line-height:1.08;margin-bottom:14px;opacity:0;animation:hfade .7s .44s forwards}
+.htitle .ha{color:var(--o3);display:inline-block}.htitle .hg{background:linear-gradient(90deg,var(--t3),var(--t2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hsub{font-size:.93rem;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:22px;opacity:0;animation:hfade .7s .58s forwards}
+.hurg{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(90deg,rgba(255,107,0,.13),rgba(255,107,0,.04));border:1px solid rgba(255,107,0,.3);border-radius:8px;padding:9px 15px;margin-bottom:24px;opacity:0;animation:hfade .7s .7s forwards}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.hurg-ic{font-size:1.05rem;animation:bob 2s infinite}
+.hurg strong{font-size:.82rem;color:rgba(255,255,255,.86);font-weight:600}
+.hchips{display:flex;gap:4px;margin-top:2px}
+.hchip{background:rgba(255,107,0,.22);color:var(--o5);font-size:.6rem;font-weight:700;letter-spacing:.04em;padding:2px 6px;border-radius:4px}
+.hctas{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;opacity:0;animation:hfade .7s .84s forwards}
+.btn-p{display:inline-flex;align-items:center;gap:7px;background:var(--o3);color:var(--w0);border:none;padding:13px 26px;border-radius:9px;font-size:.88rem;font-weight:700;cursor:pointer;box-shadow:var(--sho);transition:var(--tr)}
+.btn-p:hover{background:var(--o4);transform:translateY(-2px);box-shadow:0 12px 34px rgba(255,107,0,.45)}
+.btn-g{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);color:var(--w0);border:1.5px solid rgba(255,255,255,.2);padding:12px 22px;border-radius:9px;font-size:.85rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+.btn-g:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.45);transform:translateY(-2px)}
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(255,255,255,.09);border-radius:14px;overflow:hidden;opacity:0;animation:hfade .7s 1s forwards;background:rgba(255,255,255,.03);backdrop-filter:blur(8px)}
+.hst{padding:16px 8px;background:transparent;text-align:center;border-right:1px solid rgba(255,255,255,.07);transition:var(--tr)}
+.hst:last-child{border-right:none}.hst:hover{background:rgba(255,255,255,.06)}
+.hst-n{font-family:var(--fh);font-size:1.5rem;font-weight:800;color:var(--w0);line-height:1}.hst-l{font-size:.63rem;color:rgba(255,255,255,.42);margin-top:3px;letter-spacing:.04em}
+
+/* hero right */
+@keyframes hr{from{opacity:0;transform:translateX(48px) scale(.95)}to{opacity:1;transform:none}}
+.hero-right{opacity:0;animation:hr .9s .52s cubic-bezier(.34,1.2,.64,1) forwards;display:flex;flex-direction:column;gap:12px}
+.hrim{border-radius:22px;overflow:hidden;height:390px;position:relative;box-shadow:0 32px 80px rgba(0,0,0,.55),0 0 0 1.5px rgba(255,255,255,.07)}
+.hrim img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.hrim::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(5,15,30,.65));border-radius:22px}
+@keyframes f1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes f2{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hb-cert{position:absolute;top:18px;left:-16px;background:rgba(255,255,255,.98);backdrop-filter:blur(12px);border-radius:12px;padding:11px 14px;box-shadow:0 12px 40px rgba(0,0,0,.22),0 0 0 1px rgba(0,0,0,.04);display:flex;align-items:center;gap:10px;animation:f1 4s ease-in-out infinite;z-index:2}
+.hbc-ic{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--o3),#e55a00);display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0}
+.hbc-n{font-family:var(--fh);font-size:.88rem;font-weight:800;color:var(--n4)}.hbc-s{font-size:.58rem;color:var(--tx3)}
+.hb-rat{position:absolute;bottom:20px;right:-16px;background:linear-gradient(135deg,var(--n4),#0d2a42);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:11px 14px;box-shadow:0 12px 40px rgba(0,0,0,.3);animation:f2 4s 1.5s ease-in-out infinite;z-index:2}
+.hbr-s{color:var(--warn);font-size:.8rem;margin-bottom:3px;letter-spacing:2px}.hbr-t{font-size:.72rem;font-weight:700;color:var(--w0)}.hbr-sub{font-size:.58rem;color:rgba(255,255,255,.45);margin-top:2px}
+.hstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.hsmini{border-radius:11px;overflow:hidden;height:86px;border:1.5px solid rgba(255,255,255,.08);position:relative;transition:var(--tr);box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.hsmini:hover{transform:scale(1.05);border-color:rgba(255,107,0,.45);box-shadow:0 8px 24px rgba(255,107,0,.2)}
+.hsmini img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.hsmini:hover img{transform:scale(1.08)}
+.hsmini-l{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(5,15,30,.92),transparent);font-size:.58rem;font-weight:700;color:var(--w0);padding:6px 7px;letter-spacing:.06em;text-transform:uppercase}
+@media(max-width:880px){.hero-right{max-width:440px;margin:0 auto;width:100%}}
+@media(max-width:460px){.hstrip{display:none}}
+.hero-wave{position:absolute;bottom:-1px;left:0;right:0;line-height:0;z-index:3}
+.hero-wave svg{width:100%;height:50px}
+
+/* ═══ TRUST BAR ═══ */
+.trust{background:var(--w0);border-bottom:1.5px solid var(--gr2);padding:14px 0;box-shadow:0 2px 12px rgba(10,61,98,.05)}
+.trust-in{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0}
+.ti{display:flex;align-items:center;gap:7px;font-size:.76rem;font-weight:600;color:var(--tx2);padding:6px 16px;white-space:nowrap;transition:var(--tr)}
+.ti:hover{color:var(--n4)}
+.ti-ic{font-size:.95rem}.tdiv{width:1px;height:18px;background:var(--gr3)}
+@media(max-width:620px){.ti:nth-child(n+7),.tdiv:nth-child(n+6){display:none}}
+
+/* ═══ WHY US ═══ */
+.why{padding:92px 0;background:var(--gr1)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+@media(max-width:820px){.why-grid{grid-template-columns:1fr;gap:36px}}
+.why-img-w{position:relative}
+.why-img-b{border-radius:24px;overflow:hidden;box-shadow:0 28px 72px rgba(10,61,98,.18);height:420px}
+.why-img-b img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.why-badge-f{position:absolute;bottom:-18px;right:22px;background:linear-gradient(135deg,var(--o3),#e55a00);color:var(--w0);border-radius:14px;padding:14px 16px;font-family:var(--fh);box-shadow:0 12px 32px rgba(255,107,0,.4);text-align:center}
+.why-badge-f strong{font-size:1.7rem;font-weight:800;display:block;line-height:1}.why-badge-f span{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;opacity:.88}
+.why-cert-f{position:absolute;top:20px;left:-18px;background:var(--w0);border-radius:12px;padding:10px 14px;box-shadow:0 12px 36px rgba(10,61,98,.18);display:flex;align-items:center;gap:9px}
+.why-cert-f strong{display:block;font-size:.8rem;font-weight:700;color:var(--n4)}.why-cert-f small{font-size:.62rem;color:var(--tx3)}
+.why-feats{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.wf{display:flex;align-items:flex-start;gap:14px;padding:15px 16px;border-radius:14px;background:var(--w0);border:1.5px solid var(--gr2);transition:all .3s ease;box-shadow:0 1px 4px rgba(10,61,98,.04)}
+.wf:hover{border-color:rgba(255,107,0,.28);box-shadow:0 6px 20px rgba(255,107,0,.08);transform:translateX(6px)}
+.wf-ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.ic-or{background:rgba(255,107,0,.1)}.ic-bl{background:rgba(21,101,192,.1)}.ic-tl{background:rgba(0,180,216,.1)}.ic-gn{background:rgba(0,184,148,.1)}
+.wf h4{font-size:.84rem;font-weight:700;color:var(--n4);margin-bottom:3px}.wf p{font-size:.76rem;color:var(--tx3);line-height:1.58}
+
+/* ═══ SERVICES ═══ */
+.services{padding:86px 0;background:var(--w0)}
+.svc-tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:34px}
+.st{padding:7px 16px;border-radius:40px;font-size:.76rem;font-weight:600;border:1.5px solid var(--gr3);color:var(--tx3);cursor:pointer;transition:var(--tr);background:var(--w0)}
+.st:hover{border-color:var(--o3);color:var(--o3)}.st.active{background:var(--o3);border-color:var(--o3);color:var(--w0)}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:22px}
+@media(min-width:980px){.svc-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* card */
+.scard{background:var(--w0);border-radius:20px;border:1.5px solid var(--gr2);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.2,.64,1);box-shadow:0 2px 12px rgba(10,61,98,.06)}
+.scard:hover{transform:translateY(-8px);box-shadow:0 24px 56px rgba(10,61,98,.16),0 0 0 1.5px rgba(255,107,0,.2)}
+.sc-img{height:200px;overflow:hidden;position:relative}
+.sc-img img{width:100%;height:100%;object-fit:cover;transition:.5s ease}
+.scard:hover .sc-img img{transform:scale(1.08)}
+.sc-badge{position:absolute;top:12px;left:12px;z-index:1;background:var(--o3);color:var(--w0);font-size:.58rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:5px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.sc-chip{position:absolute;bottom:12px;right:12px;z-index:1;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-radius:8px;padding:5px 10px;font-family:var(--fh);font-size:.72rem;font-weight:800;color:var(--o3);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.sc-body{padding:16px}
+.sc-cat{font-size:.59rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);margin-bottom:5px}
+.sc-head{font-family:var(--fh);font-size:1rem;font-weight:700;color:var(--n4);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.sc-arr{font-size:.76rem;color:var(--o3);transition:var(--tr)}.scard:hover .sc-arr{transform:translateX(3px)}
+.sc-desc{font-size:.75rem;color:var(--tx3);line-height:1.6;margin-bottom:11px}
+.sc-ig{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:11px}
+.scii{background:var(--gr1);border-radius:7px;padding:7px 8px}
+.scil{font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:1px}
+.sciv{font-size:.72rem;font-weight:600;color:var(--n4)}
+.sc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.stag{font-size:.62rem;font-weight:600;padding:3px 7px;border-radius:4px;background:rgba(10,61,98,.055);color:var(--n4)}
+.sc-cta{display:flex;align-items:center;justify-content:space-between;padding-top:11px;border-top:1px solid var(--gr2)}
+.sc-from{font-size:.68rem;color:var(--tx3)}.sc-from strong{font-family:var(--fh);font-size:.98rem;color:var(--o3);font-weight:800}
+.sc-btn{padding:7px 15px;background:var(--o3);color:var(--w0);border:none;border-radius:7px;font-size:.72rem;font-weight:700;cursor:pointer;transition:var(--tr)}
+.sc-btn:hover{background:var(--o4);transform:translateY(-1px)}
+
+/* ═══ SERVICE MODAL ═══ */
+.modal-ov{position:fixed;inset:0;z-index:99990;background:rgba(3,8,15,.85);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px);padding:0}
+@media(min-width:560px){.modal-ov{align-items:center;padding:16px}}
+.modal-ov.on{opacity:1;pointer-events:all}
+.mbox{background:var(--w0);width:100%;max-width:600px;max-height:88dvh;overflow-y:auto;border-radius:var(--rl) var(--rl) 0 0;box-shadow:0 -16px 52px rgba(0,0,0,.25);transform:translateY(50px);transition:transform .34s cubic-bezier(.34,1.2,.64,1)}
+@media(min-width:560px){.mbox{border-radius:var(--rl);transform:scale(.92)}}
+.modal-ov.on .mbox{transform:none}
+.mhero{height:200px;overflow:hidden;position:relative}
+.mhero img{width:100%;height:100%;object-fit:cover}
+.mhero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(7,21,37,.8))}
+.mhero-info{position:absolute;bottom:13px;left:16px;right:46px;z-index:1}
+.mtitle{font-family:var(--fh);font-size:1.25rem;font-weight:800;color:var(--w0);margin-bottom:2px}
+.msub{font-size:.74rem;color:rgba(255,255,255,.58)}
+.mclose{position:absolute;top:10px;right:10px;z-index:2;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:var(--w0);font-size:.78rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.mclose:hover{background:rgba(255,255,255,.2);transform:rotate(90deg)}
+.mtabs{display:flex;border-bottom:2px solid var(--gr2);padding:0 16px;overflow-x:auto}
+.mtab{padding:11px 13px;font-size:.76rem;font-weight:600;color:var(--tx3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:var(--tr);white-space:nowrap}
+.mtab.active{color:var(--o3);border-bottom-color:var(--o3)}
+.mcon{padding:16px}
+.mitem{display:flex;align-items:flex-start;gap:11px;padding:13px;border-radius:var(--r);border:1.5px solid var(--gr2);margin-bottom:9px;cursor:pointer;transition:var(--tr)}
+.mitem:hover{border-color:rgba(255,107,0,.35);box-shadow:0 4px 14px rgba(255,107,0,.08)}
+.mitem-img{width:64px;height:64px;border-radius:8px;overflow:hidden;flex-shrink:0}
+.mitem-img img{width:100%;height:100%;object-fit:cover}
+.mitem-name{font-family:var(--fh);font-size:.84rem;font-weight:700;color:var(--n4);margin-bottom:3px}
+.mpts{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px}
+.mpt{font-size:.59rem;color:var(--tx3);background:var(--gr1);padding:2px 6px;border-radius:3px}
+.mfoot{display:flex;align-items:center;justify-content:space-between}
+.mprice{font-family:var(--fh);font-size:.9rem;font-weight:800;color:var(--o3)}
+.mprice s{font-size:.7rem;color:var(--tx4);font-weight:400;margin-right:3px}
+.mbtn{padding:6px 13px;background:var(--o3);color:var(--w0);border:none;border-radius:6px;font-size:.7rem;font-weight:700;cursor:pointer;transition:var(--tr)}
+.mbtn:hover{background:var(--o4);transform:translateY(-1px)}
+.mwarr{display:inline-flex;align-items:center;gap:4px;font-size:.63rem;color:var(--t1);font-weight:600;margin-top:5px}
+
+/* ═══ HOW IT WORKS ═══ */
+.how{padding:90px 0;background:var(--n1);position:relative;overflow:hidden}
+.how::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 68% 78% at 50% 50%,rgba(0,180,216,.05) 0%,transparent 68%)}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:1}
+@media(max-width:820px){.how-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.how-grid{grid-template-columns:1fr;gap:12px}}
+.how-line{position:absolute;top:40px;left:calc(12.5% + 28px);right:calc(12.5% + 28px);height:1px;background:linear-gradient(90deg,var(--o3),var(--t2));opacity:.25;z-index:0}
+@media(max-width:820px){.how-line{display:none}}
+.hstep{text-align:center;padding:28px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;transition:all .3s ease;position:relative;z-index:1}
+.hstep:hover{background:rgba(255,255,255,.07);border-color:rgba(255,107,0,.25);transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+.hn{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--o3),#e55a00);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.82rem;font-weight:800;color:var(--w0);margin:0 auto 12px;box-shadow:0 6px 18px rgba(255,107,0,.4)}
+.hstep-ic{font-size:1.65rem;margin-bottom:10px}
+.hstep h4{font-family:var(--fh);font-size:.88rem;font-weight:700;color:var(--w0);margin-bottom:6px}.hstep p{font-size:.74rem;color:rgba(255,255,255,.45);line-height:1.65}
+
+/* ═══ BRANDS ═══ */
+.brands{padding:48px 0 44px;background:linear-gradient(180deg,var(--n0) 0%,#050d1a 100%);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden}
+.brands::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:200px;background:radial-gradient(ellipse,rgba(0,180,216,.06) 0%,transparent 70%);pointer-events:none}
+.brands-label{text-align:center;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:26px;font-weight:700}
+.mq-wrap{overflow:hidden;position:relative}
+.mq-wrap::before,.mq-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:1;pointer-events:none}
+.mq-wrap::before{left:0;background:linear-gradient(90deg,#050d1a,transparent)}
+.mq-wrap::after{right:0;background:linear-gradient(270deg,#050d1a,transparent)}
+.mq-track{display:flex;gap:14px;animation:mq 32s linear infinite;width:max-content;align-items:stretch;padding:4px 0}
+.mq-track:hover{animation-play-state:paused}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.bc{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 24px;border:1.5px solid rgba(255,255,255,.07);border-radius:16px;background:rgba(255,255,255,.97);min-width:120px;height:76px;transition:all .3s cubic-bezier(.34,1.3,.64,1);cursor:default;flex-shrink:0;position:relative;overflow:hidden}
+.bc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.5),transparent);opacity:0;transition:.3s}
+.bc:hover{border-color:rgba(255,107,0,.6);background:#fff;transform:translateY(-5px) scale(1.06);box-shadow:0 12px 32px rgba(255,107,0,.25),0 0 0 1px rgba(255,107,0,.15)}
+.bc:hover::before{opacity:1}
+.bc svg{display:block;overflow:visible}
+
+
+
+/* ═══ CITIES ═══ */
+.cities{padding:84px 0;background:var(--gr1)}
+.cit-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+@media(max-width:800px){.cit-grid{grid-template-columns:1fr;gap:28px}}
+.cit-map{border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh3);aspect-ratio:4/3}
+.cit-map img{width:100%;height:100%;object-fit:cover}
+.cpills{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.cpill{padding:6px 12px;border-radius:40px;font-size:.74rem;font-weight:600;border:1.5px solid var(--gr3);color:var(--n4);background:var(--w0);cursor:pointer;transition:var(--tr)}
+.cpill:hover,.cpill.active{background:var(--n4);color:var(--w0);border-color:var(--n4)}
+
+/* ═══ REVIEWS ═══ */
+.reviews{padding:90px 0;background:var(--gr1);overflow:hidden}
+.rev-wrap{overflow:hidden;position:relative;margin:0 -20px;padding:14px 0}
+.rev-wrap::before,.rev-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:1}
+.rev-wrap::before{left:0;background:linear-gradient(90deg,var(--gr1),transparent)}
+.rev-wrap::after{right:0;background:linear-gradient(270deg,var(--gr1),transparent)}
+.rev-track{display:flex;gap:16px;animation:mq 32s linear infinite;width:max-content;padding:4px 20px}
+.rev-track:hover{animation-play-state:paused}
+.rcard{width:280px;flex-shrink:0;background:var(--w0);border-radius:18px;padding:20px;border:1.5px solid var(--gr2);transition:all .3s ease;box-shadow:0 2px 12px rgba(10,61,98,.05)}
+.rcard:hover{box-shadow:0 12px 32px rgba(10,61,98,.12);transform:translateY(-4px);border-color:rgba(10,61,98,.1)}
+.rc-top{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.rc-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--n4),var(--b1));color:var(--w0);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.84rem;font-weight:700;flex-shrink:0;box-shadow:0 3px 10px rgba(10,61,98,.25)}
+.rc-name{font-weight:700;font-size:.82rem;color:var(--n4);line-height:1.2}.rc-city{font-size:.65rem;color:var(--tx3)}
+.rc-stars{color:var(--warn);font-size:.8rem;margin-bottom:8px;letter-spacing:2px}
+.rc-text{font-size:.77rem;color:var(--tx2);line-height:1.7;font-style:italic}
+.rc-svc{font-size:.64rem;color:var(--t1);margin-top:9px;font-weight:600}
+
+/* ═══ BOOKING ═══ */
+.booking{padding:92px 0;background:var(--n1);position:relative;overflow:hidden}
+.booking::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 78% 78% at 100% 50%,rgba(255,107,0,.05) 0%,transparent 56%)}
+.bk-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:52px;align-items:start}
+@media(max-width:820px){.bk-grid{grid-template-columns:1fr}}
+.bk-info{position:relative;z-index:1}
+.bk-info .s-title{color:var(--w0)}.bk-info .s-sub{color:rgba(255,255,255,.5)}
+.bk-feats{display:flex;flex-direction:column;gap:11px;margin-top:24px}
+.bkf{display:flex;align-items:center;gap:11px;padding:13px 15px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transition:var(--tr)}
+.bkf:hover{background:rgba(255,255,255,.07);border-color:rgba(255,107,0,.2)}
+.bkf-ic{font-size:1.2rem;flex-shrink:0}
+.bkf h4{font-size:.82rem;font-weight:600;color:var(--w0);margin-bottom:2px}.bkf p{font-size:.7rem;color:rgba(255,255,255,.42);line-height:1.5}
+.bk-tech{margin-top:24px;border-radius:18px;overflow:hidden;height:184px;position:relative}
+.bk-tech img{width:100%;height:100%;object-fit:cover;opacity:.6}
+.bk-tech::after{content:'✅ Certified & Background-Verified Technician';position:absolute;bottom:10px;left:10px;right:10px;background:rgba(5,15,30,.9);color:var(--w0);font-size:.68rem;font-weight:600;padding:7px 11px;border-radius:8px;letter-spacing:.03em}
+/* form */
+.bk-fcard{background:var(--w0);border-radius:26px;padding:26px;box-shadow:0 30px 70px rgba(0,0,0,.32);position:relative;z-index:1}
+.bk-fcard::before{content:'';position:absolute;top:-2px;left:20px;right:20px;height:3px;background:linear-gradient(90deg,var(--o3),var(--t2));border-radius:2px}
+.bk-hd h3{font-family:var(--fh);font-size:1.06rem;font-weight:800;color:var(--n4);margin-bottom:3px}
+.bk-hd p{font-size:.76rem;color:var(--tx3);margin-bottom:18px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:460px){.frow{grid-template-columns:1fr}}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:11px}
+.fg label{font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--n4)}
+.fg input,.fg select{padding:11px 13px;border:1.5px solid var(--gr3);border-radius:9px;font-size:.83rem;color:var(--tx1);outline:none;background:var(--gr1);transition:var(--tr)}
+.fg input:focus,.fg select:focus{border-color:var(--o3);background:var(--w0);box-shadow:0 0 0 3px rgba(255,107,0,.08)}
+.fg input::placeholder{color:var(--tx4)}
+.pbox{background:linear-gradient(135deg,var(--n4),var(--n3));border-radius:10px;padding:12px 15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;display:none}
+.pbox-amt{font-family:var(--fh);font-size:1.25rem;font-weight:800;color:var(--w0)}
+.pbox-lbl{font-size:.7rem;color:rgba(255,255,255,.52)}
+.pbox-mode{font-size:.72rem;color:rgba(255,255,255,.65)}
+.pbox-disc{font-size:.7rem;color:var(--g2);font-weight:600}
+.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:7px 0 12px}
+.popt{padding:9px;border:1.5px solid var(--gr3);border-radius:9px;font-size:.73rem;font-weight:600;color:var(--tx2);cursor:pointer;text-align:center;transition:var(--tr)}
+.popt:hover{border-color:var(--o3);color:var(--o3)}.popt.active{border-color:var(--o3);background:rgba(255,107,0,.05);color:var(--o3)}
+.bk-sub{width:100%;padding:14px;border:none;border-radius:11px;background:linear-gradient(135deg,var(--o3),#e55a00);color:var(--w0);font-size:.92rem;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(255,107,0,.38);transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:8px}
+.bk-sub:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,107,0,.5)}.bk-sub:disabled{opacity:.56;cursor:not-allowed;transform:none}
+.bk-trust-bar{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:11px;padding-top:11px;border-top:1px solid var(--gr2)}
+.btt{display:flex;align-items:center;gap:4px;font-size:.64rem;color:var(--tx4)}
+/* states */
+.bk-success,.bk-fail{display:none;text-align:center;padding:16px 0}
+.bk-success.on,.bk-fail.on{display:block}
+.suc-ic{font-size:3rem;animation:pIn .5s cubic-bezier(.34,1.6,.64,1)}
+@keyframes pIn{from{transform:scale(0)}to{transform:scale(1)}}
+.suc-title{font-family:var(--fh);font-size:1.2rem;font-weight:800;color:var(--n4);margin:9px 0 5px}
+.suc-bid{font-size:.8rem;font-weight:600;color:var(--t1);background:var(--gr1);padding:5px 12px;border-radius:5px;display:inline-block;font-family:monospace;margin:6px 0}
+
+/* ═══ FOOTER ═══ */
+footer{background:#020810;color:rgba(255,255,255,.5);padding:56px 0 22px;border-top:1px solid rgba(255,255,255,.05)}
+.ft-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
+@media(max-width:820px){.ft-grid{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:460px){.ft-grid{grid-template-columns:1fr;gap:18px}}
+.ft-brand{font-family:var(--fh);font-size:.95rem;font-weight:800;color:var(--w0);margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.ft-brand em{font-style:normal;color:var(--o3)}
+.ft-about p{font-size:.75rem;line-height:1.75;margin-bottom:13px}
+.ft-badges{display:flex;flex-wrap:wrap;gap:6px}
+.ftb{font-size:.59rem;font-weight:700;padding:4px 9px;border-radius:5px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.08)}
+.ft-col h5{font-family:var(--fh);font-size:.8rem;font-weight:700;color:var(--w0);margin-bottom:13px;letter-spacing:.05em}
+.ft-col .fl{display:block;font-size:.75rem;margin-bottom:7px;cursor:pointer;transition:var(--tr);padding:1px 0}
+.ft-col .fl:hover{color:var(--o3);padding-left:4px}
+.ft-col a{display:block;font-size:.75rem;margin-bottom:7px;transition:var(--tr)}
+.ft-col a:hover{color:var(--o3)}
+.ft-bot{border-top:1px solid rgba(255,255,255,.06);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.69rem}
+
+/* ═══ FLOATERS ═══ */
+.floaters{position:fixed;bottom:20px;right:14px;z-index:8000;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.fl-btn{display:flex;align-items:center;gap:8px;background:var(--g1);color:var(--w0);border-radius:40px;padding:10px 15px;font-size:.78rem;font-weight:700;box-shadow:0 8px 24px rgba(0,184,148,.36);cursor:pointer;transition:var(--tr);border:none;text-decoration:none}
+.fl-btn:hover{transform:scale(1.04)}.fl-btn.call{background:var(--o3);box-shadow:var(--sho)}
+.fl-btn.top{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);width:36px;height:36px;padding:0;justify-content:center;border-radius:50%;box-shadow:var(--sh2)}
+@media(max-width:460px){.fl-btn{padding:9px 12px;font-size:.74rem}}
+
+/* ═══ TOAST ═══ */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--n4);color:var(--w0);padding:10px 18px;border-radius:40px;font-size:.78rem;z-index:999999;opacity:0;transition:all .26s;box-shadow:var(--sh3);pointer-events:none;white-space:nowrap;max-width:88vw;overflow:hidden;text-overflow:ellipsis}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.ok{background:var(--g1)}#toast.err{background:var(--err)}
+
+/* ═══ EXIT POPUP ═══ */
+.ep-ov{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:99997;opacity:0;pointer-events:none;transition:.26s;backdrop-filter:blur(4px)}
+.ep-ov.on{opacity:1;pointer-events:all}
+.ep-box{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.88);background:var(--w0);border-radius:var(--rl);padding:30px 26px;max-width:380px;width:90%;text-align:center;transition:.3s cubic-bezier(.34,1.2,.64,1)}
+.ep-ov.on .ep-box{transform:translate(-50%,-50%) scale(1)}
+.ep-emoji{font-size:2.5rem;margin-bottom:9px}.ep-title{font-family:var(--fh);font-size:1.2rem;font-weight:800;color:var(--n4);margin-bottom:6px}
+.ep-sub{font-size:.8rem;color:var(--tx3);margin-bottom:16px;line-height:1.6}
+.ep-offer{background:linear-gradient(135deg,var(--n4),var(--b1));border-radius:9px;padding:10px 14px;margin-bottom:16px;font-family:var(--fh);font-size:1.4rem;font-weight:800;color:var(--w0)}
+.ep-offer small{font-size:.66rem;font-weight:400;color:rgba(255,255,255,.46);display:block}
+
+/* ═══ CART BAR ═══ */
+#cartBar{position:fixed;bottom:0;left:0;right:0;z-index:9600;transform:translateY(102%);transition:transform .36s cubic-bezier(.34,1.1,.64,1)}
+#cartBar.open{transform:translateY(0)}
+.cart-wrap{background:var(--w0);border-top:3px solid var(--o3);box-shadow:0 -6px 36px rgba(10,61,98,.18);padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cart-left{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.cart-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.cart-chips{display:flex;flex-wrap:wrap;gap:5px}
+.cart-chip{display:inline-flex;align-items:center;gap:5px;background:var(--gr1);border:1.5px solid var(--gr3);border-radius:7px;padding:4px 8px;font-size:.72rem;font-weight:600;color:var(--n4);white-space:nowrap}
+.cart-chip strong{color:var(--o3)}
+.ccrm{background:none;border:none;color:var(--err);cursor:pointer;font-size:.76rem;font-weight:700;padding:0 2px;line-height:1}
+.ccrm:hover{color:#c0392b}
+.cart-right{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.cart-total-box{text-align:right}
+.cart-total-lbl{font-size:.58rem;color:var(--tx4);text-transform:uppercase;letter-spacing:.06em}
+.cart-total-amt{font-family:var(--fh);font-size:1.25rem;font-weight:800;color:var(--o3);line-height:1.1}
+.cart-disc{font-size:.62rem;color:var(--g1);font-weight:600;margin-top:1px}
+.cart-cta{background:var(--o3);color:var(--w0);border:none;padding:10px 20px;border-radius:9px;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:var(--sho);transition:var(--tr);white-space:nowrap}
+.cart-cta:hover{background:var(--o4);transform:translateY(-2px)}
+.cart-clr{background:none;border:1.5px solid var(--gr3);color:var(--tx3);padding:8px 11px;border-radius:8px;font-size:.72rem;cursor:pointer;transition:var(--tr)}
+.cart-clr:hover{border-color:var(--err);color:var(--err)}
+/* Add-to-cart button on cards */
+.sc-add-btn{padding:6px 10px;background:transparent;color:var(--n4);border:1.5px solid var(--gr3);border-radius:7px;font-size:.68rem;font-weight:600;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.sc-add-btn:hover{border-color:var(--o3);color:var(--o3)}
+.sc-add-btn.added{background:var(--g1);color:white;border-color:var(--g1)}
+@media(max-width:560px){.cart-right{width:100%;justify-content:space-between}.cart-wrap{padding:10px 14px}}
+
+/* ══════════════════════════════════════════
+   PROFESSIONAL UI POLISH — CSS ONLY
+   ══════════════════════════════════════════ */
+
+/* ── Progress bar glow ── */
+#pb{box-shadow:0 0 10px rgba(255,107,0,.6),0 0 20px rgba(0,180,216,.3)}
+
+/* ── Navbar glass on scroll ── */
+#nav.scrolled{
+  background:rgba(3,8,15,.92)!important;
+  backdrop-filter:blur(24px) saturate(160%)!important;
+  -webkit-backdrop-filter:blur(24px) saturate(160%)!important;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.nav-ic{box-shadow:0 4px 18px rgba(255,107,0,.5),inset 0 1px 0 rgba(255,255,255,.2)}
+.nav-book{
+  background:linear-gradient(135deg,#ff6b00,#e55000)!important;
+  box-shadow:0 4px 16px rgba(255,107,0,.4)!important;
+  position:relative;overflow:hidden;
+}
+.nav-book::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-20deg);
+  animation:navShimmer 3s 1s infinite;
+}
+@keyframes navShimmer{0%{left:-100%}100%{left:160%}}
+.nav-phone{transition:all .22s ease}
+.nav-phone:hover{background:var(--o3)!important;border-color:var(--o3)!important;box-shadow:0 6px 20px rgba(255,107,0,.4)!important}
+.nl{position:relative}
+.nl::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:2px;background:var(--o3);border-radius:2px;transition:left .22s ease,right .22s ease}
+.nl:hover::after{left:13%;right:13%}
+.nl.active-nl::after{left:13%;right:13%}
+
+/* ── Hero upgrades ── */
+.htitle{letter-spacing:-.025em;text-shadow:0 2px 24px rgba(0,0,0,.3)}
+.htitle .ha{
+  background:linear-gradient(120deg,var(--o3) 0%,#ff8c00 40%,var(--o5) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.htitle .hg{text-shadow:0 0 40px rgba(72,202,228,.2)}
+.hrim{
+  box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.07),
+             0 0 60px rgba(0,180,216,.1)!important;
+}
+.hrim img{transform-origin:center;transition:transform 8s ease-in-out;animation:imgBreath 8s ease-in-out infinite}
+@keyframes imgBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+.hb-cert{box-shadow:0 16px 44px rgba(0,0,0,.22),0 0 0 1px rgba(0,0,0,.04),inset 0 1px 0 rgba(255,255,255,.8)!important;backdrop-filter:blur(16px)}
+.hb-rat{backdrop-filter:blur(16px);box-shadow:0 16px 44px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.06)!important}
+.hstats{backdrop-filter:blur(16px)!important;background:rgba(255,255,255,.05)!important}
+.hst:hover{background:rgba(255,255,255,.08)!important}
+.hst-n{letter-spacing:-.02em}
+.hlive{backdrop-filter:blur(8px)}
+.hurg{backdrop-filter:blur(8px)}
+
+/* CTA buttons polish */
+.btn-p{
+  background:linear-gradient(135deg,var(--o3) 0%,#e55000 100%)!important;
+  box-shadow:0 6px 22px rgba(255,107,0,.42),inset 0 1px 0 rgba(255,255,255,.15)!important;
+  position:relative;overflow:hidden;
+}
+.btn-p::after{
+  content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+  transform:skewX(-20deg);animation:navShimmer 3.5s 2s infinite;
+}
+.btn-p:hover{transform:translateY(-3px)!important;box-shadow:0 12px 32px rgba(255,107,0,.52),inset 0 1px 0 rgba(255,255,255,.15)!important}
+.btn-g{backdrop-filter:blur(8px);background:rgba(255,255,255,.08)!important}
+.btn-g:hover{background:rgba(255,255,255,.15)!important;border-color:rgba(255,255,255,.5)!important}
+
+/* Mini strip */
+.hsmini{box-shadow:0 8px 28px rgba(0,0,0,.45)!important}
+.hsmini:hover{box-shadow:0 12px 36px rgba(255,107,0,.25)!important}
+
+/* ── Trust bar ── */
+.trust{
+  background:linear-gradient(180deg,#fff 0%,var(--gr1) 100%)!important;
+  position:relative;
+}
+.trust::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent 0%,var(--o3) 25%,var(--t2) 50%,var(--o3) 75%,transparent 100%);
+}
+.ti{transition:color .2s,transform .2s}
+.ti:hover{color:var(--o3)!important;transform:translateY(-1px)}
+
+/* ── Why section ── */
+.why-img-b{
+  box-shadow:0 32px 80px rgba(10,61,98,.2),0 0 0 1px rgba(10,61,98,.06)!important;
+}
+.why-img-b img{transition:transform .5s ease}
+.why-img-w:hover .why-img-b img{transform:scale(1.03)}
+.why-badge-f{
+  box-shadow:0 16px 40px rgba(255,107,0,.42),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
+.why-cert-f{
+  box-shadow:0 12px 36px rgba(10,61,98,.16),0 0 0 1px rgba(255,255,255,.5),inset 0 1px 0 #fff!important;
+  backdrop-filter:blur(12px);
+}
+.wf{transition:all .25s cubic-bezier(.34,1.2,.64,1)!important;border-left:3px solid transparent!important}
+.wf:hover{transform:translateX(6px)!important;border-left-color:var(--o3)!important;box-shadow:0 8px 24px rgba(255,107,0,.1)!important}
+.wf:hover .wf-ic{transform:scale(1.12);transition:transform .25s cubic-bezier(.34,1.2,.64,1)}
+
+/* ── Service cards ── */
+.scard{
+  transition:transform .3s cubic-bezier(.34,1.1,.64,1),box-shadow .3s,border-color .3s!important;
+}
+.scard:hover{
+  transform:translateY(-10px)!important;
+  box-shadow:0 28px 64px rgba(10,61,98,.18),0 0 0 1.5px rgba(255,107,0,.25)!important;
+}
+.sc-img img{transition:transform .5s cubic-bezier(.34,1.1,.64,1),filter .4s!important}
+.scard:hover .sc-img img{transform:scale(1.08)!important;filter:brightness(1.06) saturate(1.08)}
+.sc-badge{
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+  backdrop-filter:blur(6px);
+}
+.sc-chip{backdrop-filter:blur(12px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.sc-btn{
+  background:linear-gradient(135deg,var(--o3),#e55000)!important;
+  box-shadow:0 3px 10px rgba(255,107,0,.28)!important;
+  transition:all .22s ease!important;
+}
+.sc-btn:hover{transform:translateY(-2px)!important;box-shadow:0 6px 18px rgba(255,107,0,.45)!important}
+.sc-add-btn{transition:all .2s ease!important}
+.sc-add-btn:hover{background:rgba(255,107,0,.07)!important}
+.svc-tabs .st{transition:all .22s ease!important}
+.st.active{
+  background:linear-gradient(135deg,var(--o3),#e55000)!important;
+  box-shadow:0 4px 16px rgba(255,107,0,.32)!important;
+}
+.st:hover:not(.active){background:rgba(255,107,0,.06)!important;border-color:var(--o3)!important;color:var(--o3)!important}
+
+/* ── Service modal ── */
+.mbox{
+  box-shadow:0 -20px 60px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.05)!important;
+}
+.mclose{transition:all .2s ease!important;backdrop-filter:blur(10px)}
+.mclose:hover{background:rgba(255,107,0,.7)!important;border-color:var(--o3)!important;transform:rotate(90deg)}
+.mtab{transition:color .2s,border-color .2s!important}
+.mtab.active{font-weight:700!important}
+.mitem{transition:all .22s ease!important;border-left:3px solid transparent!important}
+.mitem:hover{border-left-color:var(--o3)!important;transform:translateX(3px)!important;box-shadow:0 6px 20px rgba(255,107,0,.09)!important}
+.mbtn{
+  background:linear-gradient(135deg,var(--o3),#e55000)!important;
+  box-shadow:0 3px 10px rgba(255,107,0,.25)!important;
+  transition:all .2s ease!important;
+}
+.mbtn:hover{transform:translateY(-2px)!important;box-shadow:0 6px 18px rgba(255,107,0,.4)!important}
+.mitem-img img{transition:transform .3s ease!important}
+.mitem:hover .mitem-img img{transform:scale(1.06)!important}
+.mpt{transition:background .2s,color .2s!important}
+.mitem:hover .mpt{background:rgba(255,107,0,.08)!important;color:var(--o3)!important}
+
+/* ── How it works ── */
+.hstep{transition:all .28s cubic-bezier(.34,1.1,.64,1)!important}
+.hstep:hover{
+  transform:translateY(-8px)!important;
+  background:rgba(255,255,255,.08)!important;
+  border-color:rgba(255,107,0,.3)!important;
+  box-shadow:0 20px 50px rgba(0,0,0,.25),0 0 24px rgba(255,107,0,.06)!important;
+}
+.hn{box-shadow:0 6px 18px rgba(255,107,0,.42),inset 0 1px 0 rgba(255,255,255,.2)!important}
+
+/* ── Brand marquee ── */
+.bc{
+  box-shadow:0 2px 14px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.5)!important;
+  transition:all .28s cubic-bezier(.34,1.2,.64,1)!important;
+}
+.bc:hover{
+  border-color:rgba(255,107,0,.5)!important;
+  box-shadow:0 12px 32px rgba(255,107,0,.2),0 0 0 1px rgba(255,107,0,.2),inset 0 1px 0 #fff!important;
+  transform:translateY(-5px) scale(1.04)!important;
+}
+
+/* ── City pills ── */
+.cpill{transition:all .22s cubic-bezier(.34,1.2,.64,1)!important;box-shadow:0 2px 8px rgba(10,61,98,.05)}
+.cpill:hover,.cpill.active{
+  background:linear-gradient(135deg,var(--n4),var(--b1))!important;
+  border-color:transparent!important;
+  box-shadow:0 6px 18px rgba(10,61,98,.22)!important;
+  transform:translateY(-2px);
+}
+.cit-map{
+  box-shadow:0 32px 80px rgba(10,61,98,.22),0 0 0 1px rgba(10,61,98,.07)!important;
+  transition:transform .4s ease,box-shadow .4s ease!important;
+}
+.cit-map:hover{transform:scale(1.012)!important;box-shadow:0 40px 100px rgba(10,61,98,.28),0 0 0 1px rgba(10,61,98,.1)!important}
+
+/* ── Review cards ── */
+.rcard{transition:all .28s cubic-bezier(.34,1.1,.64,1)!important}
+.rcard:hover{
+  transform:translateY(-5px)!important;
+  box-shadow:0 16px 44px rgba(10,61,98,.14)!important;
+  border-color:rgba(255,107,0,.18)!important;
+}
+.rc-av{box-shadow:0 4px 14px rgba(10,61,98,.28)!important}
+.rc-stars{filter:drop-shadow(0 1px 3px rgba(245,158,11,.45))}
+
+/* ── Booking section ── */
+.bk-fcard{
+  position:relative;
+  box-shadow:0 24px 64px rgba(10,61,98,.18)!important;
+}
+.bk-fcard::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--rl) var(--rl) 0 0;
+  background:linear-gradient(90deg,var(--o3),var(--t2),var(--o3));
+  background-size:200% 100%;
+  animation:borderFlow 3s linear infinite;
+}
+@keyframes borderFlow{0%{background-position:0%}100%{background-position:200%}}
+.bk-sub{
+  background:linear-gradient(135deg,var(--o3) 0%,#e55000 100%)!important;
+  box-shadow:0 8px 24px rgba(255,107,0,.38),inset 0 1px 0 rgba(255,255,255,.12)!important;
+  transition:all .22s ease!important;
+}
+.bk-sub:hover:not(:disabled){transform:translateY(-2px)!important;box-shadow:0 14px 36px rgba(255,107,0,.5)!important}
+.fg input,.fg select{
+  transition:border-color .2s,box-shadow .2s!important;
+  border:1.5px solid var(--gr3)!important;
+}
+.fg input:focus,.fg select:focus{
+  border-color:var(--o3)!important;
+  box-shadow:0 0 0 3px rgba(255,107,0,.1)!important;
+  outline:none!important;
+}
+.popt{transition:all .2s ease!important}
+.popt:hover{border-color:var(--o3)!important;color:var(--o3)!important;background:rgba(255,107,0,.04)!important}
+.popt.active{box-shadow:0 2px 8px rgba(255,107,0,.1)!important}
+#pBox{
+  background:linear-gradient(135deg,var(--n4),#0d2a42)!important;
+  box-shadow:0 8px 24px rgba(10,61,98,.25),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+
+/* ── Footer ── */
+footer{
+  background:linear-gradient(180deg,#020810 0%,#010407 100%)!important;
+  position:relative;
+}
+footer::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,107,0,.35),rgba(0,180,216,.35),rgba(255,107,0,.35),transparent);
+}
+.ft-brand{letter-spacing:-.01em}
+.ft-col .fl{transition:color .18s,padding-left .18s!important}
+.ft-col .fl:hover{color:var(--o3)!important;padding-left:6px!important}
+.ftb{transition:all .18s ease}
+.ftb:hover{border-color:rgba(255,107,0,.3)!important;color:rgba(255,163,102,.9)!important}
+
+/* ── Floating action buttons ── */
+.fl-btn{
+  box-shadow:0 8px 28px rgba(0,184,148,.38)!important;
+  transition:transform .22s cubic-bezier(.34,1.2,.64,1),box-shadow .22s!important;
+}
+.fl-btn.call{box-shadow:0 8px 28px rgba(255,107,0,.4)!important}
+.fl-btn.top{box-shadow:0 4px 16px rgba(10,61,98,.18)!important}
+.fl-btn:hover{transform:translateY(-3px) scale(1.05)!important}
+
+/* ── Cart bar ── */
+#cartBar{filter:drop-shadow(0 -4px 20px rgba(10,61,98,.12))}
+.cart-wrap::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--o3),var(--t2),var(--o3));
+  background-size:200% 100%;animation:borderFlow 3s linear infinite;
+}
+.cart-wrap{position:relative;border-top:none!important}
+.cart-cta{
+  background:linear-gradient(135deg,var(--o3),#e55000)!important;
+  box-shadow:0 4px 14px rgba(255,107,0,.3)!important;
+  transition:all .22s ease!important;
+}
+.cart-cta:hover{transform:translateY(-2px)!important;box-shadow:0 8px 24px rgba(255,107,0,.45)!important}
+.cart-chip{transition:border-color .2s!important}
+.cart-chip:hover{border-color:rgba(255,107,0,.3)!important}
+
+/* ── Toast upgrade ── */
+#toast{
+  backdrop-filter:blur(12px)!important;
+  box-shadow:0 8px 32px rgba(10,61,98,.3)!important;
+  font-weight:600!important;
+  letter-spacing:.01em!important;
+}
+#toast.ok{box-shadow:0 8px 32px rgba(0,184,148,.35)!important}
+#toast.err{box-shadow:0 8px 32px rgba(239,68,68,.35)!important}
+
+/* ── Exit popup ── */
+.ep-box{
+  box-shadow:0 32px 80px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.06)!important;
+}
+.ep-offer{
+  background:linear-gradient(135deg,var(--o3),#e55000,var(--n4))!important;
+  box-shadow:0 8px 24px rgba(255,107,0,.28)!important;
+}
+
+/* ── Eyebrow ── */
+.eyebrow{letter-spacing:.18em}
+
+/* ── Booking success ── */
+.suc-ic{filter:drop-shadow(0 4px 12px rgba(255,107,0,.3))}
+.suc-bid{
+  background:linear-gradient(135deg,var(--gr1),var(--gr2))!important;
+  border:1px solid var(--gr3)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8)!important;
+}
+.bk-trust-bar .btt{transition:color .18s}
+.bk-trust-bar .btt:hover{color:var(--n4)!important}
+
+/* ── Booking left column ── */
+.bkf{transition:all .22s ease!important}
+.bkf:hover{transform:translateX(4px)}
+.bkf-ic{filter:drop-shadow(0 2px 6px rgba(255,107,0,.2))}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--gr1)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--o3),var(--b1));border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--o4)}
+
+/* ── Focus visible ── */
+*:focus-visible{outline:2px solid var(--o3);outline-offset:3px;border-radius:4px}
+
+/* ── will-change GPU hint for animated cards only ── */
+.scard,.bc,.hstep,.wf,.rcard{will-change:transform}
+</style>
+</head>
+<body>
+<div id="pb"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="nav-in">
+      <div class="nav-brand">
+        <div class="nav-ic">❄</div>
+        <div class="nav-name">Classic Multiple Services<small>AC Specialist · UP</small></div>
+      </div>
+      <div class="nav-links">
+        <span class="nl" onclick="goTo('#services')">Services</span>
+        <span class="nl" onclick="goTo('#how')">How It Works</span>
+        <span class="nl" onclick="goTo('#cities')">Cities</span>
+        <span class="nl" onclick="goTo('#reviews')">Reviews</span>
+        <span class="nl" onclick="goTo('#booking')">Book Now</span>
+      </div>
+      <div class="nav-right">
+        <a class="nav-phone" href="tel:{{ business_phone }}">📞 {{ business_phone }}</a>
+        <button class="nav-book" onclick="goTo('#booking')">Book Service</button>
+        <button class="ham" id="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-ov" id="mobOv" onclick="toggleMob()"></div>
+<div class="mob-m" id="mobM">
+  <span class="ml" onclick="goTo('#services');toggleMob()">🔧 Services</span>
+  <span class="ml" onclick="goTo('#how');toggleMob()">📋 How It Works</span>
+  <span class="ml" onclick="goTo('#cities');toggleMob()">📍 Cities</span>
+  <span class="ml" onclick="goTo('#reviews');toggleMob()">⭐ Reviews</span>
+  <span class="ml" onclick="goTo('#booking');toggleMob()">📅 Book Now</span>
+  <a href="tel:{{ business_phone }}" class="ml ml-call">📞 {{ business_phone }}</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hbg"></div>
+  <div class="hmesh"></div>
+  <div class="hgrid"></div>
+  <div class="wrap hero-in">
+    <div>
+      <div class="hlive"><div class="hdot"></div><span>⚡ Technician In 60–90 Minutes · 18+ Cities UP</span></div>
+      <h1 class="htitle">
+        Expert AC Service<br>
+        <span class="ha" id="htAcc">Repair &amp; Install</span><br>
+        Across <span class="hg">Uttar Pradesh</span>
+      </h1>
+      <p class="hsub">Professional AC cleaning, repair, installation &amp; gas filling by certified technicians. Doorstep service at honest prices — starting ₹299 only.</p>
+      <div class="hurg">
+        <span class="hurg-ic">🔥</span>
+        <div>
+          <strong>Summer Special — Save Upto ₹200</strong>
+          <div class="hchips"><span class="hchip">NO HIDDEN CHARGES</span><span class="hchip">WARRANTY INCLUDED</span></div>
+        </div>
+      </div>
+      <div class="hctas">
+        <button class="btn-p" onclick="goTo('#booking')">📅 Book Service Now</button>
+        <a class="btn-g" href="tel:{{ business_phone }}">📞 Call Now</a>
+      </div>
+      <div class="hstats">
+        <div class="hst"><div class="hst-n">25K+</div><div class="hst-l">Customers</div></div>
+        <div class="hst"><div class="hst-n">18+</div><div class="hst-l">Cities in UP</div></div>
+        <div class="hst"><div class="hst-n">4.9★</div><div class="hst-l">Avg Rating</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hrim">
+        <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=700&q=80" alt="AC Technician" loading="eager"/>
+        <div class="hb-cert">
+          <div class="hbc-ic">✅</div>
+          <div><div class="hbc-n">Certified</div><div class="hbc-s">Background Verified</div></div>
+        </div>
+        <div class="hb-rat">
+          <div class="hbr-s">★★★★★</div>
+          <div class="hbr-t">4.9/5 Rating</div>
+          <div class="hbr-sub">25,000+ reviews</div>
+        </div>
+      </div>
+      <div class="hstrip">
+        <div class="hsmini"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=75" alt="cleaning" loading="eager"/><div class="hsmini-l">Cleaning</div></div>
+        <div class="hsmini"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=300&q=75" alt="install" loading="eager"/><div class="hsmini-l">Install</div></div>
+        <div class="hsmini"><img src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=300&q=75" alt="gas" loading="eager"/><div class="hsmini-l">Gas Fill</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave"><svg viewBox="0 0 1440 50" preserveAspectRatio="none"><path d="M0,34 C240,58 480,8 720,34 C960,60 1200,8 1440,34 L1440,50 L0,50 Z" fill="#ffffff"/></svg></div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust">
+  <div class="wrap"><div class="trust-in">
+    <div class="ti"><span class="ti-ic">🛡</span>Fully Insured</div><div class="tdiv"></div>
+    <div class="ti"><span class="ti-ic">⚡</span>60–90 Min Response</div><div class="tdiv"></div>
+    <div class="ti"><span class="ti-ic">🎓</span>Certified Techs</div><div class="tdiv"></div>
+    <div class="ti"><span class="ti-ic">💰</span>No Hidden Charges</div><div class="tdiv"></div>
+    <div class="ti"><span class="ti-ic">🔄</span>30-Day Warranty</div><div class="tdiv"></div>
+    <div class="ti"><span class="ti-ic">📱</span>Real-Time Updates</div>
+  </div></div>
+</div>
+
+<!-- WHY US -->
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="why-img-w rvl">
+        <div class="why-img-b">
+          <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=700&q=80" alt="AC service team"/>
+        </div>
+      </div>
+      <div class="rvr">
+        <div class="eyebrow"><span></span>Why Choose Us</div>
+        <h2 class="s-title">UP's Most <em>Trusted</em><br>AC Service Partner</h2>
+        <p class="s-sub" style="margin-bottom:20px">Expert technicians, genuine spare parts, and guaranteed workmanship — best AC service experience in Uttar Pradesh.</p>
+        <div class="why-feats">
+          <div class="wf rv d1"><div class="wf-ic ic-or">⚡</div><div><h4>Same-Day Service</h4><p>Technician arrives in 60–90 min. 7 days a week including Sundays.</p></div></div>
+          <div class="wf rv d2"><div class="wf-ic ic-bl">🔧</div><div><h4>Genuine Spare Parts</h4><p>Only original manufacturer parts with proper invoice. Zero compromise.</p></div></div>
+          <div class="wf rv d3"><div class="wf-ic ic-tl">🎓</div><div><h4>Certified Technicians</h4><p>Every tech is ITI-trained, background-verified, and carries a CMS ID card.</p></div></div>
+          <div class="wf rv d4"><div class="wf-ic ic-gn">💰</div><div><h4>Transparent Pricing</h4><p>Fixed charges shown upfront. No surprise costs. Pay only what's shown.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:14px">
+      <div class="eyebrow" style="justify-content:center"><span></span>Our Services<span></span></div>
+      <h2 class="s-title" style="text-align:center">Complete AC Care, <em>One Call Away</em></h2>
+      <p class="s-sub" style="margin:0 auto;text-align:center">From cleaning to complex repairs and new installations — certified experts for every AC need.</p>
+    </div>
+    <div class="svc-tabs rv">
+      <div class="st active" onclick="filterSvc('all',this)">All Services</div>
+      <div class="st" onclick="filterSvc('cleaning',this)">🧹 Cleaning</div>
+      <div class="st" onclick="filterSvc('repair',this)">🔧 Repair</div>
+      <div class="st" onclick="filterSvc('install',this)">⚙ Install</div>
+      <div class="st" onclick="filterSvc('gas',this)">💨 Gas Filling</div>
+    </div>
+    <div class="svc-grid">
+
+      <div class="scard rv d1" data-cat="cleaning" onclick="openModal('cleaning')">
+        <div class="sc-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="AC cleaning"/><div class="sc-badge">BESTSELLER</div><div class="sc-chip">From ₹449</div></div>
+        <div class="sc-body">
+          <div class="sc-cat">🧹 AC Cleaning</div>
+          <div class="sc-head">AC Jetpump &amp; Foam Wash <span class="sc-arr">→</span></div>
+          <div class="sc-desc">High-pressure jetpump + eco-foam chemical wash. Removes dust, mold, bacteria &amp; odour. Restores cooling by up to 40%.</div>
+          <div class="sc-ig"><div class="scii"><div class="scil">Duration</div><div class="sciv">45–60 min</div></div><div class="scii"><div class="scil">Warranty</div><div class="sciv">30 Days</div></div><div class="scii"><div class="scil">AC Type</div><div class="sciv">Split &amp; Window</div></div><div class="scii"><div class="scil">Method</div><div class="sciv">Eco-safe foam</div></div></div>
+          <div class="sc-tags"><span class="stag">Jetpump</span><span class="stag">Foam Wash</span><span class="stag">Filter Clean</span><span class="stag">Coil Brush</span></div>
+          <div class="sc-cta"><span class="sc-from">From <strong>₹449</strong></span><div style="display:flex;gap:5px"><button class="sc-add-btn" onclick="addToCart('Split AC Jetpump Service',449,this);event.stopPropagation()">🛒 Add</button><button class="sc-btn" onclick="openModal('cleaning');event.stopPropagation()">Book</button></div></div>
+        </div>
+      </div>
+
+      <div class="scard rv d2" data-cat="repair" onclick="openModal('repair')">
+        <div class="sc-img"><img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&q=80" alt="AC repair"/><div class="sc-badge" style="background:var(--b1)">EXPERT REPAIR</div><div class="sc-chip">From ₹299</div></div>
+        <div class="sc-body">
+          <div class="sc-cat">🔧 AC Repair</div>
+          <div class="sc-head">AC Repair &amp; Diagnosis <span class="sc-arr">→</span></div>
+          <div class="sc-desc">All faults diagnosed and fixed on-site — PCB, capacitor, thermostat, compressor &amp; fan motor. Transparent bill guaranteed.</div>
+          <div class="sc-ig"><div class="scii"><div class="scil">Visit Charge</div><div class="sciv">₹299</div></div><div class="scii"><div class="scil">Warranty</div><div class="sciv">30–90 Days</div></div><div class="scii"><div class="scil">All Brands</div><div class="sciv">✓ Supported</div></div><div class="scii"><div class="scil">AC Type</div><div class="sciv">Split &amp; Window</div></div></div>
+          <div class="sc-tags"><span class="stag">PCB Repair</span><span class="stag">Capacitor</span><span class="stag">Thermostat</span><span class="stag">Fan Motor</span></div>
+          <div class="sc-cta"><span class="sc-from">From <strong>₹299</strong></span><div style="display:flex;gap:5px"><button class="sc-add-btn" onclick="addToCart('Split AC Repair',299,this);event.stopPropagation()">🛒 Add</button><button class="sc-btn" onclick="openModal('repair');event.stopPropagation()">Book</button></div></div>
+        </div>
+      </div>
+
+      <div class="scard rv d3" data-cat="install" onclick="openModal('installation')">
+        <div class="sc-img"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80" alt="AC installation"/><div class="sc-badge" style="background:var(--t1)">INSTALLATION</div><div class="sc-chip">From ₹699</div></div>
+        <div class="sc-body">
+          <div class="sc-cat">⚙ Install / Uninstall</div>
+          <div class="sc-head">AC Installation &amp; Removal <span class="sc-arr">→</span></div>
+          <div class="sc-desc">New AC setup with wall bracket, copper pipe, electrical wiring &amp; testing. Uninstallation &amp; relocation also available.</div>
+          <div class="sc-ig"><div class="scii"><div class="scil">Duration</div><div class="sciv">2–3 Hours</div></div><div class="scii"><div class="scil">Warranty</div><div class="sciv">90 Days</div></div><div class="scii"><div class="scil">Includes</div><div class="sciv">Pipe &amp; wire</div></div><div class="scii"><div class="scil">AC Type</div><div class="sciv">Split &amp; Window</div></div></div>
+          <div class="sc-tags"><span class="stag">Split AC</span><span class="stag">Window AC</span><span class="stag">New Install</span><span class="stag">Relocation</span></div>
+          <div class="sc-cta"><span class="sc-from">From <strong>₹699</strong></span><div style="display:flex;gap:5px"><button class="sc-add-btn" onclick="addToCart('Split AC Installation',699,this);event.stopPropagation()">🛒 Add</button><button class="sc-btn" onclick="openModal('installation');event.stopPropagation()">Book</button></div></div>
+        </div>
+      </div>
+
+      <div class="scard rv d4" data-cat="gas" onclick="openModal('gas')">
+        <div class="sc-img"><img src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&q=80" alt="gas filling"/><div class="sc-badge" style="background:var(--err)">NOT COOLING?</div><div class="sc-chip">From ₹2,799</div></div>
+        <div class="sc-body">
+          <div class="sc-cat">💨 Gas Filling</div>
+          <div class="sc-head">AC Gas Refilling R22/R32 <span class="sc-arr">→</span></div>
+          <div class="sc-desc">AC not cooling on full power? Certified R22, R32 &amp; R410A gas refill with leak detection included. 45-day warranty.</div>
+          <div class="sc-ig"><div class="scii"><div class="scil">Gas Types</div><div class="sciv">R22, R32, R410A</div></div><div class="scii"><div class="scil">Warranty</div><div class="sciv">45 Days</div></div><div class="scii"><div class="scil">Leak Check</div><div class="sciv">✓ Included</div></div><div class="scii"><div class="scil">AC Type</div><div class="sciv">Split &amp; Window</div></div></div>
+          <div class="sc-tags"><span class="stag">R22 Gas</span><span class="stag">R32 Gas</span><span class="stag">R410A</span><span class="stag">Leak Fix</span></div>
+          <div class="sc-cta"><span class="sc-from">From <strong>₹2,799</strong></span><div style="display:flex;gap:5px"><button class="sc-add-btn" onclick="addToCart('Split AC Gas Filling',2799,this);event.stopPropagation()">🛒 Add</button><button class="sc-btn" onclick="openModal('gas');event.stopPropagation()">Book</button></div></div>
+        </div>
+      </div>
+
+      <div class="scard rv d5" data-cat="cleaning" onclick="openModal('window')">
+        <div class="sc-img"><img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&q=80" alt="window AC"/><div class="sc-badge" style="background:#7b2ff7">WINDOW AC</div><div class="sc-chip">From ₹449</div></div>
+        <div class="sc-body">
+          <div class="sc-cat">🧹 Window AC</div>
+          <div class="sc-head">Window AC Full Service <span class="sc-arr">→</span></div>
+          <div class="sc-desc">Complete overhaul — filter, coil wash, drain cleaning, lubrication &amp; performance testing. Extends AC life by years.</div>
+          <div class="sc-ig"><div class="scii"><div class="scil">Duration</div><div class="sciv">60–90 min</div></div><div class="scii"><div class="scil">Warranty</div><div class="sciv">30 Days</div></div><div class="scii"><div class="scil">Includes</div><div class="sciv">Lubrication</div></div><div class="scii"><div class="scil">AC Type</div><div class="sciv">Window Only</div></div></div>
+          <div class="sc-tags"><span class="stag">Filter Wash</span><span class="stag">Coil Clean</span><span class="stag">Drain</span><span class="stag">Lube</span></div>
+          <div class="sc-cta"><span class="sc-from">From <strong>₹449</strong></span><div style="display:flex;gap:5px"><button class="sc-add-btn" onclick="addToCart('Window AC Jetpump Service',449,this);event.stopPropagation()">🛒 Add</button><button class="sc-btn" onclick="openModal('window');event.stopPropagation()">Book</button></div></div>
+        </div>
+      </div>
+
+      <div class="scard rv d6" data-cat="cleaning" onclick="openModal('outdoor')">
+        <div class="sc-img"><img src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=600&q=80" alt="outdoor unit"/><div class="sc-badge" style="background:#00897b">OUTDOOR UNIT</div><div class="sc-chip">From ₹599</div></div>
+        <div class="sc-body">
+          <div class="sc-cat">🧹 Outdoor Unit</div>
+          <div class="sc-head">Outdoor Unit AC Cleaning <span class="sc-arr">→</span></div>
+          <div class="sc-desc">High-pressure jet wash of outdoor condenser coil, fan blades &amp; heat sink. Reduces power bill, improves cooling.</div>
+          <div class="sc-ig"><div class="scii"><div class="scil">Method</div><div class="sciv">Pressure Jet</div></div><div class="scii"><div class="scil">Warranty</div><div class="sciv">30 Days</div></div><div class="scii"><div class="scil">Cleans</div><div class="sciv">Fan + Coil</div></div><div class="scii"><div class="scil">For All</div><div class="sciv">AC Units</div></div></div>
+          <div class="sc-tags"><span class="stag">Condenser</span><span class="stag">Fan Blade</span><span class="stag">Heat Sink</span><span class="stag">Jet Wash</span></div>
+          <div class="sc-cta"><span class="sc-from">From <strong>₹599</strong></span><button class="sc-btn">Book Now</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="wrap" style="position:relative">
+    <div style="text-align:center;margin-bottom:38px">
+      <div class="eyebrow" style="justify-content:center;color:var(--t3)"><span style="background:var(--t3)"></span>Process<span style="background:var(--t3)"></span></div>
+      <h2 class="s-title" style="color:var(--w0);text-align:center">Book in 60 Seconds, <em style="font-style:normal;color:var(--o3)">Service in 90 Min</em></h2>
+    </div>
+    <div class="how-line"></div>
+    <div class="how-grid">
+      <div class="hstep rv d1"><div class="hn">01</div><div class="hstep-ic">📱</div><h4>Select Service</h4><p>Choose AC service type, city &amp; time from our easy booking form.</p></div>
+      <div class="hstep rv d2"><div class="hn">02</div><div class="hstep-ic">💳</div><h4>Confirm &amp; Pay</h4><p>Pay online via Razorpay or choose Cash on Service after job done.</p></div>
+      <div class="hstep rv d3"><div class="hn">03</div><div class="hstep-ic">👷</div><h4>Tech Dispatched</h4><p>Background-verified technician assigned and dispatched instantly.</p></div>
+      <div class="hstep rv d4"><div class="hn">04</div><div class="hstep-ic">✅</div><h4>Service Done</h4><p>Quality guaranteed. Technician leaves only after 100% satisfaction.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<div class="brands">
+  <div class="brands-label">✦ WE SERVICE ALL MAJOR AC BRANDS ✦</div>
+  <div class="mq-wrap">
+    <div class="mq-track" id="mqTrack">
+
+      <!-- LG -->
+      <div class="bc" title="LG">
+        <svg width="72" height="36" viewBox="0 0 72 36" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="17" fill="#A50034"/>
+          <rect x="9" y="10" width="4" height="16" fill="white" rx="1"/>
+          <rect x="9" y="22" width="12" height="4" fill="white" rx="1"/>
+          <rect x="26" y="10" width="4" height="9" fill="white" rx="1"/>
+          <rect x="26" y="10" width="10" height="4" fill="white" rx="1"/>
+          <rect x="32" y="16" width="4" height="4" fill="white" rx="1"/>
+          <rect x="28" y="20" width="8" height="4" fill="white" rx="1"/>
+          <rect x="32" y="20" width="4" height="6" fill="white" rx="1"/>
+          <rect x="26" y="22" width="10" height="4" fill="white" rx="1"/>
+          <text x="54" y="24" font-family="Arial,sans-serif" font-size="18" font-weight="900" fill="#A50034" text-anchor="middle" dominant-baseline="auto">LG</text>
+        </svg>
+      </div>
+
+      <!-- Samsung -->
+      <div class="bc" title="Samsung">
+        <svg width="110" height="22" viewBox="0 0 110 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="55" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="17" font-weight="900" fill="#1428A0" text-anchor="middle" letter-spacing="0.5">SAMSUNG</text>
+        </svg>
+      </div>
+
+      <!-- Voltas -->
+      <div class="bc" title="Voltas">
+        <svg width="100" height="22" viewBox="0 0 100 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="50" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="17" font-weight="900" fill="#005BAC" text-anchor="middle" letter-spacing="1">VOLTAS</text>
+        </svg>
+      </div>
+
+      <!-- Blue Star -->
+      <div class="bc" title="Blue Star">
+        <svg width="110" height="36" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="12,2 14,9 21,9 15.5,13.5 17.5,20.5 12,16 6.5,20.5 8.5,13.5 3,9 10,9" fill="#003087"/>
+          <text x="68" y="14" font-family="'Arial Black',Arial,sans-serif" font-size="13" font-weight="900" fill="#003087" text-anchor="middle">BLUE</text>
+          <text x="68" y="30" font-family="'Arial Black',Arial,sans-serif" font-size="13" font-weight="900" fill="#003087" text-anchor="middle">STAR</text>
+        </svg>
+      </div>
+
+      <!-- Daikin -->
+      <div class="bc" title="Daikin">
+        <svg width="100" height="22" viewBox="0 0 100 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="50" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="17" font-weight="900" fill="#009FE3" text-anchor="middle" letter-spacing="1">DAIKIN</text>
+        </svg>
+      </div>
+
+      <!-- Hitachi -->
+      <div class="bc" title="Hitachi">
+        <svg width="110" height="22" viewBox="0 0 110 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="55" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="16" font-weight="900" fill="#E60026" text-anchor="middle" letter-spacing="1">HITACHI</text>
+        </svg>
+      </div>
+
+      <!-- Carrier -->
+      <div class="bc" title="Carrier">
+        <svg width="110" height="22" viewBox="0 0 110 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="55" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="16" font-weight="900" fill="#0072CE" text-anchor="middle" letter-spacing="1">CARRIER</text>
+        </svg>
+      </div>
+
+      <!-- ── DUPLICATE SET for seamless loop ── -->
+
+      <div class="bc" title="LG">
+        <svg width="72" height="36" viewBox="0 0 72 36" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="17" fill="#A50034"/>
+          <rect x="9" y="10" width="4" height="16" fill="white" rx="1"/>
+          <rect x="9" y="22" width="12" height="4" fill="white" rx="1"/>
+          <rect x="26" y="10" width="4" height="9" fill="white" rx="1"/>
+          <rect x="26" y="10" width="10" height="4" fill="white" rx="1"/>
+          <rect x="32" y="16" width="4" height="4" fill="white" rx="1"/>
+          <rect x="28" y="20" width="8" height="4" fill="white" rx="1"/>
+          <rect x="32" y="20" width="4" height="6" fill="white" rx="1"/>
+          <rect x="26" y="22" width="10" height="4" fill="white" rx="1"/>
+          <text x="54" y="24" font-family="Arial,sans-serif" font-size="18" font-weight="900" fill="#A50034" text-anchor="middle">LG</text>
+        </svg>
+      </div>
+      <div class="bc" title="Samsung">
+        <svg width="110" height="22" viewBox="0 0 110 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="55" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="17" font-weight="900" fill="#1428A0" text-anchor="middle" letter-spacing="0.5">SAMSUNG</text>
+        </svg>
+      </div>
+      <div class="bc" title="Voltas">
+        <svg width="100" height="22" viewBox="0 0 100 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="50" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="17" font-weight="900" fill="#005BAC" text-anchor="middle" letter-spacing="1">VOLTAS</text>
+        </svg>
+      </div>
+      <div class="bc" title="Blue Star">
+        <svg width="110" height="36" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="12,2 14,9 21,9 15.5,13.5 17.5,20.5 12,16 6.5,20.5 8.5,13.5 3,9 10,9" fill="#003087"/>
+          <text x="68" y="14" font-family="'Arial Black',Arial,sans-serif" font-size="13" font-weight="900" fill="#003087" text-anchor="middle">BLUE</text>
+          <text x="68" y="30" font-family="'Arial Black',Arial,sans-serif" font-size="13" font-weight="900" fill="#003087" text-anchor="middle">STAR</text>
+        </svg>
+      </div>
+      <div class="bc" title="Daikin">
+        <svg width="100" height="22" viewBox="0 0 100 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="50" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="17" font-weight="900" fill="#009FE3" text-anchor="middle" letter-spacing="1">DAIKIN</text>
+        </svg>
+      </div>
+      <div class="bc" title="Hitachi">
+        <svg width="110" height="22" viewBox="0 0 110 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="55" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="16" font-weight="900" fill="#E60026" text-anchor="middle" letter-spacing="1">HITACHI</text>
+        </svg>
+      </div>
+      <div class="bc" title="Carrier">
+        <svg width="110" height="22" viewBox="0 0 110 22" xmlns="http://www.w3.org/2000/svg">
+          <text x="55" y="17" font-family="'Arial Black',Arial,sans-serif" font-size="16" font-weight="900" fill="#0072CE" text-anchor="middle" letter-spacing="1">CARRIER</text>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CITIES -->
+<section class="cities" id="cities">
+  <div class="wrap">
+    <div class="cit-grid">
+      <div class="rvl">
+        <div class="eyebrow"><span></span>Service Area</div>
+        <h2 class="s-title">Serving <em>18+ Cities</em><br>Across Uttar Pradesh</h2>
+        <p class="s-sub">From Lucknow to Kanpur, Agra to Varanasi — certified technicians cover every major UP city.</p>
+        <div class="cpills">
+          <div class="cpill active" onclick="pickCity('Lucknow',this)">📍 Lucknow</div>
+          <div class="cpill" onclick="pickCity('Kanpur',this)">📍 Kanpur</div>
+          <div class="cpill" onclick="pickCity('Agra',this)">📍 Agra</div>
+          <div class="cpill" onclick="pickCity('Varanasi',this)">📍 Varanasi</div>
+          <div class="cpill" onclick="pickCity('Gorakhpur',this)">📍 Gorakhpur</div>
+          <div class="cpill" onclick="pickCity('Allahabad',this)">📍 Allahabad</div>
+          <div class="cpill" onclick="pickCity('Meerut',this)">📍 Meerut</div>
+          <div class="cpill" onclick="pickCity('Noida',this)">📍 Noida</div>
+          <div class="cpill" onclick="pickCity('Ghaziabad',this)">📍 Ghaziabad</div>
+          <div class="cpill" onclick="pickCity('Bareilly',this)">📍 Bareilly</div>
+          <div class="cpill" onclick="pickCity('Jhansi',this)">📍 Jhansi</div>
+          <div class="cpill" onclick="pickCity('Mathura',this)">📍 Mathura</div>
+          <div class="cpill" onclick="pickCity('Ayodhya',this)">📍 Ayodhya</div>
+          <div class="cpill" onclick="pickCity('Sitapur',this)">📍 Sitapur</div>
+          <div class="cpill" onclick="pickCity('Azamgarh',this)">📍 Azamgarh</div>
+          <div class="cpill" onclick="pickCity('Barabanki',this)">📍 Barabanki</div>
+          <div class="cpill" onclick="pickCity('Rae Bareli',this)">📍 Rae Bareli</div>
+          <div class="cpill" onclick="pickCity('Ambedkar Nagar',this)">📍 Ambedkar Nagar</div>
+        </div>
+      </div>
+      <div class="rvr">
+        <div class="cit-map"><img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&q=75" alt="UP coverage"/></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="wrap" style="margin-bottom:28px">
+    <div style="text-align:center">
+      <div class="eyebrow" style="justify-content:center"><span></span>Customer Reviews<span></span></div>
+      <h2 class="s-title" style="text-align:center">25,000+ <em>Happy Customers</em></h2>
+      <p class="s-sub" style="margin:0 auto;text-align:center">Real reviews from real customers across UP.</p>
+    </div>
+  </div>
+  <div class="rev-wrap">
+    <div class="rev-track">
+      <div class="rcard"><div class="rc-top"><div class="rc-av">R</div><div><div class="rc-name">Rahul Sharma</div><div class="rc-city">📍 Lucknow</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"Excellent! Technician came within 60 minutes and cleaned my split AC perfectly. Cooling improved a lot!"</div><div class="rc-svc">✓ Split AC Jetpump Service</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#e91e8c,#9c27b0)">P</div><div><div class="rc-name">Priya Verma</div><div class="rc-city">📍 Kanpur</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"AC repaired at a very reasonable price. Technician explained everything clearly before charging. Highly recommend!"</div><div class="rc-svc">✓ Window AC Repair</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#00b894,#00cec9)">A</div><div><div class="rc-name">Amit Gupta</div><div class="rc-city">📍 Agra</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"New AC installation done very professionally. They cleaned up after work and tested everything before leaving."</div><div class="rc-svc">✓ Split AC Installation</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#f39c12,#e67e22)">S</div><div><div class="rc-name">Sunita Pandey</div><div class="rc-city">📍 Varanasi</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"AC was not cooling at all. Called them, technician came, filled gas and now it works like new! Very professional."</div><div class="rc-svc">✓ Split AC Gas Filling</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#3498db,#2980b9)">M</div><div><div class="rc-name">Manish Tiwari</div><div class="rc-city">📍 Noida</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"Best AC service in Noida! Third time booking. Always on time, fair price, quality work. Highly recommended!"</div><div class="rc-svc">✓ Foam &amp; Chemical Wash</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#e74c3c,#c0392b)">K</div><div><div class="rc-name">Kavita Singh</div><div class="rc-city">📍 Meerut</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"Charged exactly what was quoted. Very trustworthy and transparent. Technician was polite and professional!"</div><div class="rc-svc">✓ Window AC Repair</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">D</div><div><div class="rc-name">Deepak Kumar</div><div class="rc-city">📍 Gorakhpur</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"Outdoor unit wash done perfectly. Foul smell gone and AC cools much better. Already booked for second unit!"</div><div class="rc-svc">✓ Outdoor Unit Service</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#00b4d8,#0096c7)">N</div><div><div class="rc-name">Neha Yadav</div><div class="rc-city">📍 Allahabad</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"Quick response, polite technician, quality work. Booked online in 2 minutes, technician arrived in 75 minutes."</div><div class="rc-svc">✓ Split AC Full Service</div></div>
+      <!-- duplicates for loop -->
+      <div class="rcard"><div class="rc-top"><div class="rc-av">R</div><div><div class="rc-name">Rahul Sharma</div><div class="rc-city">📍 Lucknow</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"Excellent! Technician came within 60 minutes and cleaned my split AC perfectly. Cooling improved a lot!"</div><div class="rc-svc">✓ Split AC Jetpump Service</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#e91e8c,#9c27b0)">P</div><div><div class="rc-name">Priya Verma</div><div class="rc-city">📍 Kanpur</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"AC repaired at reasonable price. Technician explained everything clearly. Highly recommend!"</div><div class="rc-svc">✓ Window AC Repair</div></div>
+      <div class="rcard"><div class="rc-top"><div class="rc-av" style="background:linear-gradient(135deg,#00b894,#00cec9)">A</div><div><div class="rc-name">Amit Gupta</div><div class="rc-city">📍 Agra</div></div></div><div class="rc-stars">★★★★★</div><div class="rc-text">"Professional installation. They cleaned up after and tested everything before leaving. Great service!"</div><div class="rc-svc">✓ Split AC Installation</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <div class="wrap">
+    <div class="bk-grid">
+      <div class="bk-info rvl">
+        <div class="eyebrow" style="color:var(--t3)"><span style="background:var(--t3)"></span>Book Your Service</div>
+        <h2 class="s-title">Ready For Your<br><em>AC to Work Like New?</em></h2>
+        <p class="s-sub">Fill the form — confirmed in 10 min, technician at your door in 60–90 min.</p>
+        <div class="bk-feats">
+          <div class="bkf"><span class="bkf-ic">⚡</span><div><h4>Instant Confirmation</h4><p>WhatsApp + SMS within 60 seconds of booking.</p></div></div>
+          <div class="bkf"><span class="bkf-ic">🛡</span><div><h4>Service Guarantee</h4><p>Not satisfied? FREE redo or full refund — no questions.</p></div></div>
+          <div class="bkf"><span class="bkf-ic">💵</span><div><h4>Cash on Service</h4><p>Pay only after job done. No advance needed.</p></div></div>
+        </div>
+        <div class="bk-tech">
+          <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&q=75" alt="Verified technician"/>
+        </div>
+      </div>
+      <div class="bk-fcard rvr">
+        <div id="bkForm">
+          <div class="bk-hd"><h3>📅 Book AC Service Online</h3><p>Takes under 60 seconds</p></div>
+          <div id="cartSummaryBox" style="display:none;background:linear-gradient(135deg,var(--n4),var(--n3));border-radius:9px;padding:11px 14px;margin-bottom:10px"><div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:7px">🛒 Your Cart</div><div id="cartFormItems"></div><div style="display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid rgba(255,255,255,.1);margin-top:4px"><span style="font-size:.74rem;color:rgba(255,255,255,.6)">Total to pay</span><span class="cart-total-amt" id="cartFormTotal" style="font-size:1rem">₹0</span></div></div>
+          <div class="frow">
+            <div class="fg"><label>Your Name *</label><input type="text" id="fName" placeholder="Full name" autocomplete="name"/></div>
+            <div class="fg"><label>Mobile *</label><input type="tel" id="fMob" placeholder="10-digit number" maxlength="10" inputmode="numeric" autocomplete="tel"/></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>City *</label>
+              <select id="fCity">
+                <option value="">Select City</option>
+                <option>Lucknow</option><option>Kanpur</option><option>Agra</option><option>Sitapur</option>
+                <option>Bareilly</option><option>Rae Bareli</option><option>Varanasi</option><option>Gorakhpur</option>
+                <option>Jhansi</option><option>Mathura</option><option>Ambedkar Nagar</option><option>Allahabad</option>
+                <option>Meerut</option><option>Noida</option><option>Ghaziabad</option><option>Barabanki</option>
+                <option>Ayodhya</option><option>Azamgarh</option>
+              </select>
+            </div>
+            <div class="fg"><label>Area / Colony</label><input type="text" id="fArea" placeholder="Sector, mohalla…"/></div>
+          </div>
+          <div class="fg"><label>Select Service *</label>
+            <select id="fSvc" onchange="updatePrice()">
+              <option value="">— Choose Service —</option>
+              <optgroup label="🧹 AC Cleaning">
+                <option value="Split AC Jetpump Service">Split AC Jetpump Service — ₹499</option>
+                <option value="Split AC Foam &amp; Chemical Service">Split AC Foam &amp; Chemical Service — ₹649</option>
+                <option value="Window AC Jetpump Service">Window AC Jetpump Service — ₹449</option>
+                <option value="Window AC Foam &amp; Chemical Service">Window AC Foam &amp; Chemical Service — ₹549</option>
+                <option value="Outdoor Unit Cleaning">Outdoor Unit Cleaning — ₹599</option>
+              </optgroup>
+              <optgroup label="🔧 AC Repair">
+                <option value="Split AC Repair">Split AC Repair — ₹299</option>
+                <option value="Window AC Repair">Window AC Repair — ₹299</option>
+              </optgroup>
+              <optgroup label="⚙ Installation">
+                <option value="Split AC Installation">Split AC Installation — ₹1,199</option>
+                <option value="Window AC Installation">Window AC Installation — ₹699</option>
+                <option value="Split AC Uninstallation">Split AC Uninstallation — ₹599</option>
+                <option value="Window AC Uninstallation">Window AC Uninstallation — ₹499</option>
+              </optgroup>
+              <optgroup label="💨 Gas Filling">
+                <option value="Split AC Gas Filling">Split AC Gas Filling — ₹2,799</option>
+                <option value="Window AC Gas Filling">Window AC Gas Filling — ₹2,799</option>
+              </optgroup>
+            </select>
+          </div>
+          <div id="pBox" class="pbox">
+            <div><div class="pbox-lbl">Service Amount</div><div class="pbox-amt" id="pAmt">₹0</div><div class="pbox-disc" id="pDisc"></div></div>
+            <div style="text-align:right"><div style="font-size:.62rem;color:rgba(255,255,255,.44);margin-bottom:2px">Pay Mode</div><div class="pbox-mode" id="pMode">Online</div></div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--n4);margin-bottom:6px">Payment Mode</div>
+            <div class="pay-opts">
+              <div class="popt active" id="po-online" onclick="selPay('online')">💳 Pay Online<small style="display:block;font-size:.58rem;color:var(--g2);margin-top:1px">Razorpay Secure</small></div>
+              <div class="popt" id="po-cash" onclick="selPay('cash')">💵 Cash on Service<small style="display:block;font-size:.58rem;margin-top:1px">Pay after job done</small></div>
+            </div>
+          </div>
+          <button class="bk-sub" id="bkBtn" onclick="handleBooking()"><span id="bkTxt">📅 Book Now — Confirm Service</span></button>
+          <div class="bk-trust-bar">
+            <div class="btt">🔒 Secure</div><div class="btt">🛡 Guarantee</div><div class="btt">📞 24/7 Support</div>
+          </div>
+        </div>
+        <div class="bk-success" id="bkOk">
+          <div class="suc-ic">🎉</div>
+          <div class="suc-title">Booking Confirmed!</div>
+          <p style="font-size:.8rem;color:var(--tx3);margin-bottom:6px">Your booking ID:</p>
+          <div class="suc-bid" id="sucBid">CMS...</div>
+          <p style="font-size:.76rem;color:var(--tx3);margin-bottom:14px">WhatsApp confirmation sent. Technician arrives in <strong>60–90 min</strong>.</p>
+          <button class="bk-sub" onclick="location.reload()" style="max-width:220px;margin:0 auto;padding:10px">Book Another</button>
+        </div>
+        <div class="bk-fail" id="bkFail">
+          <div class="suc-ic">😕</div>
+          <div class="suc-title">Payment Not Completed</div>
+          <p style="font-size:.78rem;color:var(--tx3);margin-bottom:14px">Retry payment or pay cash after service.</p>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            <button class="bk-sub" style="max-width:186px;padding:10px" onclick="retryPay()">🔄 Retry Payment</button>
+            <button class="bk-sub" style="max-width:186px;padding:10px;background:linear-gradient(135deg,var(--n4),var(--b1))" onclick="cashPay()">💵 Pay Cash Instead</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-about">
+        <div class="ft-brand">❄ Classic Multiple <em>Services</em></div>
+        <p>Uttar Pradesh's most trusted AC service company. Certified technicians, transparent pricing, same-day service across 18+ cities.</p>
+        <div class="ft-badges">
+          <div class="ftb">GST Registered</div><div class="ftb">25K+ Customers</div>
+        </div>
+      </div>
+      <div class="ft-col">
+        <h5>Services</h5>
+        <span class="fl" onclick="openModal('cleaning')">AC Jetpump &amp; Foam Wash</span>
+        <span class="fl" onclick="openModal('repair')">AC Repair &amp; Diagnosis</span>
+        <span class="fl" onclick="openModal('installation')">AC Installation</span>
+        <span class="fl" onclick="openModal('gas')">AC Gas Filling</span>
+        <span class="fl" onclick="openModal('window')">Window AC Service</span>
+        <span class="fl" onclick="openModal('outdoor')">Outdoor Unit Clean</span>
+      </div>
+      <div class="ft-col">
+        <h5>Top Cities</h5>
+        <span class="fl" onclick="pickCity('Lucknow',null)">Lucknow</span>
+        <span class="fl" onclick="pickCity('Kanpur',null)">Kanpur</span>
+        <span class="fl" onclick="pickCity('Agra',null)">Agra</span>
+        <span class="fl" onclick="pickCity('Noida',null)">Noida</span>
+        <span class="fl" onclick="pickCity('Varanasi',null)">Varanasi</span>
+        <span class="fl" onclick="pickCity('Ghaziabad',null)">Ghaziabad</span>
+      </div>
+      <div class="ft-col">
+        <h5>Contact</h5>
+        <a href="tel:{{ business_phone }}">📞 {{ business_phone }}</a>
+        <a href="https://wa.me/91{{ business_phone }}">💬 WhatsApp</a>
+        <div style="margin-top:10px;font-size:.7rem;line-height:1.7">
+          <strong style="color:var(--w0)">Hours</strong><br>
+          Mon–Sun: 8 AM – 9 PM<br>Emergency: 24/7
+        </div>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Classic Multiple Services. All Rights Reserved.</span>
+      <span style="color:rgba(255,255,255,.3)">Uttar Pradesh, India</span>
+      <a href="/admin" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.28);font-size:.62rem;padding:4px 10px;border-radius:5px;transition:all .2s" onmouseover="this.style.borderColor='rgba(255,107,0,.4)';this.style.color='rgba(255,107,0,.8)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.28)'">🔐 Admin</a>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATERS -->
+<div class="floaters">
+  <button class="fl-btn top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <a class="fl-btn" href="https://wa.me/91{{ business_phone }}?text=Hello%2C+I+want+to+book+AC+service">💬 WhatsApp</a>
+  <a class="fl-btn call" href="tel:{{ business_phone }}">📞 Call Now</a>
+</div>
+
+<!-- EXIT POPUP -->
+<div class="ep-ov" id="epOv">
+  <div class="ep-box">
+    <div class="ep-emoji">🎁</div>
+    <div class="ep-title">Wait! Special Offer</div>
+    <div class="ep-sub">Book in the next 10 minutes and get an exclusive discount on your first service today.</div>
+    <div class="ep-offer">₹100 OFF<small>on your booking today</small></div>
+    <button class="btn-p" style="width:100%;justify-content:center;margin-bottom:9px" onclick="claimDisc()">🎉 Claim &amp; Book Now</button>
+    <button onclick="closeEP()" style="background:none;border:none;font-size:.76rem;color:var(--tx4);cursor:pointer;width:100%">No thanks, I'll pay full price</button>
+  </div>
+</div>
+
+<!-- SERVICE MODAL -->
+<div class="modal-ov" id="mOv" onclick="closeModal(event)">
+  <div class="mbox">
+    <div class="mhero"><img id="mImg" src="" alt=""/><button class="mclose" onclick="closeModal()">✕</button><div class="mhero-info"><div class="mtitle" id="mTitle"></div><div class="msub" id="mSub"></div></div></div>
+    <div class="mtabs" id="mTabs"></div>
+    <div class="mcon" id="mCon"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+/* ═══ CONFIG ═══ */
+const RZP_KEY = '{{ razorpay_key }}';
+const BPHONE  = '{{ business_phone }}';
+const SVCPRICES = {{ service_prices | tojson }};
+const P = {};
+SVCPRICES.forEach(s => P[s.service_name] = s.price);
+function getPrice(svc){
+  const D={'Split AC Jetpump Service':499,'Split AC Foam & Chemical Service':649,
+    'Window AC Jetpump Service':449,'Window AC Foam & Chemical Service':549,
+    'Split AC Repair':299,'Window AC Repair':299,
+    'Split AC Installation':1199,'Window AC Installation':699,
+    'Split AC Uninstallation':599,'Window AC Uninstallation':499,
+    'Split AC Gas Filling':2799,'Window AC Gas Filling':2799,'Outdoor Unit Cleaning':599};
+  return P[svc]||D[svc]||299;
+}
+
+/* ═══ CART STATE ═══ */
+let cart=[], discount=0, payMode='online', curBid='', curOid='', curAmt=0, epShown=false;
+
+/* ═══ CART ═══ */
+function addToCart(name, price, btn){
+  if(cart.find(c=>c.name===name)){toast('Already in cart!','err');return;}
+  if(cart.length>=5){toast('Max 5 services per booking','err');return;}
+  cart.push({name, price: getPrice(name)||price});
+  if(btn){btn.textContent='✓ Added';btn.classList.add('added');btn.disabled=true;}
+  renderCart(); toast('✅ Added: '+name,'ok');
+}
+function removeFromCart(i){
+  const removed = cart.splice(i,1)[0];
+  // re-enable matching add btn
+  document.querySelectorAll('.sc-add-btn').forEach(b=>{
+    const oc = b.getAttribute('onclick')||'';
+    if(removed && oc.includes(removed.name.substring(0,10).replace(/ /g,'').substring(0,7))){
+      b.textContent='🛒 Add'; b.classList.remove('added'); b.disabled=false;
+    }
+  });
+  renderCart();
+}
+function clearCart(){
+  cart=[];
+  document.querySelectorAll('.sc-add-btn').forEach(b=>{b.textContent='🛒 Add';b.classList.remove('added');b.disabled=false;});
+  renderCart();
+  // hide cart summary in form
+  const cb=document.getElementById('cartSummaryBox');if(cb)cb.style.display='none';
+}
+function renderCart(){
+  const bar=document.getElementById('cartBar');
+  if(!bar) return;
+  if(!cart.length){bar.classList.remove('open');return;}
+  bar.classList.add('open');
+  const sub=cart.reduce((s,c)=>s+c.price,0);
+  const multiDisc=cart.length>=2?Math.round(sub*0.05):0;
+  const total=Math.max(sub-discount-multiDisc,1);
+  document.getElementById('cartCount').textContent=cart.length;
+  document.getElementById('cartChips').innerHTML=cart.map((c,i)=>
+    `<div class="cart-chip">${c.name} <strong>₹${c.price.toLocaleString('en-IN')}</strong><button class="ccrm" onclick="removeFromCart(${i})" title="Remove">✕</button></div>`
+  ).join('');
+  document.getElementById('cartTotalAmt').textContent='₹'+total.toLocaleString('en-IN');
+  document.getElementById('cartDiscNote').textContent=
+    cart.length>=2?`5% multi-service discount saved: ₹${multiDisc}`:(discount>0?`₹${discount} OFF applied`:'');
+}
+function checkoutCart(){
+  if(!cart.length) return;
+  // Show cart in booking form
+  const cb=document.getElementById('cartSummaryBox');
+  const ci=document.getElementById('cartFormItems');
+  const ct=document.getElementById('cartFormTotal');
+  const sub=cart.reduce((s,c)=>s+c.price,0);
+  const multiDisc=cart.length>=2?Math.round(sub*0.05):0;
+  const total=Math.max(sub-discount-multiDisc,1);
+  if(ci) ci.innerHTML=cart.map(c=>`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:.74rem;color:rgba(255,255,255,.8)"><span>${c.name}</span><span>₹${c.price.toLocaleString('en-IN')}</span></div>`).join('');
+  if(ct) ct.textContent='₹'+total.toLocaleString('en-IN');
+  if(cb) cb.style.display='block';
+  // prefill first service
+  const sel=document.getElementById('fSvc');
+  if(sel&&cart[0]){for(let o of sel.options)if(o.value===cart[0].name){o.selected=true;break;}}
+  updatePrice();
+  goTo('#booking');
+  toast('🛒 Cart loaded — fill your details and confirm!','ok');
+}
+
+/* ═══ SCROLL ═══ */
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  document.getElementById('nav').classList.toggle('scrolled',y>40);
+  document.getElementById('pb').style.width=(y/(document.body.scrollHeight-innerHeight)*100)+'%';
+},{passive:true});
+
+/* ═══ REVEAL ═══ */
+const ro=new IntersectionObserver(ee=>ee.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target);}}),{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>ro.observe(el));
+
+/* ═══ NAV ═══ */
+function toggleMob(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobM').classList.toggle('open');
+  document.getElementById('mobOv').classList.toggle('on');
+}
+function goTo(sel){document.querySelector(sel)?.scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ═══ TYPEWRITER ═══ */
+(()=>{
+  const msgs=['Repair & Install','AC Cleaning','Gas Filling','New AC Setup'];
+  let i=0;const el=document.getElementById('htAcc');if(!el)return;
+  setInterval(()=>{
+    el.style.opacity='0';el.style.transform='translateY(8px)';
+    setTimeout(()=>{el.innerHTML=msgs[i%msgs.length];i++;el.style.transition='opacity .3s,transform .3s';el.style.opacity='1';el.style.transform='none';},260);
+  },3000);
+})();
+
+/* ═══ FILTER ═══ */
+function filterSvc(cat,el){
+  document.querySelectorAll('.st').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.scard').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';});
+}
+
+/* ═══ CITY ═══ */
+function pickCity(city,el){
+  const s=document.getElementById('fCity');if(s)s.value=city;
+  document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('active'));
+  if(el)el.classList.add('active');
+  goTo('#booking');
+  toast('📍 '+city+' selected');
+}
+
+/* ═══ PRICE BOX ═══ */
+function updatePrice(){
+  const box=document.getElementById('pBox');
+  const svc=document.getElementById('fSvc').value;
+  if(!svc&&!cart.length){if(box)box.style.display='none';return;}
+  const sub=cart.length?cart.reduce((s,c)=>s+c.price,0):getPrice(svc);
+  const multiDisc=cart.length>=2?Math.round(sub*0.05):0;
+  const total=Math.max(sub-discount-multiDisc,1);
+  document.getElementById('pAmt').textContent='₹'+total.toLocaleString('en-IN');
+  document.getElementById('pDisc').textContent=multiDisc>0?`5% multi-service: -₹${multiDisc}`:(discount>0?`Discount -₹${discount}`:'');
+  document.getElementById('pMode').textContent=payMode==='cash'?'Cash on Service':'Online Payment';
+  if(box)box.style.display='flex';
+}
+function selPay(m){
+  payMode=m;
+  document.getElementById('po-online').classList.toggle('active',m==='online');
+  document.getElementById('po-cash').classList.toggle('active',m==='cash');
+  updatePrice();
+}
+
+/* ═══ BOOKING ═══ */
+async function handleBooking(){
+  const name=document.getElementById('fName').value.trim();
+  const mob=document.getElementById('fMob').value.trim();
+  const city=document.getElementById('fCity').value;
+  const area=document.getElementById('fArea').value.trim();
+  const singleSvc=document.getElementById('fSvc').value;
+  const hasCart=cart.length>0;
+  const svc=hasCart?cart.map(c=>c.name).join(' + '):singleSvc;
+  if(!name){toast('Enter your name','err');return;}
+  if(!/^[0-9]{10}$/.test(mob)){toast('Enter valid 10-digit mobile','err');return;}
+  if(!city){toast('Select your city','err');return;}
+  if(!svc){toast('Select a service or use cart','err');return;}
+  const sub=hasCart?cart.reduce((s,c)=>s+c.price,0):getPrice(singleSvc);
+  const multiDisc=hasCart&&cart.length>=2?Math.round(sub*0.05):0;
+  const totalDiscount=discount+multiDisc;
+  setLoad(true);
+  try{
+    const r=await fetch('/create-order',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,mobile:mob,city,area,service_type:svc,discount:totalDiscount,cart:hasCart?cart:null})});
+    const d=await r.json();
+    if(!r.ok||d.error){toast('❌ '+(d.error||'Error'),'err');setLoad(false);return;}
+    curBid=d.booking_id;curOid=d.order_id;curAmt=d.amount;
+    if(payMode==='cash'){
+      await fetch('/payment-failed',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({booking_id:curBid,pay_mode:'cash'})});
+      showOk(curBid);
+    }else{openRzp(d);}
+  }catch(e){toast('Network error. Try again.','err');}
+  setLoad(false);
+}
+function openRzp(d){
+  new Razorpay({key:RZP_KEY,amount:d.amount,currency:'INR',name:'Classic Multiple Services',
+    description:d.service,order_id:d.order_id,
+    prefill:{name:d.name,contact:d.mobile,email:d.email||''},
+    theme:{color:'#FF6B00'},modal:{ondismiss:showFail},
+    handler:async(resp)=>{
+      setLoad(true);
+      const v=await fetch('/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({...resp,booking_id:curBid})});
+      const vd=await v.json();
+      if(vd.success)showOk(curBid);else showFail();
+      setLoad(false);
+    }
+  }).open();
+}
+function showOk(bid){
+  document.getElementById('bkForm').style.display='none';
+  document.getElementById('bkFail').classList.remove('on');
+  document.getElementById('sucBid').textContent=bid;
+  document.getElementById('bkOk').classList.add('on');
+  cart=[];renderCart();
+  toast('Booking confirmed: '+bid,'ok');
+}
+function showFail(){
+  document.getElementById('bkForm').style.display='none';
+  document.getElementById('bkOk').classList.remove('on');
+  document.getElementById('bkFail').classList.add('on');
+}
+async function retryPay(){openRzp({order_id:curOid,amount:curAmt,service:'',name:'',mobile:'',email:''});}
+async function cashPay(){
+  setLoad(true);
+  await fetch('/payment-failed',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({booking_id:curBid,pay_mode:'cash'})});
+  showOk(curBid);setLoad(false);
+}
+function setLoad(on){
+  const b=document.getElementById('bkBtn'),t=document.getElementById('bkTxt');
+  if(b){b.disabled=on;t.textContent=on?'⏳ Processing...':'📅 Book Now — Confirm Service';}
+}
+
+/* ═══ MODAL ═══ */
+const MD={
+  cleaning:{title:'AC Cleaning Service',sub:'Split & Window · Jetpump & Foam',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',tabs:['Split AC','Window AC'],items:[
+    {n:'Split AC Jetpump Service',pts:['High-pressure jet wash','Filter removal & wash','Coil brushing','Drain cleaning'],svc:'Split AC Jetpump Service',old:699,w:'30 days',tab:0},
+    {n:'Split AC Foam & Chemical',pts:['Eco-foam chemical wash','Bacteria removal','Blower fan clean','Test'],svc:'Split AC Foam & Chemical Service',old:849,w:'30 days',tab:0},
+    {n:'Window AC Jetpump Service',pts:['Jet wash','Filter clean','Drain tray clean','Lubrication'],svc:'Window AC Jetpump Service',old:649,w:'30 days',tab:1},
+    {n:'Window AC Foam & Chemical',pts:['Eco-foam wash','Odour elimination','Coil clean','Check'],svc:'Window AC Foam & Chemical Service',old:749,w:'30 days',tab:1}
+  ]},
+  repair:{title:'AC Repair & Diagnosis',sub:'All brands · Split & Window',img:'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=80',tabs:['Split AC','Window AC'],items:[
+    {n:'Split AC Repair',pts:['PCB diagnosis','Capacitor replacement','Thermostat check','Compressor'],svc:'Split AC Repair',old:499,w:'30-90 days',tab:0},
+    {n:'Window AC Repair',pts:['Full fault diagnosis','Fan motor repair','Control board fix','Leak check'],svc:'Window AC Repair',old:499,w:'30 days',tab:1}
+  ]},
+  installation:{title:'AC Installation & Removal',sub:'New install · Uninstall · Relocation',img:'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80',tabs:['Split AC','Window AC'],items:[
+    {n:'Split AC Installation',pts:['Wall bracket','Copper pipe 3m','Electrical wiring','Test'],svc:'Split AC Installation',old:1499,w:'90 days',tab:0},
+    {n:'Split AC Uninstallation',pts:['Safe disconnect','Pipe capping','Unit packing','Clean'],svc:'Split AC Uninstallation',old:799,w:'Warranty',tab:0},
+    {n:'Window AC Installation',pts:['Frame & support','Electrical','Sealing','Test'],svc:'Window AC Installation',old:999,w:'90 days',tab:1},
+    {n:'Window AC Uninstallation',pts:['Safe removal','Frame dismount','Packing','Clean'],svc:'Window AC Uninstallation',old:699,w:'Warranty',tab:1}
+  ]},
+  gas:{title:'AC Gas Refilling',sub:'R22 · R32 · R410A · Leak detection',img:'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80',tabs:['Split AC','Window AC'],items:[
+    {n:'Split AC Gas Filling',pts:['Pressure check','Leak detection & fix','Certified gas','Cooling test'],svc:'Split AC Gas Filling',old:3499,w:'45 days',tab:0},
+    {n:'Window AC Gas Filling',pts:['Pressure check','Leak seal','R22/R32 refill','Post-fill test'],svc:'Window AC Gas Filling',old:3499,w:'45 days',tab:1}
+  ]},
+  window:{title:'Window AC Full Service',sub:'AC Cleaning & maintenance',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',tabs:['Jetpump','Foam Wash'],items:[
+    {n:'Window AC Jetpump',pts:['Pressure wash','Filter clean','Drain clean','Lubrication'],svc:'Window AC Jetpump Service',old:649,w:'30 days',tab:0},
+    {n:'Window AC Foam & Chemical',pts:['Eco-foam wash','Odour removal','Coil clean','Check'],svc:'Window AC Foam & Chemical Service',old:749,w:'30 days',tab:1}
+  ]},
+  outdoor:{title:'Outdoor Unit AC Cleaning',sub:'Condenser coil & fan blade wash',img:'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80',tabs:['Outdoor Unit'],items:[
+    {n:'Outdoor Unit AC Cleaning',pts:['Condenser coil jet wash','Fan blade clean','Heat sink brush','Efficiency test'],svc:'Outdoor Unit Cleaning',old:799,w:'30 days',tab:0}
+  ]}
+};
+let curTab=0,curItems=[];
+function openModal(type){
+  const d=MD[type];if(!d)return;
+  document.getElementById('mImg').src=d.img;
+  document.getElementById('mTitle').textContent=d.title;
+  document.getElementById('mSub').textContent=d.sub;
+  document.getElementById('mTabs').innerHTML=d.tabs.map((t,i)=>`<div class="mtab${i===0?' active':''}" onclick="switchTab(this,${i})">${t}</div>`).join('');
+  curItems=d.items;curTab=0;renderMItems(0);
+  document.getElementById('mOv').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function renderMItems(tab){
+  document.getElementById('mCon').innerHTML=curItems.map(it=>{
+    const price=getPrice(it.svc)||it.old;
+    const inCart=cart.find(c=>c.name===it.svc);
+    return `<div class="mitem" data-tab="${it.tab}" style="${it.tab!==tab?'display:none':''}">
+      <div class="mitem-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=140&q=70" alt="${it.n}" loading="lazy"/></div>
+      <div style="flex:1">
+        <div class="mitem-name">${it.n}</div>
+        <div class="mpts">${it.pts.map(p=>`<span class="mpt">✓ ${p}</span>`).join('')}</div>
+        <div class="mfoot">
+          <div class="mprice"><s>₹${it.old}</s> ₹${price}</div>
+          <div style="display:flex;gap:5px">
+            <button class="mbtn" style="background:${inCart?'var(--g1)':'rgba(10,61,98,.08)'};color:${inCart?'#fff':'var(--n4)'};border:1.5px solid ${inCart?'var(--g1)':'var(--gr3)'}" onclick="addToCartModal('${it.svc}',${price},${tab})">${inCart?'✓ Added':'🛒 Add'}</button>
+            <button class="mbtn" onclick="bookFromModal('${it.svc}')">Book Now</button>
+          </div>
+        </div>
+        <div class="mwarr">🛡 ${it.w} warranty</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function addToCartModal(svc,price,tab){
+  if(cart.find(c=>c.name===svc)){toast('Already in cart','err');return;}
+  if(cart.length>=5){toast('Max 5 services','err');return;}
+  cart.push({name:svc,price:getPrice(svc)||price});
+  renderCart(); renderMItems(tab);
+  toast('✅ Added: '+svc,'ok');
+}
+function switchTab(el,idx){
+  document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');curTab=idx;
+  document.querySelectorAll('.mitem').forEach(m=>{m.style.display=parseInt(m.dataset.tab)===idx?'':'none';});
+}
+function closeModal(e){
+  if(!e||e.target===document.getElementById('mOv')){
+    document.getElementById('mOv').classList.remove('on');
+    document.body.style.overflow='';
+  }
+}
+function bookFromModal(svc){
+  closeModal({});
+  const s=document.getElementById('fSvc');
+  for(let o of s.options)if(o.value===svc){o.selected=true;break;}
+  updatePrice();
+  setTimeout(()=>goTo('#booking'),150);
+}
+
+/* ═══ EXIT POPUP ═══ */
+document.addEventListener('mouseleave',e=>{
+  if(e.clientY<10&&!epShown&&window.scrollY>200){document.getElementById('epOv').classList.add('on');epShown=true;}
+});
+function closeEP(){document.getElementById('epOv').classList.remove('on');}
+function claimDisc(){discount=100;closeEP();goTo('#booking');updatePrice();toast('₹100 discount applied!','ok');}
+
+/* ═══ TOAST ═══ */
+function toast(msg,type=''){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.className='on'+(type?' '+type:'');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),3400);
+}
+</script>
+
+<!-- CART BAR -->
+<div id="cartBar">
+  <div class="cart-wrap">
+    <div class="cart-left">
+      <div class="cart-title">🛒 Service Cart — <span id="cartCount">0</span> item(s) selected</div>
+      <div class="cart-chips" id="cartChips"></div>
+    </div>
+    <div class="cart-right">
+      <div class="cart-total-box">
+        <div class="cart-total-lbl">Total</div>
+        <div class="cart-total-amt" id="cartTotalAmt">₹0</div>
+        <div class="cart-disc" id="cartDiscNote"></div>
+      </div>
+      <button class="cart-clr" onclick="clearCart()">✕ Clear All</button>
+      <button class="cart-cta" onclick="checkoutCart()">📅 Book All Services</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
