@@ -1,4 +1,4 @@
-import os, hmac, hashlib, uuid, csv, io, json, secrets, threading, time
+import os, hmac, hashlib, uuid, csv, io, json, secrets, threading, time, math
 from datetime import datetime, timedelta
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, Response
@@ -19,8 +19,8 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
 
 # ── ENV CONFIG ──────────────────────────────────────
-RZP_KEY_ID      = os.environ.get("RAZORPAY_KEY_ID",     "rzp_test_SP9JGiv55YYkhv")
-RZP_KEY_SECRET  = os.environ.get("RAZORPAY_KEY_SECRET", "ZGwi22hesbaJjE79UJ3dxVPx")
+RZP_KEY_ID      = os.environ.get("RAZORPAY_KEY_ID",     "rzp_live_SSxh7gcBFWIkna")
+RZP_KEY_SECRET  = os.environ.get("RAZORPAY_KEY_SECRET", "uAf1gPWyc5uoBNlhxJ4Zu7Ax")
 TWILIO_SID      = os.environ.get("TWILIO_ACCOUNT_SID",  "")
 TWILIO_AUTH     = os.environ.get("TWILIO_AUTH_TOKEN",   "")
 TWILIO_FROM     = os.environ.get("TWILIO_WHATSAPP_FROM","whatsapp:+14155238886")
@@ -425,53 +425,222 @@ def create_order():
         pincode=str(d.get("pincode","")).strip()
         service=str(d.get("service_type","")).strip()
         disc=int(d.get("discount",0))
+        pay_mode=str(d.get("payment_mode","online"))  # half_online | cod_token | online
+        full_amount_req=int(d.get("full_amount",0))
+
         if not all([name,mobile,city,service]):
             return jsonify({"error":"Fill all required fields"}),400
         if not mobile.isdigit() or len(mobile)!=10:
             return jsonify({"error":"Valid 10-digit mobile required"}),400
+
         prices=get_prices()
         if service not in prices:
-            return jsonify({"error":"Invalid service"}),400
-        base=prices[service]; disc=min(disc,100); final=max(base-disc,1)
+            return jsonify({"error":"Invalid service selected"}),400
+
+        base_price=prices[service]
+        disc=min(disc,200)
+        total_after_disc=max(base_price-disc,1)
+
+        if pay_mode=="half_online":
+            charge_now=max(1,math.ceil(total_after_disc/2))
+            balance_due=total_after_disc-charge_now
+        elif pay_mode=="cod_token":
+            charge_now=99
+            balance_due=max(0,total_after_disc-99)
+        else:
+            charge_now=total_after_disc
+            balance_due=0
+
         bid=generate_booking_id()
-        # Repeat customer
         prev=check_repeat(mobile)
-        is_repeat=1 if prev>0 else 0; visit_count=prev+1
+        is_repeat=1 if prev>0 else 0
+        visit_count=prev+1
+
         rzp=get_rzp()
         if rzp:
-            try: order=rzp.order.create({"amount":final*100,"currency":"INR","receipt":bid}); oid=order["id"]
-            except Exception as e: return jsonify({"error":f"Payment error: {e}"}),500
-        else: oid="demo_"+str(uuid.uuid4())[:8]
+            try:
+                order=rzp.order.create({
+                    "amount":charge_now*100,
+                    "currency":"INR",
+                    "receipt":bid,
+                    "notes":{
+                        "payment_mode":pay_mode,
+                        "full_amount":str(total_after_disc),
+                        "charge_now":str(charge_now),
+                        "balance_due":str(balance_due)
+                    }
+                })
+                oid=order["id"]
+            except Exception as e:
+                return jsonify({"error":f"Payment gateway error: {e}"}),500
+        else:
+            oid="demo_"+str(uuid.uuid4())[:8]
+
         with get_db() as conn:
-            conn.execute("""INSERT INTO bookings(booking_id,name,mobile,city,area,pincode,
-                service_type,amount,discount,final_amount,razorpay_order_id,is_repeat,visit_count)
-                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                (bid,name,mobile,city,area,pincode,service,base,disc,final,oid,is_repeat,visit_count))
+            conn.execute("""INSERT INTO bookings
+                (booking_id,name,mobile,city,area,pincode,service_type,
+                 amount,discount,final_amount,razorpay_order_id,
+                 payment_mode,payment_status,is_repeat,visit_count,remark)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (bid,name,mobile,city,area,pincode,service,
+                 base_price,disc,total_after_disc,oid,
+                 pay_mode,"PENDING",is_repeat,visit_count,
+                 f"Now:Rs{charge_now} Balance:Rs{balance_due}"))
             conn.commit()
-        log_action(bid,"CREATED",f"Online booking. Repeat:{is_repeat} Visit:{visit_count}","customer")
-        return jsonify({"booking_id":bid,"order_id":oid,"amount":final*100,"final_amount":final,
-                        "service":service,"name":name,"mobile":mobile,"email":d.get("email",""),
-                        "is_repeat":is_repeat,"visit_count":visit_count})
-    except Exception as e: print(f"[create-order] {e}"); return jsonify({"error":"Server error"}),500
+
+        log_action(bid,"CREATED",
+            f"Mode:{pay_mode} Now:Rs{charge_now} Bal:Rs{balance_due}","customer")
+
+        return jsonify({
+            "booking_id":bid,
+            "razorpay_order_id":oid,
+            "order_id":oid,
+            "amount":charge_now*100,
+            "charge_now":charge_now,
+            "full_amount":total_after_disc,
+            "balance_due":balance_due,
+            "payment_mode":pay_mode,
+            "service":service,
+            "name":name,
+            "mobile":mobile,
+            "key_id":RZP_KEY_ID,
+            "is_repeat":is_repeat,
+            "visit_count":visit_count
+        })
+    except Exception as e:
+        print(f"[create-order] {e}")
+        return jsonify({"error":"Server error. Please try again."}),500
 
 @app.route("/verify-payment",methods=["POST"])
 def verify_payment():
     try:
         d=request.get_json(force=True) or {}
-        oid=str(d.get("razorpay_order_id","")); pid=str(d.get("razorpay_payment_id",""))
-        sig=str(d.get("razorpay_signature","")); bid=str(d.get("booking_id",""))
-        exp=hmac.new(RZP_KEY_SECRET.encode(),f"{oid}|{pid}".encode(),hashlib.sha256).hexdigest()
-        if not hmac.compare_digest(exp,sig): return jsonify({"success":False,"error":"Signature mismatch"}),400
+        oid=str(d.get("razorpay_order_id",""))
+        pid=str(d.get("razorpay_payment_id",""))
+        sig=str(d.get("razorpay_signature",""))
+        bid=str(d.get("booking_id",""))
+        pay_mode=str(d.get("payment_mode","online"))
+        full_amount=int(d.get("full_amount",0))
+        paid_now=int(d.get("paid_now",0))
+
+        exp=hmac.new(
+            RZP_KEY_SECRET.encode(),
+            "{oid}|{pid}".format(oid=oid,pid=pid).encode(),
+            hashlib.sha256
+        ).hexdigest()
+        if not hmac.compare_digest(exp,sig):
+            return jsonify({"success":False,"error":"Payment signature mismatch"}),400
+
         with get_db() as conn:
-            conn.execute("UPDATE bookings SET payment_status='PAID',payment_mode='online',razorpay_payment_id=?,razorpay_signature=? WHERE booking_id=?",(pid,sig,bid))
+            row=conn.execute("SELECT * FROM bookings WHERE booking_id=?",(bid,)).fetchone()
+            if not row:
+                return jsonify({"success":False,"error":"Booking not found"}),404
+
+            balance_due=max(0,full_amount-paid_now)
+
+            if pay_mode=="half_online":
+                pay_status="HALF_PAID"
+                remark="50%% online: Rs%d | Doorstep: Rs%d" % (paid_now,balance_due)
+            elif pay_mode=="cod_token":
+                pay_status="TOKEN_PAID"
+                remark="Token Rs99 paid | Cash doorstep: Rs%d" % balance_due
+            else:
+                pay_status="PAID"
+                remark="Full payment online"
+
+            conn.execute(
+                "UPDATE bookings SET payment_status=?,payment_mode=?,"
+                "razorpay_payment_id=?,razorpay_signature=?,"
+                "remark=?,updated_at=CURRENT_TIMESTAMP WHERE booking_id=?",
+                (pay_status,pay_mode,pid,sig,remark,bid)
+            )
             conn.commit()
             row=conn.execute("SELECT * FROM bookings WHERE booking_id=?",(bid,)).fetchone()
+
         if row:
-            notify_booking(bid,row["name"],row["mobile"],row["service_type"],row["final_amount"],"Online")
-            auto_assign_vendor(bid,row["city"],row["service_type"])
-        log_action(bid,"PAYMENT_SUCCESS",f"RZP:{pid}")
-        return jsonify({"success":True,"booking_id":bid})
-    except Exception as e: print(f"[verify] {e}"); return jsonify({"success":False,"error":str(e)}),500
+            svc=row["service_type"]
+            mob=row["mobile"]
+            if pay_mode=="half_online":
+                msg=("\u2705 *Booking Confirmed!*\n"
+                     "ID: *"+bid+"*\n"
+                     "Service: "+svc+"\n"
+                     "Total: Rs."+str(full_amount)+"\n"
+                     "\u2705 Paid Online: Rs."+str(paid_now)+"\n"
+                     "Balance at doorstep: Rs."+str(balance_due)+"\n"
+                     "\u23f1 Technician in 60-90 min\n"
+                     "Support: "+BUSINESS_PHONE)
+            elif pay_mode=="cod_token":
+                msg=("\u2705 *Booking Confirmed!*\n"
+                     "ID: *"+bid+"*\n"
+                     "Service: "+svc+"\n"
+                     "Total: Rs."+str(full_amount)+"\n"
+                     "\u2705 Token Paid: Rs.99\n"
+                     "Cash at doorstep: Rs."+str(balance_due)+"\n"
+                     "\u23f1 Technician in 60-90 min\n"
+                     "Support: "+BUSINESS_PHONE)
+            else:
+                msg=("\u2705 *Booking Confirmed!*\n"
+                     "ID: *"+bid+"*\n"
+                     "Service: "+svc+"\n"
+                     "\u2705 Full Paid: Rs."+str(full_amount)+"\n"
+                     "\u23f1 Technician in 60-90 min\n"
+                     "Support: "+BUSINESS_PHONE)
+            send_whatsapp(mob,msg)
+            send_whatsapp(BUSINESS_PHONE,
+                "\U0001f514 Payment!\n"
+                "ID:"+bid+" | "+row["name"]+" ("+mob+")\n"
+                "Service: "+svc+"\n"
+                "Mode:"+pay_mode+" | Paid:Rs."+str(paid_now)+" | Bal:Rs."+str(balance_due))
+            push_notif("Payment:"+bid,row["name"]+" Rs."+str(paid_now)+" paid","success",bid)
+            auto_assign_vendor(bid,row["city"],svc)
+        log_action(bid,"PAYMENT_SUCCESS",
+            "Mode:%s Paid:Rs.%d RZP:%s" % (pay_mode,paid_now,pid))
+        return jsonify({
+            "success":True,
+            "booking_id":bid,
+            "payment_mode":pay_mode,
+            "paid_now":paid_now,
+            "balance_due":balance_due
+        })
+    except Exception as e:
+        print("[verify] %s" % e)
+        return jsonify({"success":False,"error":str(e)}),500
+
+
+@app.route("/book",methods=["POST"])
+def book():
+    """COD fallback route"""
+    try:
+        d=request.get_json(force=True) or {}
+        name=str(d.get("name","")).strip()
+        mobile=str(d.get("mobile","")).strip()
+        city=str(d.get("city","")).strip()
+        area=str(d.get("area","")).strip()
+        service=str(d.get("service_type","")).strip()
+        disc=int(d.get("discount",0))
+        if not all([name,mobile,city,service]):
+            return jsonify({"error":"Fill all required fields"}),400
+        if not mobile.isdigit() or len(mobile)!=10:
+            return jsonify({"error":"Valid 10-digit mobile required"}),400
+        prices=get_prices()
+        base=prices.get(service,0)
+        final=max(base-min(disc,200),1)
+        bid=generate_booking_id()
+        prev=check_repeat(mobile)
+        with get_db() as conn:
+            conn.execute(
+                "INSERT INTO bookings(booking_id,name,mobile,city,area,service_type,"
+                "amount,discount,final_amount,payment_mode,payment_status,is_repeat,visit_count,remark)"
+                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (bid,name,mobile,city,area,service,base,min(disc,200),final,
+                 "cod","COD_PENDING",1 if prev>0 else 0,prev+1,"COD booking")
+            )
+            conn.commit()
+        log_action(bid,"CREATED","COD booking","customer")
+        return jsonify({"booking_id":bid,"final_amount":final})
+    except Exception as e:
+        print("[book] %s" % e)
+        return jsonify({"error":"Server error"}),500
 
 @app.route("/payment-failed",methods=["POST"])
 def payment_failed():
@@ -1059,6 +1228,10 @@ def export_csv():
     out.seek(0)
     return Response(out.getvalue(),mimetype="text/csv",
                     headers={"Content-Disposition":"attachment; filename=cms_bookings.csv"})
+
+@app.route("/api/prices")
+def api_prices():
+    return jsonify(get_prices())
 
 @app.route("/health")
 def health():
